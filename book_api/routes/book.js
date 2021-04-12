@@ -28,7 +28,7 @@ router.post('/upload', (req, res) => {
 
 router.post('/add', (req, res) => {
     book.add( req.body, (err, dbResult) => {
-        err ? res.json(err) : res.send('Sucessfully uploaded.');
+        err ? res.json(err) : res.json( {success: true, message: 'Sucessfully uploaded.'} );
     } )
 })
 

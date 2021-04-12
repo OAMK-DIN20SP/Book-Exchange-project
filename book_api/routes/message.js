@@ -3,8 +3,8 @@ const router = express.Router();
 const message = require('../models/message_model');
 
 router.get('/', (req, res) => {
-  console.log('req.query.idbook:', req.query.idbook);
-  return message.getByIdbookAndIdmember(req.query.idbook, req.query.idmember, (err, dbResult) => {
+  console.log('req.query.idmember:', req.query.idmember);
+  return message.getByIdmember(req.query.idmember, (err, dbResult) => {
     if (err) {
       res.json(err);
     } else {
@@ -19,11 +19,13 @@ router.post('/', (req, res) => {
   console.log(req.body);
   message.add(req.body, (err, dbResult) => {
     if (err) {
-      res.json(err);
+      console.log(err);
+      res.send( {success: false} );
       console.log('error rui');
       console.log(err);
     } else {
       console.log('message insert success, affect rows = ', dbResult.affectedRows);
+      res.send( {success: true} );
     }
   });
 });
