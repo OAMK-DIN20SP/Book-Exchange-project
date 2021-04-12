@@ -27,11 +27,3 @@ function insertHiddenIdmemberTo(parent) {
 }
   
 
-function logout() {
-  const idmember = localStorage.getItem('idmember');
-  if (idmember && parseInt(idmember) > 0) {
-    localStorage.removeItem('idmember');
-    localStorage.removeItem('firstname');
-    localStorage.removeItem('lastname');
-  }
-}
