@@ -5,106 +5,91 @@
   <link rel="stylesheet" href="/stylesheets/book_detail.css">
 </head>
 <body class="container">
+  <header>
+      <%- include('./header'); %>
+  </header>
 
-<header>
-    <%- include('./header'); %>
-</header>
-
-<main>
-  <% if (locals.book) { %>
-  <div class="web">
-    <div class="container">
-      <!-- container-img-info -->
-      <div class="container-img-info">
-        <div class="container--img">
-          <div class="container---bigimg">
-            <img src="/images/sp01.png">
-          </div>
-          <div class="container---smallimgs">
-            <div class="smallimg">
-              <img src="/images/sp01/slide2.png">
-              <div class="hide"><img src="/images/sp01/slide2.png"></div>
-                
-            </div>
-            <div class="smallimg">
-              <img src="/images/sp01/slide3.png">
-              <div class="hide"><img src="/images/sp01/slide3.png"></div>
-            </div>
-            <div class="smallimg">
-              <img src="/images/sp01/slide4.png">
-              <div class="hide"><img src="/images/sp01/slide4.png"></div>
-            </div>
-            <div class="smallimg">
-              <img src="/images/sp01/slide5.png">
-              <div class="hide"><img src="/images/sp01/slide5.png"></div>
+  <main>
+    <% if (locals.book) { %>
+    <div class="web">
+      <div class="container">
+        <!-- container-img-info -->
+        <div class="container-img-info">
+          <div class="container--img">
+            <div class="container---bigimg">
+              <img src="/images/sp01.png">
             </div>
           </div>
+          <div class="container--info">
+            <div class="info-book"><%=book.title%></div>
+            <div class="info-book"><%=book.author%></div>
+
+            <div class="info-version">
+              <div>Issue date: <span><%=book.year%></span></div>
+              <div>Edition: <span><%=book.edition%></span></div>
+            </div>
+            <div class="info-condition">Book condition: <span><%=book.condition%></span></div>
+            
+            <!-- !!! stw -->
+            <div class="info-owner">Owner: <span><%=book.firstname + ' ' + book.lastname%></span></div>
+            <div class="info-rating">
+              <span>Rating:</span>
+              <div class="number-star"></div>
+              <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
+            </div>
         </div>
-        <div class="container--info">
-          <div class="info-book"><%=book.title%></div>
-          <div class="info-book"><%=book.author%></div>
-
-          <div class="info-version">
-            <div>Issue date: <span><%=book.year%></span></div>
-            <div>Edition: <span><%=book.edition%></span></div>
-          </div>
-          <div class="info-condition">Book condition: <span><%=book.condition%></span></div>
-          
-          <div class="info-owner">Owner: <span><%=book.firstname + ' ' + book.lastname%></span></div>
-          <div class="info-rating">
-            <!-- ??? member.creditScore -->
-            <span>Rating: </span>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-          </div>
-
-          <button class="buynow"><a href="">Message with Owner</a></button>
-          <div class="info-delivery">Estimated delivery time: <span>14</span>  days</div>
-        </div>
+        <!-- container-summary -->
+        <div class="container-summary">
+          <h1>SUMMARY</h1>
+          <p><%=book.description%></p>
+        </div>  
       </div>
-      <!-- container-summary -->
-      <div class="container-summary">
-        <h1>SUMMARY</h1>
-        <p><%=book.description%></p>
-      </div>  
+      <div id="idbook" style="display: none;"><%=book.idbook%></div>
+      <div id="idowner" style="display: none;"><%=book.idmember%></div>
+      <div id="creditScore" style="display: none;"><%=book.creditScore%></div>
     </div>
-  </div>
-<!-- ----------------------------------------------------------------------------- -->
-<!-- ----------------------------------------------------------------------------- -->
-    <div style="display: flex">
-      <div>
-        <h2>Title: <%=book.title%></h2>
-        <h4>Owner: <%=book.firstname + ' ' + book.lastname%></h4>
-        <input type="button" name="btn_contact_owner" value="Contact the owner">
-        <script type="text/javascript">
-          function contactOwner(){
-            let idbook;
-            const ss = window.location.href.split("/");
-            if ( window.location.href.endsWith('/') ){
-              idbook = ss[ss.length - 2];
-            } else {
-              idbook = ss[ss.length - 1];
-            }
 
-            const idmember = localStorage.getItem('idmember');
+    <script type="text/javascript">
+      function countStar() {
+        var creditScore= document.querySelector('#creditScore').textContent;
+        var score = parseFloat(creditScore);
+        var numberStar = document.querySelector('.number-star')
+        if (score < 1.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i>`
+        }
+        else if (score < 2.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
+        else if (score < 3.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
+        else if (score < 4.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
+        else {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
+      }
+      countStar();
 
-            window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
-          }
-          document.getElementsByName('btn_contact_owner')[0].onclick = contactOwner;
-        </script>
-        
-      </div>
-    </div>
-  <% } %>
-</main>
+      function messageOwner() {
+        var idbook= document.querySelector('#idbook').textContent;
+        var idowner= document.querySelector('#idowner').textContent;
+        // var idbook = new URLSearchParams(window.location.search).get('idbook');
 
-<footer>
-  <%- include('./footer'); %>
-</footer>
+        // !!! wait
+        var idmember = localStorage.getItem('idmember');
+        window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
+      }
+      // !!! stw
+      document.getElementsByName('btn_message_owner')[0].onclick = messageOwner;
+    </script>
 
+    <% } %>
+  </main>
 
+  <footer>
+    <%- include('./footer'); %>
+  </footer>
 </body>
 </html>
