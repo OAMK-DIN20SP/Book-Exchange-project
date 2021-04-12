@@ -7,45 +7,64 @@
     <script src="index.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css">
     <title>BookExchange | Welcome to BookExchange</title>
+    <script src="https://kit.fontawesome.com/ad71ca8aee.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <!-- main page -->
 
     <!-- START thuc:header -->
-    <a href="/"><img src="/images/logo.png"></a>
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href="/signup">Sign Up</a></li>
-      <li><a href="/login">Log In</a></li>
-    </ul>
+    <div class="header">
+         <a href="/"><img src="/images/logo.png"></a>
+         <a href="/about" style="right:300px">About</a>
+         <button href="/signup" style="right:200px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+         <button href="/login" style="right:100px">Log In</button>
+    </div>
     <!-- END thuc:header -->
 
     <!-- START Anastasiia: body-->
     <!-- body of the main page -->
-    <p>Welcome to the book exchange platform!</p>
-    <p>Here you can give away your old books and find new ones.</p>
+<div class="MainBody">
+         <img src="https://github.com/OAMK-DIN20SP/Web-programming-project-/blob/main/book_api/public/images/Book-Wallpaper-02-2560-x-1600.jpeg?raw=true">
+   <div class="centeredBody">
+         <p>Welcome to the book exchange platform!</p>
+         <p>Here you can give away your old books and find new ones.</p>
     <!--Search  https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_submit-->
     <form>
-        <label for="Title">Book title:</label><br>
-        <input type="text" id="Title"><br>
-        <label for="Author">Book author:</label><br>
-        <input type="text" id="Author">
+        <div class="search">
+             <label for="Title">Book title:</label><br>
+             <input type="text" id="Title">
+             <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="search">
+             <label for="Author">Book author:</label><br>
+             <input type="text" id="Author">
+             <button><i class="fas fa-search"></i></button>
+        </div>
     </form>
+    <br>
     <button>See latest posted books</button>
-    <!--Create account sugestion-->
-    <p>And do not forget to share your books</p>
-    <button>Create account</button>
+    </div>
+
     <!--About project (here should be sent when clicking "about" in header)-->
     <h1>How does it work</h1>
-    <p>You search for the book<br>
-        <i class="fas fa-search"></i>
-    </p>
-    <p>Agree with the owner<br>
-        <i class="far fa-handshake"></i>
-    </p>
-    <p>Share books you want to give away<br>
-        <i class="fas fa-recycle"></i>
-    </p>
+    <div class="about">
+         <p>You search for the book<br>
+         <i class="fas fa-search"></i>
+         </p>
+         <p>Agree with the owner<br>
+         <i class="far fa-handshake"></i>
+         </p>
+         <p>Share books you want to give away<br>
+         <i class="fas fa-recycle"></i>
+         </p>
+    </div>
+
+    <!--Create account sugestion-->
+    <div class="sugestion">
+         <p>And do not forget to share your books</p>
+         <button>Create account</button>
+    </div>
+</div>
     <!-- END Anastasiia: body-->
 
     <!-- START Anastasiia: search result-->
@@ -60,55 +79,28 @@
     
     <!-- footer -->
     <div class="footer">
-        <hr>
-            <div class="footer-collumn">
-                <div class="footer-collumna">
-                    <div class="footer-collumna-top">
-                        <h3>CONTACT US</h3>
-                    </div>
-                    <ul class="footer-collumna-bottom">
-                        <li>
-                            <a href="" class="">
-                                <i class="fas fa-phone-volume"></i>
-                                <span id="phone">&nbsp;0909 123 456 <sub>(Free)</sub></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="">
-                                <i class="far fa-envelope"></i>
-                                <span>team3@students.oamk.fi</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="">
-                                <i class="fas fa-home"></i>
-                                <span class="home address">Yliopistokatu 9, 90570 OULU 90570 Oulu, Finland</span>
-                            </a>
-                        </li>
-                    </ul>
+        <h1>BookExchange</h1>
+                <div class="info">
+                        <h3>Information</h3>
+                    <p>
+                        <a>About us</a>
+                        <a>Exchanging Guide</a>
+                        <a>Transportation</a>
+                    </p>
                 </div>
-                <div class="footer-collumnb">
-                    <div class="footer-collumnb-top">
-                        <h3>INFORMATION</h3>
-                    </div>
-                    <ul class="footer-collumnb-bottom">
-                        <li><a href="" class="">About us</a></li>
-                        <li><a href="" class="">Exchanging Guide</a></li>
-                        <li><a href="" class="">Transportation</a></li>
-                    </ul>
-                </div>
-                <div class="footer-collumnc">
-                    <div class="footer-collumnc-top">
-                        <h3>WHERE TO FIND US</h3>
-                    </div>
-                    <div class="footer-collumnc-bottom">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1682.2676912167033!2d25.469971516233894!3d65.06181808401735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46802d052d06ce85%3A0xd4acaa362bd64910!2sYliopistokatu%209%2C%2090570%20Oulu%2C%20Ph%E1%BA%A7n%20Lan!5e0!3m2!1svi!2s!4v1607357770203!5m2!1svi!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                    </div>
+                <div class="support">
+                        <h3>Support</h3>
+                    <p>
+                        <i class="fas fa-phone-volume"></i>
+                        <span id="phone">&nbsp;  0909 123 456 <sub>(Free)</sub></span>
+                        <br>
+                        <i class="far fa-envelope"></i>
+                        <span>  team3@students.oamk.fi</span>
+                    </p>
                 </div>
             </div>
-        </hr>
         <div class="footer-end">
-            <span>© 2020 TEAM3. All rights reserved.</span>
+            <p>© 2020 TEAM3. All rights reserved.</p>
         </div>
     </div>
     <!-- end of footer -->
@@ -266,19 +258,32 @@
     <!-- START thuc:profile page -->
     <div class="t-profile-information">
         <div class="t-left-panel-avatar-and-name">
-            <div class="t-avatar"><img src="./images/avatar.jpg"></div>
+            <div class="t-avatar"><img src="image/avatar.jpg"></div>
             <!-- <div class="t-full-name">{member.firstname + ' ' + member.lastname}</div> -->
             <div class="t-full-name">John Doe</div>
             <button id="edit-my-profile">Edit my profile</button>
         </div>
-        <div class="t-right-panel-other-info">
-            <label>Full name</label><label class="non-editable" name="profile-info-to-edit" contentEditable="false">John Doe</label><hr>
-            <label>Email</label><label class="non-editable" name="profile-info-to-edit" contentEditable="false">doe.john.9600@gmail.com</label><hr>
-            <label>Phone</label><label class="non-editable" name="profile-info-to-edit" contentEditable="false">+358 20 6110 200</label><hr>
-            <label>Address</label><label class="non-editable" name="profile-info-to-edit" contentEditable="false">Pentti Kaiteran katu 1, 90570 Oulu</label><hr>
-
-            <label>Credit score</label>
-            <label>
+        <table class="t-right-panel-other-info">
+             <tr>
+                 <td><label>Full name </label></td>
+                 <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false">John Doe</label></td>
+             </tr>
+             
+             <tr>
+                 <td><label>Email </label></td>
+                 <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false">doe.john.9600@gmail.com</label></td>
+             </tr>
+             <tr> 
+                 <td><label>Phone </label></td>
+                 <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false">+358 20 6110 200</label></td>
+             </tr>
+             <tr>
+                 <td><label>Address </label></td>
+                 <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"> Pentti Kaiteran katu 1, 90570 Oulu</label></td>
+             </tr>
+             <tr>
+            <td><label>Credit score</label></td>
+            <td><label>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <style type="text/css">
                     .fa-star.checked, .fa-star-half.checked { color: orange; }
@@ -288,8 +293,9 @@
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star-half checked"></span>
-            </label>
-        </div>
+            </label></td>
+            </tr>
+        </table>
     </div>
 
     <h2>My books</h2> <!-- guest view: John Doe's books -->
@@ -300,10 +306,14 @@
             <img src="images/book-cover.jpg">
             <img src="images/book-cover.jpg">
         </div>
+        <div class="centered-pagination">
         <div class="t-pagination">
-            <button id="btn_prev">Previous</button>
-            <span id="page_span">1</span>
-            <button id="btn_next">Next</button>
+            <a id="btn_prev">Previous</a>
+            <a id="page_span" class="active">1</a>
+            <a id="page_span">2</a>
+            <a id="page_span">3</a>
+            <a id="btn_next">Next</a>
+        </div>
         </div>
     </div>
 
@@ -311,7 +321,7 @@
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum condimentum in est sed sollicitudin. Pellentesque venenatis malesuada sapien, a tempor ipsum. Proin cursus ante vitae purus tempor cursus. Vivamus sit amet varius ex, eleifend sodales lectus. Etiam convallis dapibus ornare. Nullam nec dolor a nisi accumsan dapibus. Proin sagittis sem nulla, id tempus diam mollis non. Mauris in massa id velit sagittis mattis non id mauris. Etiam leo neque, sollicitudin sed libero sit amet, consectetur ullamcorper urna. Mauris eros enim, pharetra et elit eu, placerat blandit ipsum. Vestibulum iaculis purus ut ipsum accumsan commodo. Mauris tristique laoreet elit non scelerisque. Maecenas nec accumsan nibh, in tincidunt nunc. Aenean lorem lectus, semper eu ipsum et, posuere lobortis ligula. Nunc justo nibh, euismod a tincidunt et, tincidunt nec enim. Fusce id tellus vitae ipsum mollis malesuada</p>
 
     <h2>Latest Reviews</h2>
-    <table>
+    <table class="reviews">
         <tr>
             <td>
                 <span class="fa fa-star checked"></span>
@@ -346,7 +356,7 @@
         </tr>
     </table>
     
-    <button>View My Exchange History</button>
+    <button class="exchange-history">View My Exchange History</button>
     <!-- END thuc:profile page -->
     
 <!--   popup - signup - Hieu   -->
