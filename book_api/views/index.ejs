@@ -26,10 +26,108 @@
           <label for="Author">Book author:</label><br>
           <input type="text" id="Author">
       </form>
-      <button>See latest posted books</button>
+      <script type="text/javascript">
+        function displaySearchResult(url) {
+          $.get(url, (data) => {
+            console.log(data);
+            const books = data.books;
+            let searchResultElem = document.createElement('div');
+            searchResultElem.id = 'search-result';
+            
+            let innerHTMLString = `
+              <div class="search-result-title">
+                <h2>Search Results</h2>
+                <button id="btn-close-search-result">Close</button>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <td>Book cover</td>
+                    <td>Title</td>
+                    <td>Author(s)</td>
+                    <td>Owner's ID</td>
+                  </tr>
+                </thead>
+                <tbody>`;
+
+                console.log(innerHTMLString);
+            
+            for (let book of books) {
+              innerHTMLString += `
+                <tr>
+                  <td><a href="/book?idbook=${book.idbook}" target="_blank"><img src="/images/books/${book.image}" style="width: 150px; height: 150px; cursor: pointer;"></a></td>
+                  <td>${book.title}</td>
+                  <td>${book.author}</td>
+                  <td>${book.idmember}</td>
+                </tr>`;
+            };
+
+            console.log(innerHTMLString);
+
+            innerHTMLString += `</tbody></table>`;
+
+            console.log(innerHTMLString);
+
+            searchResultElem.innerHTML = innerHTMLString;
+
+            $('main').append(searchResultElem);
+
+            $('#btn-close-search-result').click( () => $('#search-result').remove() );
+            
+          });
+        }
+
+
+        $('#Title').keypress( (e) => {
+          console.log(e.key);
+          if (e.key == 'Enter') {
+            // const title = $(this).val();
+            const title = $('#Title').val();
+            console.log(title);
+            const url = '/book/search?title=' + title;
+            displaySearchResult(url);
+          }
+        });
+
+        $('#Author').keypress( (e) => {
+          console.log(e.key);
+          if (e.key == 'Enter') {
+            const author = $('#Author').val();
+            console.log(author);
+            const url = '/book/search?author=' + author;
+            displaySearchResult(url);
+          }
+        });
+
+      </script>
+      <style type="text/css">
+        table, th, td {
+          border: 1px solid black;
+          padding: 5px;
+        }
+
+        table {
+          border-collapse: collapse;
+        }
+
+        #search-result {
+          position: absolute;
+          display: block;
+          z-index: 999;
+          background: wheat;
+          top: 50%;
+        }
+
+      </style>
+      <button id="btn-latest-books">See latest posted books</button>
+      <script type="text/javascript">
+        $('#btn-latest-books').click( () => {
+          displaySearchResult('/book/latest');
+        });
+      </script>
       <!--Create account sugestion-->
       <p>And do not forget to share your books</p>
-      <button>Create account</button>
+      <button onclick="openSignupForm()">Create account</button>
       <!--About project (here should be sent when clicking "about" in header)-->
       <h1>How does it work</h1>
       <p>You search for the book<br>
