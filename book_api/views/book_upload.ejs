@@ -24,7 +24,7 @@
         function autoFillBookInfo() {
           const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
           console.log('isbn: ', isbn);
-          fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=AIzaSyCEn2-CGiA4HftmacwKTwZ6SuFlaZEfVsU`)
+          fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
             .then(response => response.json() )
             .then(data => {
               if (data.totalItems == 0) {
