@@ -40,12 +40,54 @@ const book = {
         }
     },
 
+    getLatest: (callback) => {
+        if ( callback ) { // :v
+            db.query(
+                'select * from book order by idmember desc limit 5',
+                callback
+            );
+        } else {
+            console.error('ERROR: idmember not found!!!');
+            return;
+        }
+    },
+
     add: (book, callback) => {
         console.log(book);
         if ( book && Object.keys(book).length > 0 ) {  
             db.query(
                 'insert into book(title, idmember, author, `year`, edition, `description`, `condition`, image) values(?, ?, ?, ?, ?, ?, ?, ?)',
                 [book.title, book.idmember, book.author, book.year, book.edition, book.description, book.condition, book.image],
+                callback
+            );
+        } else {
+            console.error('ERROR: empty POST body!!!');
+            return;
+        }
+    },
+
+    searchByTitle: (title, callback) => {
+        console.log('title:', title);
+        if ( title ) {  
+            const likeString = `%${title}%`;
+            db.query(
+                "select * from book where title like ?",
+                [likeString],
+                callback
+            );
+        } else {
+            console.error('ERROR: empty POST body!!!');
+            return;
+        }
+    },
+
+    searchByAuthor: (author, callback) => {
+        console.log('author:', author);
+        if ( author ) {  
+            const likeString = `%${author}%`;
+            db.query(
+                "select * from book where author like ?",
+                [likeString],
                 callback
             );
         } else {

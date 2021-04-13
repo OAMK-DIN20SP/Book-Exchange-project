@@ -32,4 +32,42 @@ router.post('/add', (req, res) => {
     } )
 })
 
+router.get('/search', (req, res) => {
+    const title = req.query.title;
+
+    if (title) {
+        book.searchByTitle( title, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+            }    });
+        return
+    }
+
+    const author = req.query.author;
+    if (author) {
+        book.searchByAuthor( author, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+            }    });
+        return
+    }
+});
+
+router.get('/latest', (req, res) => {
+    book.getLatest( (err, dbResult) => {
+        if (err) {
+            console.log(err);
+            res.json( { success: false });
+        } else {
+            res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+        }    
+    });
+});
+
 module.exports = router;
