@@ -48,7 +48,7 @@
           </div>
 
           <!-- <button type="submit" class="btn signup">Create your account</button> -->
-          <button type="button" class="btn signup" onclick="signUp()">Create your account</button>
+          <button type="button" class="btn signup" id="btn-signup">Create your account</button>
           <button type="button" class="btn cancel" onclick="closeSignupForm()">Close</button>
         </form>
     </div>
@@ -90,9 +90,15 @@
     });
   });
 
-  $('#user-avatar').click( () => {
-
-  })
+  $('#btn-signup').click( () => {
+    $.post( '/member/add', $('form.signup-form').serialize(), (data, status) => {
+      console.log(data.success);
+      alert(data.message);
+      if (data.success) {
+        openLoginForm();
+      }
+    });
+  });
 
   function openSignupForm() {
       document.getElementById("signupForm").style.display = "block";
@@ -110,13 +116,6 @@
       document.getElementById("loginForm").style.display = "none";
   }
 
-  function signup() {
-    
-  }
-
-  function login() {
-    console.log($('form.login-form').serialize());
-  }
 </script>
 
 <script type="text/javascript">
