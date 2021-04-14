@@ -72,7 +72,7 @@ router.get('/latest', (req, res) => {
 });
 
 router.delete('/delete', (req, res) => {
-    const { idmember, idbook } = req.query || req.body;
+    const { idmember, idbook } = req.query
     console.log(idmember, idbook);
     book.delete( idmember, idbook, (err, dbResult) => {
         if (err) {
