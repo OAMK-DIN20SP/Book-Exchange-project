@@ -29,9 +29,14 @@ router.post('/upload', (req, res) => {
 
 router.post('/add', (req, res) => {
     book.add( req.body, (err, dbResult) => {
-        err ? res.json(err) : res.json( {success: true, message: 'Sucessfully uploaded.'} );
-    } )
-})
+        if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
+                res.redirect( '/book?idbook=' + dbResult.insertId );
+            }    });
+    } );
 
 router.get('/search', (req, res) => {
     const title = req.query.title;
