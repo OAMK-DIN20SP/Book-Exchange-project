@@ -21,7 +21,7 @@ body {
 }
 /*header*/
 
-.header {
+.header-navbar {
     display: flex;
     align-items: center;
     width: 100%;
@@ -29,13 +29,13 @@ body {
     margin: 10px;
 }
 
-.header a {
+.header-navbar a {
     position: absolute;
     text-align: center;
     color: #565656;
 }
 
-.header button {
+.header-navbar button {
     position: absolute;
     text-align: center;
     height: 30px;

@@ -3,15 +3,20 @@
 <!-- header -->
 <div class="header">
   <!-- header_navbar -->
-  <div class="header_navbar">
+  <div class="header-navbar">
     <a href="/"><img src="/images/logo.png"></a>
-    <ul>
+    <!-- <ul>
       <li><a href="/about">About</a></li>
       <li><button class="signup-button" onclick="openSignupForm()">Sign Up</button></li>
       <li><button class="login-button" onclick="openLoginForm()">Log In</button></li>
     </ul>
 
-    <div class="popup-signup-form" id="signupForm" class="t-flyout">
+    <div class="popup-signup-form" id="signupForm" class="t-flyout"> -->
+      <a href="/about">About</a>
+      <button class="signup-button" onclick="openSignupForm()" style="right:200px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+      <button class="login-button" onclick="openLoginForm()" style="right:100px">Log In</button>
+  </div>
+    <div class="popup-signup-form" id="signupForm" >
         <!-- <form class="signup-form" action="/member/add" method="post"> -->
           <form class="signup-form" name="signupForm">
           <h2>Welcome to BookExchange! 
@@ -73,9 +78,6 @@
           <button type="button" class="btn cancel" onclick="closeLoginForm();openSignupForm();">Create account</button>
         </form>
     </div>
-
-    
-  </div>
 </div>
 
 <script>
