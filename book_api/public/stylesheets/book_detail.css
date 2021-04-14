@@ -21,7 +21,7 @@
 /* ----- container--img ------*/
 .container--img {
     padding-left: 80px;
-    padding-right: 30px;
+    /* padding-right: 30px; */
     position: relative;
 }
 
@@ -34,7 +34,7 @@
 .container--info {
     width: 400px;
     margin-top: 60px;
-    padding-left: 45px;
+    padding-left: 75px;
 }
 
 .info-book {
@@ -42,7 +42,7 @@
     font-size: 32px;
     line-height: 32px;
     margin-bottom: 30px;
-    text-align: justify;
+    text-align: left;
 }
 .info-book:first-child {
     line-height: initial;
@@ -54,7 +54,7 @@
     font-weight: bold;
     font-size: 20px;
     line-height: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .info-rating span {
@@ -108,4 +108,15 @@
 
 .container-summary > p {
     line-height: 25px;
+}
+
+#del {
+    color: red;
+    font-weight: bold;
+    border: 0;
+    background: none;
+}
+
+#del:hover{
+    font-size: large;
 }

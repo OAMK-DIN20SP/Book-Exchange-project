@@ -29,24 +29,16 @@
               <div>Edition: <span><%=book.edition%></span></div>
             </div>
             <div class="info-condition">Book condition: <span><%=book.condition%></span></div>
-            
-            <!-- !!! stw -->
             <div class="info-owner">Owner: <span><%=book.firstname + ' ' + book.lastname%></span></div>
             <div class="info-rating">
               <span>Rating:</span>
               <div class="number-star"></div>
               <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
-
-
-
-            
-            
             <button class="btn submit" id="del">Delete</button>
-            <form name="del-form" method="POST" action="/book/delete">
-            <form name="del-form" method="POST" action="/book/delete'?_method=DELETE'">
-              <input type="text" name="idmember" value="<%=book.idmember%>" style="display: none;">
-              <input type="text" name="idbook" value="<%=book.idbook%>"style="display: none;">
+            <form name="del-form" method="POST" action="/book/delete" style="display: none;">
+              <input type="text" name="idmember" value="<%=book.idmember%>">
+              <input type="text" name="idbook" value="<%=book.idbook%>">
             </form>
         </div>
         <!-- container-summary -->
@@ -94,10 +86,9 @@
         window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
       }
 
-      var delFrom = document.forms['del-form'];
       var btnDel = document.querySelector("#del");
       btnDel.onclick = () => {
-        // delFrom.action = "/book/delete'?_method=DELETE";
+        var delFrom = document.forms['del-form'];
         delFrom.submit();
       }
     </script>
