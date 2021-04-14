@@ -12,7 +12,21 @@ router.get('/', (req, res) => {
       console.log('messageRouter.get, dbResult:', dbResult);
     }
   });
-  
+});
+
+router.get('/latest', (req, res) => {
+  console.log('req.query:', req.query);
+  const idmember = req.query.idmember;
+  const time = new Date(req.query.time).toISOString();
+  console.log(time);
+  return message.getByIdmemberAndTime(idmember, time, (err, dbResult) => {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(dbResult);
+      console.log('messageRouter.get, dbResult:', dbResult, dbResult.sqlMessage);
+    }
+  });
 });
 
 router.post('/', (req, res) => {

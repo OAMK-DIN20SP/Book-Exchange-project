@@ -11,7 +11,7 @@
       <li><button class="login-button" onclick="openLoginForm()">Log In</button></li>
     </ul>
 
-    <div class="popup-signup-form" id="signupForm" >
+    <div class="popup-signup-form" id="signupForm" class="t-flyout">
         <!-- <form class="signup-form" action="/member/add" method="post"> -->
           <form class="signup-form" name="signupForm">
           <h2>Welcome to BookExchange! 
@@ -53,7 +53,7 @@
         </form>
     </div>
 
-    <div class="popup-login-form" id="loginForm" >
+    <div class="popup-login-form" id="loginForm" class="t-flyout">
         <!-- <form class="login-form" action="/member/login" method="post"> -->
           <form class="login-form" name="loginForm">
           <h2>If you already have a BookExchange profile, please log in.</h2>
@@ -100,6 +100,17 @@
     });
   });
 
+  $(document).mouseup(function(e) 
+  {
+      var container = $(".t-flyout");
+      // if the target of the click isn't the container nor a descendant of the container
+      if (!container.is(e.target) && container.has(e.target).length === 0) 
+      {
+          container.hide();
+          // $(document).unbind( 'click', ...);
+      }
+  });
+
   function openSignupForm() {
       document.getElementById("signupForm").style.display = "block";
   }
@@ -143,7 +154,7 @@
     const lastname = localStorage.getItem('lastname'); 
     let userAvatarMenuPanelElem = document.createElement('div');
     userAvatarMenuPanelElem.innerHTML = `
-       <div id="user-avatar-menu-panel" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
+       <div id="user-avatar-menu-panel" class="t-flyout" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
          <div style="display: flex; flex-direction: column; align-items: center;">
            <img src="/images/avatar.jpg" style="width: 80px; height: 80px">
            <h4 style="text-transform: capitalize;">${firstname + ' ' + lastname}</h4>

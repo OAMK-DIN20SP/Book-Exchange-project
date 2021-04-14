@@ -66,6 +66,20 @@ const book = {
         }
     },
 
+    delete: (idmember, idbook, callback) => {
+        console.log(book);
+        if ( idmember && idbook ) {  
+            db.query(
+                'delete from book where idmember=? and idbook=?',
+                [idmember, idbook],
+                callback
+            );
+        } else {
+            console.error('ERROR: empty POST body!!!');
+            return;
+        }
+    },
+
     searchByTitle: (title, callback) => {
         console.log('title:', title);
         if ( title ) {  

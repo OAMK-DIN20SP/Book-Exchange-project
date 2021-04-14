@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
         } else {
             if (dbResult.length > 0) {
                 // res.json(dbResult[0]);
+                console.log(dbResult[0]);
                 res.render('book_detail', { book: dbResult[0]});
             } else {
                 res.json( {success: false, message: 'There is no book with that id.'} );
@@ -66,6 +67,19 @@ router.get('/latest', (req, res) => {
             res.json( { success: false });
         } else {
             res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+        }    
+    });
+});
+
+router.delete('/delete', (req, res) => {
+    const { idmember, idbook } = req.query || req.body;
+    console.log(idmember, idbook);
+    book.delete( idmember, idbook, (err, dbResult) => {
+        if (err) {
+            console.log(err);
+            res.json( { success: false });
+        } else {
+            res.json( { success: true, deletedRows: dbResult.affectedRows } );
         }    
     });
 });
