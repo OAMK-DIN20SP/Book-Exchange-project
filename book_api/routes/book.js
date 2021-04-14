@@ -72,7 +72,20 @@ router.get('/latest', (req, res) => {
 });
 
 router.delete('/delete', (req, res) => {
-    const { idmember, idbook } = req.query
+    const { idmember, idbook } = req.query;
+    console.log(idmember, idbook);
+    book.delete( idmember, idbook, (err, dbResult) => {
+        if (err) {
+            console.log(err);
+            res.json( { success: false });
+        } else {
+            res.json( { success: true, deletedRows: dbResult.affectedRows } );
+        }    
+    });
+});
+
+router.post('/delete', (req, res) => {  // post method: Hieu's suggestion
+    const { idmember, idbook } = req.body;
     console.log(idmember, idbook);
     book.delete( idmember, idbook, (err, dbResult) => {
         if (err) {
