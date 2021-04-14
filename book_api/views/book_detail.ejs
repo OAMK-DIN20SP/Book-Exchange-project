@@ -37,6 +37,17 @@
               <div class="number-star"></div>
               <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
+
+
+
+            
+            
+            <button class="btn submit" id="del">Delete</button>
+            <form name="del-form" method="POST" action="/book/delete">
+            <form name="del-form" method="POST" action="/book/delete'?_method=DELETE'">
+              <input type="text" name="idmember" value="<%=book.idmember%>" style="display: none;">
+              <input type="text" name="idbook" value="<%=book.idbook%>"style="display: none;">
+            </form>
         </div>
         <!-- container-summary -->
         <div class="container-summary">
@@ -44,9 +55,11 @@
           <p><%=book.description%></p>
         </div>  
       </div>
-      <div id="idbook" style="display: none;"><%=book.idbook%></div>
-      <div id="idowner" style="display: none;"><%=book.idmember%></div>
-      <div id="creditScore" style="display: none;"><%=book.creditScore%></div>
+      <div class="hide" style="display: none;">
+        <div id="idbook"><%=book.idbook%></div>
+        <div id="idowner"><%=book.idmember%></div>
+        <div id="creditScore"><%=book.creditScore%></div>
+      </div>
     </div>
 
     <script type="text/javascript">
@@ -72,17 +85,21 @@
       }
       countStar();
 
-      function messageOwner() {
+      var btnMess = document.querySelector('.buynow');
+      btnMess.onclick = () => {
         var idbook= document.querySelector('#idbook').textContent;
         var idowner= document.querySelector('#idowner').textContent;
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
-
-        // !!! wait
         var idmember = localStorage.getItem('idmember');
         window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
       }
-      // !!! stw
-      document.getElementsByName('btn_message_owner')[0].onclick = messageOwner;
+
+      var delFrom = document.forms['del-form'];
+      var btnDel = document.querySelector("#del");
+      btnDel.onclick = () => {
+        // delFrom.action = "/book/delete'?_method=DELETE";
+        delFrom.submit();
+      }
     </script>
 
     <% } %>
