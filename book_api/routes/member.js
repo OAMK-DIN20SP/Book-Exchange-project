@@ -5,10 +5,10 @@ var member = require('../models/member_model.js');
 var async = require('async');
 
 router.get('/', (req, res) => {
-    console.log(req.query.idmember);
+    const { idmember } = req.query;
     async.parallel({
-        books: callback => book.getByIdmember(req.query.idmember, callback),
-        member: callback => member.getByIdmember(req.query.idmember, callback)
+        books: callback => book.getByIdmember(idmember, callback),
+        member: callback => member.getByIdmember(idmember, callback)
     }, (err, responses) => {
         if (err) {
             console.log(err);
