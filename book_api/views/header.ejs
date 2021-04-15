@@ -1,21 +1,37 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
+<script type="text/javascript" src="/javascripts/t-header.js"></script>
+
+<!-- TESTING STYLES -->
+<style type="text/css">
+  .header_navbar ul { display: flex; flex-direction: row; }
+  .header_navbar ul a { color: white; }
+  .header_navbar ul li { list-style: none; margin-right: 20px; }
+  #user-avatar:hover { 
+    border: 1px solid gray;
+    cursor: pointer;
+  }
+</style>
 
 <!-- header -->
 <div class="header">
   <!-- header_navbar -->
-  <div class="header-navbar">
+  <div class="header_navbar">
     <a href="/"><img src="/images/logo.png"></a>
-    <!-- <ul>
+    <ul>
+      <li>
+        <a href="">Upload
+          <script>
+            const idmember = localStorage.getItem('idmember');
+            document.currentScript.parentNode.href = '/book/upload?idmember=' + idmember;
+          </script>
+        </a>
+      </li>
+      <li><a href="/#Title">Search</a></li>
       <li><a href="/about">About</a></li>
-      <li><button class="signup-button" onclick="openSignupForm()">Sign Up</button></li>
-      <li><button class="login-button" onclick="openLoginForm()">Log In</button></li>
+      <li><button class="signup-button">Sign Up</button></li>
+      <li><button class="login-button">Log In</button></li>
     </ul>
 
-    <div class="popup-signup-form" id="signupForm" class="t-flyout"> -->
-      <a href="/about">About</a>
-      <button class="signup-button" onclick="openSignupForm()" style="right:200px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
-      <button class="login-button" onclick="openLoginForm()" style="right:100px">Log In</button>
-  </div>
     <div class="popup-signup-form" id="signupForm" >
         <!-- <form class="signup-form" action="/member/add" method="post"> -->
           <form class="signup-form" name="signupForm">
@@ -58,7 +74,7 @@
         </form>
     </div>
 
-    <div class="popup-login-form" id="loginForm" class="t-flyout">
+    <div class="popup-login-form" id="loginForm" >
         <!-- <form class="login-form" action="/member/login" method="post"> -->
           <form class="login-form" name="loginForm">
           <h2>If you already have a BookExchange profile, please log in.</h2>
@@ -78,113 +94,7 @@
           <button type="button" class="btn cancel" onclick="closeLoginForm();openSignupForm();">Create account</button>
         </form>
     </div>
-</div>
 
-<script>
-  $('#btn-login').click( () => {
-    $.post( '/member/login2', $('form.login-form').serialize(), (data, status) => {
-      console.log( 'Data responded from server:', data, '\nStatus:', status);
-      localStorage.setItem('idmember', data[0].idmember);
-      localStorage.setItem('firstname', data[0].firstname);
-      localStorage.setItem('lastname', data[0].lastname);
-
-      window.location.href = '/member?idmember=' + data[0].idmember;
-    });
-  });
-
-  $('#btn-signup').click( () => {
-    $.post( '/member/add', $('form.signup-form').serialize(), (data, status) => {
-      console.log(data.success);
-      alert(data.message);
-      if (data.success) {
-        openLoginForm();
-      }
-    });
-  });
-
-  $(document).mouseup(function(e) 
-  {
-      var container = $(".t-flyout");
-      // if the target of the click isn't the container nor a descendant of the container
-      if (!container.is(e.target) && container.has(e.target).length === 0) 
-      {
-          container.hide();
-          // $(document).unbind( 'click', ...);
-      }
-  });
-
-  function openSignupForm() {
-      document.getElementById("signupForm").style.display = "block";
-  }
-
-  function closeSignupForm() {
-      document.getElementById("signupForm").style.display = "none";
-  }
-
-  function openLoginForm() {
-      document.getElementById("loginForm").style.display = "block";
-  }
-
-  function closeLoginForm() {
-      document.getElementById("loginForm").style.display = "none";
-  }
-
-</script>
-
-<script type="text/javascript">
-  const idmember = localStorage.getItem('idmember');
-
-  if (idmember && parseInt(idmember) > 0) {
-    document.querySelector("button.signup-button").parentNode.remove();
-    document.querySelector("button.login-button").parentNode.remove();
-
-    const headerElem = document.body.querySelector('.header_navbar ul');
-    const firstname = localStorage.getItem('firstname');
-    const userAvatarElem = document.createElement('li');
-    userAvatarElem.id = "user-avatar";
-    // userAvatarElem.innerText = `Hi, ${firstname}!`;
-    userAvatarElem.style = `
-      background-image: url(http://localhost:3000/images/avatar.jpg);
-      background-size: cover;
-      display: block;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    `;
-    headerElem.append(userAvatarElem);
     
-    const lastname = localStorage.getItem('lastname'); 
-    let userAvatarMenuPanelElem = document.createElement('div');
-    userAvatarMenuPanelElem.innerHTML = `
-       <div id="user-avatar-menu-panel" class="t-flyout" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
-         <div style="display: flex; flex-direction: column; align-items: center;">
-           <img src="/images/avatar.jpg" style="width: 80px; height: 80px">
-           <h4 style="text-transform: capitalize;">${firstname + ' ' + lastname}</h4>
-           <button id="btn-logout">Log Out</button>
-         </div>
-       </div>`;
-    headerElem.append(userAvatarMenuPanelElem);
-
-    $('#user-avatar').click( () => {
-      $('#user-avatar-menu-panel').show();  
-    });
-
-    $('#btn-logout').click( () => {
-      const idmember = localStorage.getItem('idmember');
-      if (idmember && parseInt(idmember) > 0) {
-        localStorage.removeItem('idmember');
-        localStorage.removeItem('firstname');
-        localStorage.removeItem('lastname');
-        window.location.reload();
-      }
-    });
-
-  }
-</script>
-
-<style type="text/css">
-  #user-avatar:hover { 
-    border: 1px solid gray;
-    cursor: pointer;
-  }
-</style>
+  </div>
+</div>

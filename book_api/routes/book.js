@@ -19,19 +19,37 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/upload', (req, res) => {
+    const { idmember } = req.query;
+    console.log(idmember);
+    console.log(!idmember);
+    console.log(parseInt(idmember));
+    if (!idmember || isNaN(idmember) || parseInt(idmember) <= 0) {
+        res.redirect('/login');
+        return
+    }
+    book.getByIdmember( idmember, (err, dbResult) => {
+        err ? res.json(err) : res.render('book_upload');
+    } )
+});
+
 router.post('/upload', (req, res) => {
     console.log('req.body.idmember', req.body.idmember);
     book.getByIdmember( req.body.idmember, (err, dbResult) => {
         err ? res.json(err) : res.render('book_upload');
     } )
-    
 });
 
 router.post('/add', (req, res) => {
     book.add( req.body, (err, dbResult) => {
-        err ? res.json(err) : res.json( {success: true, message: 'Sucessfully uploaded.'} );
-    } )
-})
+        if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
+                res.redirect( '/book?idbook=' + dbResult.insertId );
+            }    });
+    } );
 
 router.get('/search', (req, res) => {
     const title = req.query.title;
