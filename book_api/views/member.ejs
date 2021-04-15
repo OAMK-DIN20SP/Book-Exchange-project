@@ -44,18 +44,10 @@
            <tr>
           <td><label>Credit score</label></td>
           <td><label>
-              <style type="text/css">
-                  .fa-star.checked, .fa-star-half.checked { color: orange; }
-              </style>
-              <% for (let i=0; i<Math.floor(members[0].creditScore); i++) { %>
-                <span class="fa fa-star checked"></span>
-              <% } %>
-              <% const scoreDecimalPart = members[0].creditScore - Math.floor(members[0].creditScore); %>
-              <% if ( scoreDecimalPart > 0.75 ) { %> <!-- full star -->
-                <span class="fa fa-star checked"></span>
-              <% } else if (0.25 < scoreDecimalPart) { %> <!-- half star -->
-                <span class="fa fa-star-half checked"></span>
-              <% } %>
+              <script type="text/javascript">
+                const creditScore = <%=members[0].creditScore%>;
+                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
+              </script>
           </label></td>
           </tr>
       </table>

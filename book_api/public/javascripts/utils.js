@@ -27,3 +27,21 @@ function insertHiddenIdmemberTo(parent) {
 }
   
 
+function creditScoreToHTMLStar(score){
+  // no half-star allowed
+  if (score < 1.5) {
+    return `<i class="fas fa-star"></i>`;
+  }
+  else if (score < 2.5) {
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+  }
+  else if (score < 3.5) {
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+  }
+  else if (score < 4.5) {
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+  }
+  else {
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+  }
+}
