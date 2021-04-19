@@ -72,7 +72,7 @@
     width: 280px;
 }
 
-.fas.fa-star {
+.fas.fa-star , .far.fa-star {
     color: rgb(255, 196, 0);
 }
 
