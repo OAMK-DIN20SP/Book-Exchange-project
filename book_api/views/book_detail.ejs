@@ -9,6 +9,8 @@
       <%- include('./header'); %>
   </header>
 
+
+
   <main>
     <% if (locals.book) { %>
     <div class="web">
@@ -35,11 +37,8 @@
               <div class="number-star"></div>
               <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
+            <!-- Btn DELETE -->
             <button class="btn submit" id="del">Delete</button>
-            <form name="del-form" method="POST" action="/book/delete" style="display: none;">
-              <input type="text" name="idmember" value="<%=book.idmember%>">
-              <input type="text" name="idbook" value="<%=book.idbook%>">
-            </form>
         </div>
         <!-- container-summary -->
         <div class="container-summary">
@@ -48,28 +47,34 @@
         </div>  
       </div>
       <div class="hide" style="display: none;">
-        <div id="idbook"><%=book.idbook%></div>
-        <div id="idowner"><%=book.idmember%></div>
         <div id="creditScore"><%=book.creditScore%></div>
       </div>
     </div>
 
+
+
     <script type="text/javascript">
+      var idbook= <%=book.idbook%>;
+      var idowner= <%-book.idmember%>;
+      // var creditScore= <%=book.creditScore%>;
+      var creditScore= document.querySelector('#creditScore').textContent;
       function countStar() {
-        var creditScore= document.querySelector('#creditScore').textContent;
         var score = parseFloat(creditScore);
         var numberStar = document.querySelector('.number-star')
-        if (score < 1.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i>`
+        if (creditScore == 0) {
+          numberStar.innerHTML = `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+        }
+        else if (score < 1.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
         }
         else if (score < 2.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i>`
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
         }
         else if (score < 3.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
         }
         else if (score < 4.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
         }
         else {
           numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
@@ -79,22 +84,30 @@
 
       var btnMess = document.querySelector('.buynow');
       btnMess.onclick = () => {
-        var idbook= document.querySelector('#idbook').textContent;
-        var idowner= document.querySelector('#idowner').textContent;
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
-        var idmember = localStorage.getItem('idmember');
+        // var idmember = localStorage.getItem('idmember');
         window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
       }
 
       var btnDel = document.querySelector("#del");
+      var btnConfirmDel = 1;
       btnDel.onclick = () => {
-        var delFrom = document.forms['del-form'];
-        delFrom.submit();
+        var check = confirm("Are you sure to delete?");
+        if (check == true) {
+            fetch(`/book/delete?idmember=${idowner}&idbook=${idbook}`, {
+              method: "DELETE",
+            })
+            .then( () => {
+              alert("Deleted");
+              window.location.href = `http://localhost:3000/member?idmember=${idowner}`;
+            })
+        }
       }
     </script>
-
     <% } %>
   </main>
+
+
 
   <footer>
     <%- include('./footer'); %>
