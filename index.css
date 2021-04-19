@@ -1,11 +1,10 @@
-/* Hieu - detail page & footer */
 :root {
-    --white-color: #fff;
+    --white-color: #fdfbf3;
     --back-color: #000;
-    --text-color: #333;
-    --main-color: #ffb0ee;
+    --text-color: #565656;
+    --main-color: #AB9353;
     --ground-color: #F4F5F7;    
-}
+  }
 * {
     box-sizing: border-box;
 }

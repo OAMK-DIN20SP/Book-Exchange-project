@@ -4,7 +4,7 @@ const book = {
     getByIdbook: (idbook, callback) => {
         if ( idbook ) { 
             db.query(
-                'select book.*, `member`.firstname, `member`.lastname from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
+                'select book.*, `member`.firstname, `member`.lastname, `member`.creditScore from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
                 [idbook],
                 callback
             );

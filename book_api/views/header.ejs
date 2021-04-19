@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
 <script type="text/javascript" src="/javascripts/t-header.js"></script>
 
-<!-- TESTING STYLES -->
+<!-- TESTING STYLES 
 <style type="text/css">
   .header_navbar ul { display: flex; flex-direction: row; }
   .header_navbar ul a { color: white; }
@@ -10,27 +10,17 @@
     border: 1px solid gray;
     cursor: pointer;
   }
-</style>
+</style>-->
 
 <!-- header -->
 <div class="header">
   <!-- header_navbar -->
-  <div class="header_navbar">
+  <div class="header-navbar">
     <a href="/"><img src="/images/logo.png"></a>
-    <ul>
-      <li>
-        <a href="">Upload
-          <script>
-            const idmember = localStorage.getItem('idmember');
-            document.currentScript.parentNode.href = '/book/upload?idmember=' + idmember;
-          </script>
-        </a>
-      </li>
-      <li><a href="/#Title">Search</a></li>
-      <li><a href="/about">About</a></li>
-      <li><button class="signup-button">Sign Up</button></li>
-      <li><button class="login-button">Log In</button></li>
-    </ul>
+    <a href="/about" style="right:300px">About</a>
+    <button href="/signup" style="right:200px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+    <button href="/login" style="right:100px">Log In</button>
+</div>
 
     <div class="popup-signup-form" id="signupForm" >
         <!-- <form class="signup-form" action="/member/add" method="post"> -->

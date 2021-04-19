@@ -26,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/about', (req, res) => res.render('about'));
 app.use('/book', bookRouter);
-app.use('/login', (req, res) => res.render('login'));
 app.use('/member', memberRouter);
 app.use('/message', messageRouter);
 

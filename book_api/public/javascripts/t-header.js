@@ -71,6 +71,7 @@ $(document).ready( () => {
 
     const headerElem = document.body.querySelector('.header_navbar ul');
     headerElem.innerHTML += `
+      <li><a id="upload-book" href="/book/upload?idmember=${idmember}">Upload</a></li>
       <li><a id="my-profile" href="/member?idmember=${idmember}">Profile</a></li>
       <li><a id="my-messages" href="/message?idmember=${idmember}">Messages</a></li>
       `;

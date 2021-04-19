@@ -14,6 +14,9 @@
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
     #t-book-listing img { width: 100px; height: 150px; }
+    span.page-number { margin-right: 5px; cursor: pointer; }
+    span.page-number:hover { border: 1px solid gray; }
+    span.page-number.current-page { background-color: blue; }
   </style>
 
   <% if (locals.members) { %>
@@ -44,34 +47,37 @@
            <tr>
           <td><label>Credit score</label></td>
           <td><label>
-              <style type="text/css">
-                  .fa-star.checked, .fa-star-half.checked { color: orange; }
-              </style>
-              <% for (let i=0; i<Math.floor(members[0].creditScore); i++) { %>
-                <span class="fa fa-star checked"></span>
-              <% } %>
-              <% const scoreDecimalPart = members[0].creditScore - Math.floor(members[0].creditScore); %>
-              <% if ( scoreDecimalPart > 0.75 ) { %> <!-- full star -->
-                <span class="fa fa-star checked"></span>
-              <% } else if (0.25 < scoreDecimalPart) { %> <!-- half star -->
-                <span class="fa fa-star-half checked"></span>
-              <% } %>
+              <script type="text/javascript">
+                const creditScore = <%=members[0].creditScore%>;
+                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
+              </script>
           </label></td>
           </tr>
       </table>
     </div>
 
     <h2>My books</h2>  <!-- NEW code -->
+    <p style="color: red">(Now 12 books per page. Remember to insert enough data to your db if you want to see more than 1 page.)</p>
       <div id="t-my-books">
         <div id="t-book-listing">
           
         </div>
         <div id="t-pagination">
-          <button id="t-btn-prev">Previous</button>
+          <button id="t-btn-prev">< Previous</button>
           <div id="page-span"></div>
-          <button id="t-btn-next">Next</button>
+          <button id="t-btn-next">Next ></button>
         </div>
       </div>  
+
+      <h2>About me</h2>
+      <div class="about-me">
+        <p style="color: red">(There must exist a new column in the member table to store this 'about me' data.)</p>
+      </div>
+
+      <h2>Latest Reviews</h2>
+      <div class="latest-reviews">
+        <p style="color: red">(Updating...)</p>
+      </div>
         
     <form action="/book/upload" method="POST">
       <script type="text/javascript">
@@ -117,73 +123,76 @@
     }
 
 
-    $(document).ready( () => {
 
-        const element = $('#edit-my-profile');
-        if (element) element.onclick=toggleEdit;
+    const element = document.getElementById('edit-my-profile');
+    if (element) element.onclick = toggleEdit;
 
-        const itemsPerPage = 5;
-        let currentPage = 1;
+    const itemsPerPage = 12;
+    let currentPage = 1;
+    
+    const books = <%-JSON.stringify(books)%>;
+    const pageCount = Math.ceil(books.length / itemsPerPage);
+    changePage(1);
+
+    function prevPage()
+    {
+        if (currentPage > 1) {
+            currentPage--;
+            changePage(currentPage);
+        }
+    }
+
+    function nextPage()
+    {
+        if (currentPage < pageCount) {
+            currentPage++;
+            changePage(currentPage);
+        }
+    }
         
-        const books = <%-JSON.stringify(books)%>;
-        console.log(books);
-        const pageCount = Math.ceil(books.length / itemsPerPage);
-        console.log(pageCount);
-        changePage(1);
+    function changePage(page)
+    {
+      const btnNextElem = document.getElementById("t-btn-next");
+      const btnPrevElem = document.getElementById("t-btn-prev");
+      const bookListingElem = document.getElementById("t-book-listing");
+      const pageSpanElem = document.getElementById("page-span");
 
-        function prevPage()
-        {
-            if (currentPage > 1) {
-                currentPage--;
-                changePage(currentPage);
-            }
+      btnNextElem.onclick = nextPage;
+      btnPrevElem.onclick = prevPage;
+   
+      // Validate page
+      if (page < 1) page = 1;
+      if (page > pageCount) page = pageCount;
+
+      bookListingElem.innerHTML = "";
+
+      for (let i = (page-1) * itemsPerPage; i < (page * itemsPerPage); i++) {
+          if (i >= books.length) break;  //last page may not have enough items like previous pages
+          bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image}"></a>`;
+      }
+
+      pageSpanElem.innerHTML = "";
+
+      for (let i = 1; i <= pageCount; i++) {
+        if (i == page) {
+          pageSpanElem.innerHTML += `<span class="page-number current-page">${i}</span>`;  
+        } else {
+          pageSpanElem.innerHTML += `<span class="page-number" onclick="changePage(${i})">${i}</span>`;
         }
+      }
 
-        function nextPage()
-        {
-          console.log('nextPage');
-            if (currentPage < pageCount) {
-                currentPage++;
-                changePage(currentPage);
-            }
-        }
-            
-        function changePage(page)
-        {
-            const btnNextElem = document.getElementById("t-btn-next");
-            const btnPrevElem = document.getElementById("t-btn-prev");
-            const bookListingElem = document.getElementById("t-book-listing");
-            const pageSpanElem = document.getElementById("page-span");
+      if (page == 1) {
+          btnPrevElem.disabled = true;
+      } else {
+          btnPrevElem.disabled = false;
+      }
 
-            btnNextElem.onclick = nextPage;
-            btnPrevElem.onclick = prevPage;
-         
-            // Validate page
-            if (page < 1) page = 1;
-            if (page > pageCount) page = pageCount;
-
-            bookListingElem.innerHTML = "";
-
-            for (let i = (page-1) * itemsPerPage; i < (page * itemsPerPage); i++) {
-                if (i >= books.length) break;  //last page may not have enough items like previous pages
-                bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image}"></a>`;
-            }
-            pageSpanElem.innerHTML = `Page ${page} of ${pageCount}`;
-
-            if (page == 1) {
-                btnPrevElem.disabled = true;
-            } else {
-                btnPrevElem.disabled = false;
-            }
-
-            if (page == pageCount) {
-                btnNextElem.disabled = true;
-            } else {
-                btnNextElem.disabled = false;
-            }
-        }
-
-    })
+      if (page == pageCount) {
+          btnNextElem.disabled = true;
+      } else {
+          btnNextElem.disabled = false;
+      }
+    }
   </script>
 </body>
 </html>
