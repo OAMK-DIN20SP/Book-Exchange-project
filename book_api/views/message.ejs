@@ -12,26 +12,32 @@
 
 <main>
     <% if (locals.data) { %>
-      <p><img id="book_cover" src = "/images/books/<%=data[0].images%>"></p>
+      <!-- <p><img id="book_cover" src = "/images/books/<%=data[0].image%>"></p> -->
     
       <% for (datum of data) { %>
-        <p><b><%=datum.sender_name%>: </b> <span><%=datum.text%></span></p>
+        <p><b><%=datum.sender_name%>: </b> <span><%=datum.message%></span></p>
       <% } %>
 
       <label>Type here</label>
-      <input type="text" name="" id="text" onkeypress="handleKeyPress(event, this)">
+      <input type="text" name="" id="message" onkeypress="handleKeyPress(event, this)">
       <input type="button" name="btn_send" value="Send" onclick="sendText()">
 
       <script type="text/javascript">
-        let idreceiver = <%=data[0].idmember%>;  // by default, idreceiver=b.idmemer
+        // let idreceiver;  // get a list of user had conversations w/ cur user first, then click a name to set idreceiver
+        let idreceiver = 88;  // id 88 = dan hawkings (sample data to test)
+        let time = new Date("<%=data[data.length-1].time%>").toISOString();
+        console.log('time:', time);
         
         function sendText(){
-          const idbook = new URLSearchParams(window.location.search).get('idbook');
-          console.log(idbook);
-          const idsender = localStorage.getItem('idmember');  // guest view, book receiver view
-          const textElement = document.getElementById('text')
-          const text = textElement.value;
-          postData('/message', { idbook: idbook, idsender: idsender, idreceiver: idreceiver, text: text })
+          // const idbook = new URLSearchParams(window.location.search).get('idbook');
+          // console.log(idbook);
+          const idmember = localStorage.getItem('idmember');  // guest view, book receiver view
+          const message = document.getElementById('message').value;
+          // postData('/message', { idbook: idbook, idsender: idsender, idreceiver: idreceiver, text: text })
+          //   .then( data => {
+          //     console.log(data);
+          //   });
+          postData('/message', { idmember, idreceiver, message })
             .then( data => {
               console.log(data);
             });
@@ -45,6 +51,15 @@
             obj.value = '';
           };
         }
+
+        setInterval( () => {
+          const idmember = localStorage.getItem('idmember');
+          // time: global var
+          $.get('/message/latest', {idmember, time}, (data) => {
+            console.log(data);
+          });
+        }, 1000);
+
       </script>
     <% } %>
 </main>

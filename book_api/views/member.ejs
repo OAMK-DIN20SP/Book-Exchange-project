@@ -17,12 +17,20 @@
     span.page-number { margin-right: 5px; cursor: pointer; }
     span.page-number:hover { border: 1px solid gray; }
     span.page-number.current-page { background-color: blue; }
+    .t-avatar label[for="btn-change-avatar"] { cursor: pointer; position: absolute; left: 30px; top: 200px; display: inline-block; padding: 5px; border: 1px solid gray; background-color: #e5e5e5; }
   </style>
 
   <% if (locals.members) { %>
     <div class="t-profile-information">
       <div class="t-left-panel-avatar-and-name">
-          <div class="t-avatar"><img src="/images/avatar.jpg"></div>
+          <div class="t-avatar">
+            <img src="/images/avatar.jpg">
+            <form action="/member/uploadavatar" method="post" enctype="multipart/form-data">
+            <label for="btn-change-avatar">Change image</label>
+            <input type="file" id="btn-change-avatar" name="myFile" style="visibility: hidden;"></input>
+            <input type="submit" name="">
+            </form>
+          </div>
           <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
           <button id="edit-my-profile">Edit my profile</button>
       </div>
@@ -193,6 +201,9 @@
           btnNextElem.disabled = false;
       }
     }
+
+    
+
   </script>
 </body>
 </html>
