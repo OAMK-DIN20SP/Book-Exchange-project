@@ -31,14 +31,11 @@
     box-sizing: border-box;
 }
 
-.popup-signup-form {
-    /* display: none; */
+.popup-signup-form, .popup-login-form {
+    display: none;
     position: fixed;
     top: 0px;
     z-index: 8;
-}
-.popup-login-form {
-    display: none;
 }
 
 .signup-form, .login-form {
