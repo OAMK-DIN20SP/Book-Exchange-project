@@ -66,46 +66,58 @@ $(document).ready( () => {
   const idmember = localStorage.getItem('idmember');
 
   if (idmember && parseInt(idmember) > 0) {
-    document.querySelector("button.signup-button").parentNode.remove();
-    document.querySelector("button.login-button").parentNode.remove();
+    // document.querySelector("button.signup-button").parentNode.remove();
+    // document.querySelector("button.login-button").parentNode.remove();
+    for (elem of document.querySelectorAll(".header-navbar button") ) {
+      console.log(elem);
+      elem.remove();
+    }
 
-    const headerElem = document.body.querySelector('.header_navbar ul');
+    const headerElem = document.querySelector('.header-navbar');
     headerElem.innerHTML += `
-      <li><a id="upload-book" href="/book/upload?idmember=${idmember}">Upload</a></li>
-      <li><a id="my-profile" href="/member?idmember=${idmember}">Profile</a></li>
-      <li><a id="my-messages" href="/message?idmember=${idmember}">Messages</a></li>
+      <a id="my-profile" href="/member?idmember=${idmember}" style="right: 360px;">Profile</a>
+      <a id="my-messages" href="/message?idmember=${idmember}" style="right: 420px;">Messages</a>
+      <a id="upload-book" href="/book/upload?idmember=${idmember}" style="right: 500px;">Upload</a>
       `;
 
 
     const firstname = localStorage.getItem('firstname');
-    const userAvatarElem = document.createElement('li');
-    userAvatarElem.id = "user-avatar";
+    const userAvatarElem = document.createElement('button');
+    // userAvatarElem.id = "user-avatar";
+
     // userAvatarElem.innerText = `Hi, ${firstname}!`;
-    userAvatarElem.style = `
-      background-image: url(http://localhost:3000/images/avatar.jpg);
-      background-size: cover;
-      display: block;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    `;
+    // userAvatarElem.style = `
+    //   background-image: url(http://localhost:3000/images/avatar.jpg);
+    //   background-size: cover;
+    //   display: block;
+    //   width: 32px;
+    //   height: 32px;
+    //   border-radius: 50%;
+    //   right: 260px;
+    // `;
+
+    // new, simple UI
+    userAvatarElem.id = "btn-logout";
+    userAvatarElem.style.right = '210px';
+    userAvatarElem.innerText = 'Log Out';
+
     headerElem.append(userAvatarElem);
     
-    const lastname = localStorage.getItem('lastname'); 
-    let userAvatarMenuPanelElem = document.createElement('div');
-    userAvatarMenuPanelElem.innerHTML = `
-       <div id="user-avatar-menu-panel" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
-         <div style="display: flex; flex-direction: column; align-items: center;">
-           <img src="/images/avatar.jpg" style="width: 80px; height: 80px">
-           <h4 style="text-transform: capitalize;">${firstname + ' ' + lastname}</h4>
-           <button id="btn-logout">Log Out</button>
-         </div>
-       </div>`;
-    headerElem.append(userAvatarMenuPanelElem);
+    // const lastname = localStorage.getItem('lastname'); 
+    // let userAvatarMenuPanelElem = document.createElement('div');
+    // userAvatarMenuPanelElem.innerHTML = `
+    //    <div id="user-avatar-menu-panel" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
+    //      <div style="display: flex; flex-direction: column; align-items: center;">
+    //        <img src="/images/avatar.jpg" style="width: 80px; height: 80px">
+    //        <h4 style="text-transform: capitalize;">${firstname + ' ' + lastname}</h4>
+    //        <button id="btn-logout">Log Out</button>
+    //      </div>
+    //    </div>`;
+    // headerElem.append(userAvatarMenuPanelElem);
 
-    $('#user-avatar').click( () => {
-      $('#user-avatar-menu-panel').show();  
-    });
+    // $('#user-avatar').click( () => {
+    //   $('#user-avatar-menu-panel').show();  
+    // });
 
     $('#btn-logout').click( () => {
       const idmember = localStorage.getItem('idmember');

@@ -1,4 +1,10 @@
 $(document).ready( () => {
+  $('#Author').keypress( (e) => {
+    if (e.key == 'Enter') searchBookByAuthor();
+  });
+
+  // $('#Title') already had default Enter behaviour
+
   function displaySearchResult(url) {
     $.get(url, (data) => {
       console.log(data);
