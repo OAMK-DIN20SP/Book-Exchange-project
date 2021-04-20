@@ -31,17 +31,20 @@
     box-sizing: border-box;
 }
 
-.popup-signup-form, .popup-login-form {
-    display: none;
+.popup-signup-form {
+    /* display: none; */
     position: fixed;
     top: 0px;
     z-index: 8;
 }
+.popup-login-form {
+    display: none;
+}
 
 .signup-form, .login-form {
-    width: 1024px;
+    width: 1624px;
     height: 830px;
-    padding: 20px 300px;
+    padding: 20px 650px 20px 550px;
     background-color: rgba(255,255,255,0.9);
 }
 
@@ -59,8 +62,10 @@
 }
 
 .signup-form input[type=text],
+.signup-form input[type=email],
 .signup-form input[type=password],
 .login-form input[type=text],
+.login-form input[type=email],
 .login-form input[type=password] {
     width: 68%;
     padding: 15px 0 5px 15px;
@@ -70,8 +75,10 @@
 }
 
 .signup-form input[type=text]:focus,
+.signup-form input[type=email]:focus,
 .signup-form input[type=password]:focus,
 .login-form input[type=text]:focus,
+.login-form input[type=email]:focus,
 .login-form input[type=password]:focus {
     background-color: rgb(207, 207, 207);
     outline: none;
