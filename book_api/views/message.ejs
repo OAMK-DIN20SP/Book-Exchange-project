@@ -3,6 +3,41 @@
 <head>
     <%- include('./head'); %>
     <script type="text/javascript" src="/javascripts/utils.js"></script> 
+    <!-- temp styles -->
+    <style type="text/css">
+      .inbox__people {
+          border: 1px solid black;
+      }
+
+      span.message__author {
+          font-weight: bold;
+      }
+
+      span.time_date {
+          font-style: italic;
+          font-size: x-small;
+      }
+
+      .time_date {display: none;}
+
+      .outgoing__message {
+          border: 1px solid blue;
+          width: 200px;
+          display: flex;
+          justify-content: flex-end;
+          margin-left: 50%;
+          padding-right: 10px;
+      }
+
+      .incoming__message {
+          border: 1px solid red;
+          width: 200px;
+          display: flex;
+          justify-content: flex-end;
+          margin-left: 10px;
+          padding-right: 10px;
+      }
+    </style>
 </head>
 <body class="container">
 
@@ -11,57 +46,28 @@
 </header>
 
 <main>
-    <% if (locals.data) { %>
-      <!-- <p><img id="book_cover" src = "/images/books/<%=data[0].image%>"></p> -->
-    
-      <% for (datum of data) { %>
-        <p><b><%=datum.sender_name%>: </b> <span><%=datum.message%></span></p>
-      <% } %>
+    <div class="container">
+      <div class="inbox">
+        <div class="inbox__people">
+          <h4>Active users</h4>
+        </div>
+        <div class="inbox__messages">
+          <div class="messages__history"></div>
+          <div class="fallback"></div>
+        </div>
+      </div>
 
-      <label>Type here</label>
-      <input type="text" name="" id="message" onkeypress="handleKeyPress(event, this)">
-      <input type="button" name="btn_send" value="Send" onclick="sendText()">
+      <form class="message_form">
+        <input type="text" class="message_form__input" placeholder="Type a message" />
+        <button class="message_form__button" type="submit">
+          Enter
+        </button>
+      </form>
+    </div>
 
-      <script type="text/javascript">
-        // let idreceiver;  // get a list of user had conversations w/ cur user first, then click a name to set idreceiver
-        let idreceiver = 88;  // id 88 = dan hawkings (sample data to test)
-        let time = new Date("<%=data[data.length-1].time%>").toISOString();
-        console.log('time:', time);
-        
-        function sendText(){
-          // const idbook = new URLSearchParams(window.location.search).get('idbook');
-          // console.log(idbook);
-          const idmember = localStorage.getItem('idmember');  // guest view, book receiver view
-          const message = document.getElementById('message').value;
-          // postData('/message', { idbook: idbook, idsender: idsender, idreceiver: idreceiver, text: text })
-          //   .then( data => {
-          //     console.log(data);
-          //   });
-          postData('/message', { idmember, idreceiver, message })
-            .then( data => {
-              console.log(data);
-            });
-          textElement.value = '';
-          textElement.focus();
-        }
-
-        function handleKeyPress(event, obj){
-          if (event.key == 'Enter') {
-            sendText();
-            obj.value = '';
-          };
-        }
-
-        setInterval( () => {
-          const idmember = localStorage.getItem('idmember');
-          // time: global var
-          $.get('/message/latest', {idmember, time}, (data) => {
-            console.log(data);
-          });
-        }, 1000);
-
-      </script>
-    <% } %>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/javascripts/socket.js"></script>
 </main>
 
 <footer>
