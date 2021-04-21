@@ -3,7 +3,7 @@ $(document).ready( () => {
     if (e.key == 'Enter') searchBookByAuthor();
   });
 
-  // $('#Title') already had default Enter behaviour
+  // $('#Title') already had default Enter behavior
 
   function displaySearchResult(url) {
     $.get(url, (data) => {
