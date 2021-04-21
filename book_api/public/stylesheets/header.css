@@ -1,17 +1,29 @@
-.header {
-    max-width: 1024px;
-    margin: 0 auto;
-    background-color: var(--main-color);
-}
-
-.header_navbar {
-    height: 100%;
-    min-height: 83px;
+.header-navbar {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    z-index: 1;
-    flex-wrap: wrap;
+    width: 100%;
+    height: 80px;
+    margin: 10px;
+}
+
+.header-navbar a {
+    position: absolute;
+    text-align: center;
+    color: #565656;
+}
+
+.header-navbar button {
+    position: absolute;
+    text-align: center;
+    height: 30px;
+    width: 80px;
+    color: #fdfbf3;
+    background-color: #AB9353;
+    border-color:#AB9353;
+    border-radius: 2px;
+    border: 1px solid;
+    padding: 5px;
+    cursor: pointer;
 }
 
 /* ----- popup-signup ----- */
@@ -27,9 +39,9 @@
 }
 
 .signup-form, .login-form {
-    width: 1024px;
+    width: 1624px;
     height: 830px;
-    padding: 20px 300px;
+    padding: 20px 650px 20px 550px;
     background-color: rgba(255,255,255,0.9);
 }
 
@@ -47,8 +59,10 @@
 }
 
 .signup-form input[type=text],
+.signup-form input[type=email],
 .signup-form input[type=password],
 .login-form input[type=text],
+.login-form input[type=email],
 .login-form input[type=password] {
     width: 68%;
     padding: 15px 0 5px 15px;
@@ -58,8 +72,10 @@
 }
 
 .signup-form input[type=text]:focus,
+.signup-form input[type=email]:focus,
 .signup-form input[type=password]:focus,
 .login-form input[type=text]:focus,
+.login-form input[type=email]:focus,
 .login-form input[type=password]:focus {
     background-color: rgb(207, 207, 207);
     outline: none;

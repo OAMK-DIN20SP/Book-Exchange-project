@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
 <script type="text/javascript" src="/javascripts/t-header.js"></script>
 
-<!-- TESTING STYLES -->
+<!-- TESTING STYLES 
 <style type="text/css">
   .header_navbar ul { display: flex; flex-direction: row; }
   .header_navbar ul a { color: white; }
@@ -10,83 +10,81 @@
     border: 1px solid gray;
     cursor: pointer;
   }
-</style>
+</style>-->
 
 <!-- header -->
 <div class="header">
   <!-- header_navbar -->
-  <div class="header_navbar">
+  <div class="header-navbar">
     <a href="/"><img src="/images/logo.png"></a>
-    <ul>
-      <li><a href="/#Title">Search</a></li>
-      <li><a href="/about">About</a></li>
-      <li><button class="signup-button">Sign Up</button></li>
-      <li><button class="login-button">Log In</button></li>
-    </ul>
+    <a href="/about" style="right:300px">About</a>
+    <button onclick="openSignupForm()" style="right:200px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+    <button onclick="openLoginForm()" style="right:100px">Log In</button>
+  </div>
 
-    <div class="popup-signup-form" id="signupForm" >
-        <!-- <form class="signup-form" action="/member/add" method="post"> -->
-          <form class="signup-form" name="signupForm">
-          <h2>Welcome to BookExchange! 
-              To start your journey you need to register.</h2>
+  <div class="popup-signup-form" id="signupForm" >
+      <!-- <form class="signup-form" action="/member/add" method="post"> -->
+        <form class="signup-form" name="signupForm">
+        <h2>Welcome to BookExchange! 
+            To start your journey you need to register.</h2>
 
-          <div>
-            <label><b>Name</b></label>
-            <input type="text" name="firstname" placeholder="Enter Name" required>
-          </div>
-          <div>
-            <label><b>Surname</b></label>
-            <input type="text" name="lastname" placeholder="Enter Surname">
-          </div>
-          <div>
-            <label><b>Email</b></label>
-            <input type="email" name="emailaddress" placeholder="Enter Email" required>
-          </div>
-          <div>
-            <label><b>Address</b></label>
-            <input type="text" name="address" placeholder="Enter Address">
-          </div>
-          <div>
-            <label><b>Phone number</b></label>
-            <input type="text" name="phonenumber" placeholder="Enter Phone number">
-          </div>
+        <div>
+          <label><b>Name</b></label>
+          <input type="text" name="firstname" placeholder="Enter Name" required>
+        </div>
+        <div>
+          <label><b>Surname</b></label>
+          <input type="text" name="lastname" placeholder="Enter Surname">
+        </div>
+        <div>
+          <label><b>Email</b></label>
+          <input type="email" name="emailaddress" placeholder="Enter Email" required>
+        </div>
+        <div>
+          <label><b>Address</b></label>
+          <input type="text" name="address" placeholder="Enter Address">
+        </div>
+        <div>
+          <label><b>Phone number</b></label>
+          <input type="text" name="phonenumber" placeholder="Enter Phone number">
+        </div>
 
-          <div>
-            <label><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" required>
-          </div>
-          <div>
-            <label><b>Confirm password</b></label>
-            <input type="password" placeholder="Confirm Password" name="password2" required>
-          </div>
+        <div>
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+        </div>
+        <div>
+          <label><b>Confirm password</b></label>
+          <input type="password" placeholder="Confirm Password" name="password2" required>
+        </div>
 
-          <!-- <button type="submit" class="btn signup">Create your account</button> -->
-          <button type="button" class="btn signup" id="btn-signup">Create your account</button>
-          <button type="button" class="btn cancel" onclick="closeSignupForm()">Close</button>
-        </form>
-    </div>
+        <!-- <button type="submit" class="btn signup">Create your account</button> -->
+        <button type="button" class="btn signup" id="btn-signup">Create your account</button>
+        <button type="button" class="btn cancel" onclick="closeSignupForm()">Close</button>
+      </form>
+  </div>
 
-    <div class="popup-login-form" id="loginForm" >
-        <!-- <form class="login-form" action="/member/login" method="post"> -->
-          <form class="login-form" name="loginForm">
-          <h2>If you already have a BookExchange profile, please log in.</h2>
+  <div class="popup-login-form" id="loginForm" >
+      <!-- <form class="login-form" action="/member/login" method="post"> -->
+        <form class="login-form" name="loginForm">
+        <h2>If you already have a BookExchange profile, please log in.</h2>
 
-          <div>
-            <label><b>Email</b></label>
-            <input type="email" name="emailaddress" placeholder="Enter Email" required>
-          </div>
-          <div>
-            <label><b>Password</b></label>
-            <input type="password" name="password" placeholder="Enter Password" required>
-          </div>
-          <button type="button" class="btn login" id="btn-login">Log In</button>
-          <div>
-            <label><b>Do not have account yet?</b></label>
-          </div>
-          <button type="button" class="btn cancel" onclick="closeLoginForm();openSignupForm();">Create account</button>
-        </form>
-    </div>
+        <div>
+          <label><b>Email</b></label>
+          <input type="email" name="emailaddress" placeholder="Enter Email" required>
+        </div>
+        <div>
+          <label><b>Password</b></label>
+          <input type="password" name="password" placeholder="Enter Password" required>
+        </div>
+        <button type="button" class="btn login" id="btn-login">Log In</button>
+        <div style="margin-top: 22px; padding-bottom: 5px;">
+          <b>Do not have account yet?</b>
+        </div>
+        <button type="button" class="btn cancel" onclick="closeLoginForm();openSignupForm();">Create account</button>
+      </form>
+  </div>
 
     
-  </div>
 </div>
+<!-- </div> -->
