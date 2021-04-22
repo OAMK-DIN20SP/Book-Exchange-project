@@ -22,6 +22,21 @@ router.get('/', (req, res) => {
   }
 });
 
+router.post('/b2p', (req, res) => {
+  // book and 2 people
+  const { id1, id2, idbook } = req.body;
+  if ( id1 && parseInt(id1) > 0 && id2 && parseInt(id2) > 0 && idbook && parseInt(idbook) > 0 ) {
+    return message.getByBookAndTwoPeople(id1, id2, idbook, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.error('b2p dbResult sample', dbResult[0]);
+        res.json( { success: true, totalMessages: dbResult.length, messages: dbResult } );
+      }
+    });
+  }
+});
+
 router.get('/withsocket', (req, res) => {
   return member.getAll( (err, dbResult) => {
     if (err) {

@@ -34,75 +34,7 @@
 
     <script type="text/javascript" src="/javascripts/t-message.js"></script>
 
-  <% } else { %>
-    <div class="t-new-conversation"></div> <!-- handled by js -->
-    <script type="text/javascript">
-      // cannot use the same t-message.js. Try to find a way later
-      const newConversationElem = document.querySelector('.t-new-conversation');
-      const idbook = new URLSearchParams(window.location.search).get('idbook');
-      const idmember = localStorage.getItem('idmember');
-
-      if (newConversationElem) {
-        $.get('/book/search?idbook='+idbook, (data) => {
-          const book_idmember = data.books[0].idmember;
-          const book_image = data.books[0].image;
-          
-          if (idmember == book_idmember) {
-            // book owner view the conversations of one of his book
-            newConversationElem.innerHTML = `<h4>There is no conversation about this book.<br>
-                You can click the website's logo or <a href="/">click here</a> to go back to the home page.<br>
-                You can also use the navigation bar at the top of the website <i class="far fa-smile"></i>.
-              </h4>`;
-          } else {
-              document.querySelector('main').innerHTML = `
-              <img class="t-book-cover" src="/images/books/${book_image || 'placeholder.png'}">
-              <button>Exchange Done</button>
-              <div class="t-conversation">
-                <div class="t-message-container">
-
-                </div>
-                <div class="t-send-area">
-                  <input type="text" name="message" id="message" placeholder="Type here...">
-                  <button id="btn-send"><i class="far fa-paper-plane"></i></button>
-                </div>
-              </div>
-              
-            `;
-
-            $('#message').keypress( (e) => {
-                if (e.key == 'Enter') sendMessage();
-              });
-
-            $('#btn-send').click( () => sendMessage() );
-          }
-        });
-        
-      }
-
-      function sendMessage() {
-        const message = $('#message').val();
-        $('#message').val("");
-        document.querySelector('#message').value = '';
-        const idreceiver = book_idmember;  // easier to understand
-
-        // $.ajax({
-        //   url: '/message',
-        //   type: 'GET',
-        //   headers: { Accept: 'application/json' },
-        //   success: (data) => { console.log(data); },
-        //   error: (err) => { console.log(err); }
-        // });
-
-        $.post( '/message', { idmember, idreceiver, message, idbook }, (data) => {
-          console.log(data);
-        });
-
-        $.get( `/message?idmember=${idmember}&idbook=${idbook}&accept=json`, (data) => {
-          console.log(data);
-        });
-      }
-    </script>
-  <% }%>
+  <% } %>
 </main>
 
 <footer>
