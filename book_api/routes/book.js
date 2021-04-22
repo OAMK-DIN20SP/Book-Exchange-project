@@ -57,7 +57,7 @@ router.post('/upload', (req, res) => {
 router.post('/add', upload.single('image'), (req, res) => {
     // console.log(req.file.path);
     // console.log(req.file);
-    req.body.image = req.file.filename;
+    req.body.image = req.query.filename;
     book.add( req.body, (err, dbResult) => {
         if (err) {
                 console.log(err);
