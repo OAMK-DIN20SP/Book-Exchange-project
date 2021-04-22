@@ -58,6 +58,7 @@
       var idowner= <%-book.idmember%>;
       // var creditScore= <%=book.creditScore%>;
       var creditScore= document.querySelector('#creditScore').textContent;
+      
       function countStar() {
         var score = parseFloat(creditScore);
         var numberStar = document.querySelector('.number-star')
@@ -85,7 +86,7 @@
       var btnMess = document.querySelector('.buynow');
       btnMess.onclick = () => {
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
-        // var idmember = localStorage.getItem('idmember');
+        var idmember = localStorage.getItem('idmember');
         window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
       }
 

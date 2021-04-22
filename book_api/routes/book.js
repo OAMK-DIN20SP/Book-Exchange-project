@@ -2,6 +2,19 @@ var express = require('express');
 var router = express.Router();
 var book = require('../models/book_model.js');
 
+// ADD IMAGE
+var multer = require('multer');
+// var upload = multer({ dest: './public/images/books/' });
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/images/books/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  })
+var upload = multer({ storage: storage })
+
 router.get('/', (req, res) => {
     console.log('req.query.idbook:', req.query.idbook);
     book.getByIdbook( req.query.idbook, (err, dbResult) => {
@@ -40,7 +53,11 @@ router.post('/upload', (req, res) => {
     } )
 });
 
-router.post('/add', (req, res) => {
+// (ADD IMAGE)
+router.post('/add', upload.single('image'), (req, res) => {
+    // console.log(req.file.path);
+    // console.log(req.file);
+    req.body.image = req.file.filename;
     book.add( req.body, (err, dbResult) => {
         if (err) {
                 console.log(err);
@@ -91,19 +108,6 @@ router.get('/latest', (req, res) => {
 
 router.delete('/delete', (req, res) => {
     const { idmember, idbook } = req.query;
-    console.log(idmember, idbook);
-    book.delete( idmember, idbook, (err, dbResult) => {
-        if (err) {
-            console.log(err);
-            res.json( { success: false });
-        } else {
-            res.json( { success: true, deletedRows: dbResult.affectedRows } );
-        }    
-    });
-});
-
-router.post('/delete', (req, res) => {  // post method: Hieu's suggestion
-    const { idmember, idbook } = req.body;
     console.log(idmember, idbook);
     book.delete( idmember, idbook, (err, dbResult) => {
         if (err) {
