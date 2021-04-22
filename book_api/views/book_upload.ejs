@@ -12,7 +12,9 @@
 <main>
 
   <h2>Upload your book</h2>
-    <form name="uploadForm" action="/book/add" method="POST">
+    <!-- ------------------------------------------------- --> 
+    <form name="uploadForm" action="/book/add" method="POST" enctype="multipart/form-data">
+      <div>File: <input type="file" name="image" /></div>
       <p><label>Auto fill info by ISBN: </label><input type="text" name="isbn" value="0451526538"><input type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()"></p>
       <p><label>Book cover: </label><img id="book_cover"></p>
       <p><label>Book title: </label><input type="text" name="title"></p>
