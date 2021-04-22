@@ -3,7 +3,6 @@
 } */
 
 .container {
-    max-width: 1024px;
     margin: auto;
     padding-top: 20px;
     /* background-color: var(--white-color); */
