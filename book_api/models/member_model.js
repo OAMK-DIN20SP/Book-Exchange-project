@@ -8,6 +8,11 @@ const member = {
             callback);
     },
 
+    getAll: (callback) => {
+        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore, image from `member`', 
+            callback);
+    },
+
     getByIdmember: (idmember, callback) => {
         db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore from `member` where idmember=?', 
             [idmember],

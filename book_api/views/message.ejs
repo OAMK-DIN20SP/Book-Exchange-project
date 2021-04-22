@@ -3,41 +3,8 @@
 <head>
     <%- include('./head'); %>
     <script type="text/javascript" src="/javascripts/utils.js"></script> 
-    <!-- temp styles -->
-    <style type="text/css">
-      .inbox__people {
-          border: 1px solid black;
-      }
-
-      span.message__author {
-          font-weight: bold;
-      }
-
-      span.time_date {
-          font-style: italic;
-          font-size: x-small;
-      }
-
-      .time_date {display: none;}
-
-      .outgoing__message {
-          border: 1px solid blue;
-          width: 200px;
-          display: flex;
-          justify-content: flex-end;
-          margin-left: 50%;
-          padding-right: 10px;
-      }
-
-      .incoming__message {
-          border: 1px solid red;
-          width: 200px;
-          display: flex;
-          justify-content: flex-end;
-          margin-left: 10px;
-          padding-right: 10px;
-      }
-    </style>
+    <!-- TESTING STYLES -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/t-message.css">
 </head>
 <body class="container">
 
@@ -46,34 +13,102 @@
 </header>
 
 <main>
-    <div class="container">
-      <div class="inbox">
-        <div class="inbox__people">
-          <h4>Active users</h4>
-        </div>
-        <div class="inbox__messages">
-          <div class="messages__history"></div>
-          <div class="fallback"></div>
-        </div>
-      </div>
+  <% if ( locals.data && Object.keys(locals.data).length > 0 ) { %>
+    <script type="text/javascript">
+      const data = <%-JSON.stringify(data)%>;
+    </script>
+    <h4>Users related to this book</h4>
+    <ul class="t-user-list">
 
-      <form class="message_form">
-        <input type="text" class="message_form__input" placeholder="Type a message" />
-        <button class="message_form__button" type="submit">
-          Enter
-        </button>
-      </form>
+    </ul>
+    <img class="t-book-cover" src="/images/books/<%=data[0].book_image || 'placeholder.png'%>">
+    <button>Exchange Done</button>
+    <div class="t-conversation">
+      <div class="t-message-container">
+
+      </div>
+      <div class="t-send-area">
+
+      </div>
     </div>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/javascripts/socket.js"></script>
+    <script type="text/javascript" src="/javascripts/t-message.js"></script>
+
+  <% } else { %>
+    <div class="t-new-conversation"></div> <!-- handled by js -->
+    <script type="text/javascript">
+      // cannot use the same t-message.js. Try to find a way later
+      const newConversationElem = document.querySelector('.t-new-conversation');
+      const idbook = new URLSearchParams(window.location.search).get('idbook');
+      const idmember = localStorage.getItem('idmember');
+
+      if (newConversationElem) {
+        $.get('/book/search?idbook='+idbook, (data) => {
+          const book_idmember = data.books[0].idmember;
+          const book_image = data.books[0].image;
+          
+          if (idmember == book_idmember) {
+            // book owner view the conversations of one of his book
+            newConversationElem.innerHTML = `<h4>There is no conversation about this book.<br>
+                You can click the website's logo or <a href="/">click here</a> to go back to the home page.<br>
+                You can also use the navigation bar at the top of the website <i class="far fa-smile"></i>.
+              </h4>`;
+          } else {
+              document.querySelector('main').innerHTML = `
+              <img class="t-book-cover" src="/images/books/${book_image || 'placeholder.png'}">
+              <button>Exchange Done</button>
+              <div class="t-conversation">
+                <div class="t-message-container">
+
+                </div>
+                <div class="t-send-area">
+                  <input type="text" name="message" id="message" placeholder="Type here...">
+                  <button id="btn-send"><i class="far fa-paper-plane"></i></button>
+                </div>
+              </div>
+              
+            `;
+
+            $('#message').keypress( (e) => {
+                if (e.key == 'Enter') sendMessage();
+              });
+
+            $('#btn-send').click( () => sendMessage() );
+          }
+        });
+        
+      }
+
+      function sendMessage() {
+        const message = $('#message').val();
+        $('#message').val("");
+        document.querySelector('#message').value = '';
+        const idreceiver = book_idmember;  // easier to understand
+
+        // $.ajax({
+        //   url: '/message',
+        //   type: 'GET',
+        //   headers: { Accept: 'application/json' },
+        //   success: (data) => { console.log(data); },
+        //   error: (err) => { console.log(err); }
+        // });
+
+        $.post( '/message', { idmember, idreceiver, message, idbook }, (data) => {
+          console.log(data);
+        });
+
+        $.get( `/message?idmember=${idmember}&idbook=${idbook}&accept=json`, (data) => {
+          console.log(data);
+        });
+      }
+    </script>
+  <% }%>
 </main>
 
 <footer>
     <%- include('./footer'); %>
 </footer>
 
-
+  
 </body>
 </html>

@@ -9,6 +9,14 @@ const message = {
     );
   },
 
+  getByIdmemberAndIdbook: function(idmember, idbook, callback) {
+    return db.query(
+      "select b.idbook, b.image as book_image, b.idmember as book_idmember, m.idmember, m.idreceiver, m.message, m.time, mb.image as member_image, concat(mb.firstname, ' ', mb.lastname) as sender_name, concat(mb2.firstname, ' ', mb2.lastname) as receiver_name from book b left join message m on b.idbook=m.idbook inner join `member` mb on mb.idmember=m.idmember inner join `member` mb2 on mb2.idmember=m.idreceiver where b.idbook=? and (m.idmember=? or m.idreceiver=?) order by time asc",
+      [idbook, idmember, idmember],
+      callback
+    );
+  },
+
   getByIdmemberAndTime: function(idmember, time, callback) {
     const timeString = `STR_TO_DATE('${time}', '%Y-%m-%dT%T')`;
     return db.query(
@@ -20,8 +28,8 @@ const message = {
 
   add: function(message, callback) {
     return db.query(
-      'insert into message (idmember, idreceiver, message, time) values(?,?,?, now())',
-      [parseInt(message.idmember), parseInt(message.idreceiver), message.message],
+      'insert into message (idmember, idreceiver, message, idbook, time) values(?, ?, ?, ?, now())',
+      [parseInt(message.idmember), parseInt(message.idreceiver), message.message, message.idbook],
       callback
     );
   }

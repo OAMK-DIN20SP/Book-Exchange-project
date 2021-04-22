@@ -40,12 +40,12 @@
               document.forms.uploadForm.publishedDate.value = data.items[0].volumeInfo.publishedDate;
 
               let languageNames = new Intl.DisplayNames( ['en'], {type: 'language'} );
-              let summary = data.items[0].volumeInfo.description;
-              summary += '\n\nPage Count: ' + data.items[0].volumeInfo.pageCount;
-              summary += '\n\nCategories: ' + data.items[0].volumeInfo.categories.join(", ");
-              summary += '\n\nLanguage: ' + languageNames.of(data.items[0].volumeInfo.language);
+              let description = data.items[0].volumeInfo.description;
+              description += '\n\nPage Count: ' + data.items[0].volumeInfo.pageCount;
+              description += '\n\nCategories: ' + data.items[0].volumeInfo.categories.join(", ");
+              description += '\n\nLanguage: ' + languageNames.of(data.items[0].volumeInfo.language);
 
-              document.forms.uploadForm.summary.value = summary;
+              document.forms.uploadForm.description.value = description;
             })
             .catch(error => {
               console.log(error);

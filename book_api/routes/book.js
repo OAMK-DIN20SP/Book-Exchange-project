@@ -3,8 +3,8 @@ var router = express.Router();
 var book = require('../models/book_model.js');
 
 router.get('/', (req, res) => {
-    console.log('req.query.idbook:', req.query.idbook);
-    book.getByIdbook( req.query.idbook, (err, dbResult) => {
+    const { idbook } = req.query;
+    book.getByIdbook( idbook, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
@@ -52,7 +52,7 @@ router.post('/add', (req, res) => {
     } );
 
 router.get('/search', (req, res) => {
-    const title = req.query.title;
+    const { title } = req.query;
 
     if (title) {
         book.searchByTitle( title, (err, dbResult) => {
@@ -65,13 +65,27 @@ router.get('/search', (req, res) => {
         return
     }
 
-    const author = req.query.author;
+    const { author } = req.query;
     if (author) {
         book.searchByAuthor( author, (err, dbResult) => {
             if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
+                res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+            }    });
+        return
+    }
+
+    const { idbook } = req.query;
+    console.log(idbook);
+    if (idbook) {
+        book.getByIdbook( idbook, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                console.log(dbResult);
                 res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
             }    });
         return

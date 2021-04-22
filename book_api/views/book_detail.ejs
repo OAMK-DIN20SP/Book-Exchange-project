@@ -19,7 +19,7 @@
         <div class="container-img-info">
           <div class="container--img">
             <div class="container---bigimg">
-              <img src="/images/books/<%=book.image%>">
+              <img src="/images/books/<%=book.image || 'placeholder.png'%>">
             </div>
           </div>
           <div class="container--info">
@@ -35,7 +35,7 @@
             <div class="info-rating">
               <span>Rating:</span>
               <div class="number-star"></div>
-              <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
+              <button class="buynow" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
             <!-- Btn DELETE -->
             <button class="btn submit" id="del">Delete</button>
@@ -55,7 +55,7 @@
 
     <script type="text/javascript">
       var idbook= <%=book.idbook%>;
-      var idowner= <%-book.idmember%>;
+      // var idmember= <%-book.idmember%>;
       // var creditScore= <%=book.creditScore%>;
       var creditScore= document.querySelector('#creditScore').textContent;
       function countStar() {
@@ -82,11 +82,21 @@
       }
       countStar();
 
+      const idmember = localStorage.getItem('idmember');
       var btnMess = document.querySelector('.buynow');
+      if (idmember == <%=book.idmember%>) {
+        btnMess.style.display = 'none'; // cannot message yourself
+      }
       btnMess.onclick = () => {
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
-        // var idmember = localStorage.getItem('idmember');
-        window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
+        
+        const idreceiver = <%=book.idmember%>;
+        const idbook = <%=book.idbook%>;
+        const message = 'Hi there!';
+        $.post( '/message', { idmember, idreceiver, idbook, message }, (data) => {
+          console.log(data);
+          window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
+        });
       }
 
       var btnDel = document.querySelector("#del");

@@ -9,7 +9,12 @@ const fallback = document.querySelector(".fallback");
 let userName = "";
 
 const newUserConnected = (user) => {
-  userName = prompt('Please enter your name:') || `User${Math.floor(Math.random() * 1000000)}`;
+  const userName = localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname');
+
+  if (!userName.trim()) {
+    alert('Please login first.');
+    window.location.href = "/";
+  }
   // if (!userName) userName =  `User${Math.floor(Math.random() * 1000000)}`;
   socket.emit("new user", userName);
   addToUsersBox(userName);
@@ -93,7 +98,9 @@ socket.on("new user", function (data) {
 });
 
 socket.on("user disconnected", function (userName) {
-  document.querySelector(`.${userName}-userlist`).remove();
+  for (let elem of document.querySelectorAll(`.${userName}-userlist`) ) {
+    elem.remove();
+  }
 });
 
 socket.on("chat message", function (data) {

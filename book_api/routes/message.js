@@ -1,15 +1,33 @@
 const express = require('express');
 const router = express.Router();
 const message = require('../models/message_model');
+const member = require('../models/member_model');
+
 
 router.get('/', (req, res) => {
-  console.log('req.query.idmember:', req.query.idmember);
-  return message.getByIdmember(req.query.idmember, (err, dbResult) => {
+  const { idmember, idbook, accept } = req.query;
+  if ( idmember && parseInt(idmember) > 0) {
+    return message.getByIdmemberAndIdbook(idmember, idbook, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.log('dbResult sample', dbResult[0]);
+        if (!accept) {
+          res.render('message', { data: dbResult });
+        } else if (accept == 'json') {
+          res.json(dbResult);
+        }
+      }
+    });
+  }
+});
+
+router.get('/withsocket', (req, res) => {
+  return member.getAll( (err, dbResult) => {
     if (err) {
       res.json(err);
     } else {
-      res.render('message', { data: dbResult });
-      console.log('messageRouter.get, dbResult:', dbResult);
+      res.render('message_withsocket', { data: dbResult });
     }
   });
 });

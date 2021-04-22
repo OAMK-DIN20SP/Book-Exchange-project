@@ -1,0 +1,42 @@
+.inbox__people {
+    border: 1px solid black;
+}
+
+span.message-sender {
+    font-weight: bold;
+}
+
+span.time-date {
+    font-style: italic;
+    font-size: x-small;
+    display: none;
+}
+
+.outgoing-message {
+    border: 1px solid blue;
+    width: fit-content;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 50%;
+    padding-right: 10px;
+}
+
+.incoming-message {
+    border: 1px solid red;
+    width: fit-content;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
+    padding-right: 10px;
+}
+
+.t-user-item {     
+    cursor: pointer;
+    background-color: lightgray;
+    width: fit-content;
+    padding: 10px;
+    border: 1px solid gray;
+    margin-bottom: 5px;
+}
+
+img.t-book-cover { width: 150px; }
