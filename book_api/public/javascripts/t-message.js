@@ -42,7 +42,7 @@ function showOneToOneConversation(oneToOneData) {
     appendMessage(datum);
   }
 
-  window.scrollTo(0, document.body.scrollHeight);
+  // window.scrollTo(0, document.body.scrollHeight);
 }
 
 
@@ -101,8 +101,8 @@ function handleClickOnUser(userId){
   getAndShowNewConversationData();
   showSendArea();
   intervalId = setInterval( getAndShowNewConversationData, 500); 
-  window.scrollTo(0, document.body.scrollHeight);
-}
+  // window.scrollTo(0, document.body.scrollHeight);
+// }
 
 
 function addUserToList(userId, userFullName){
