@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html2 lang="en">
+<head>
+    <%- include('./head'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./header'); %>
+</header>
+
+<main>
+<% if (locals.book) { %>
+  <h2>Edit your book</h2>
+  <div><img src="/images/books/<%=book.image%>" style="width:100px;height:100px"></div>
+  <form method="POST" enctype="multipart/form-data" id="edit-from1">
+    <input type="text" name="exist" value="exist" style="display: none;">
+    <div>New file: <input type="file" value="" name="image" /></div>
+    <button type="submit">Submit image</button>
+  </form>
+  
+  <form method="POST" enctype="multipart/form-data" id="edit-from2">
+    <p><label>Book title: </label><input type="text" value="<%=book.title%>" name="title"></p>
+    <p><label>Author(s): </label><input type="text" value="<%=book.author%>" name="author"></p>
+    <p><label>Published Year: </label><input type="text" value="<%=book.year%>" name="year"></p>
+    <p><label>Edition: </label><input type="text" value="<%=book.edition%>" name="edition"></p>
+    <p><label>Book condition: </label><input type="text" value="<%=book.condition%>" name="condition"></p>
+    <p><label>Summary: </label><textarea name="description" rows="10" cols="50"><%=book.description%></textarea></p>
+    <button type="submit">Submit content</button>
+  </form>
+
+  <script>
+    var idbook= <%=book.idbook%>;
+    var idmember = localStorage.getItem('idmember');
+
+    form1 = document.getElementById('edit-from1');
+    form1.addEventListener("submit", (event) => {
+      event.preventDefault();
+      data1 = new FormData(form1)
+      fetch(`/book/edit?idbook=${idbook}`, {
+        "method": "PUT",
+        "body": data1,
+      })
+      .then( () => {
+        alert("Edited");
+        setTimeout( () => {
+          window.location.reload();
+        }, 1000);
+      })
+    })
+
+    form2 = document.getElementById('edit-from2');
+    form2.addEventListener("submit", (event) => {
+      event.preventDefault();
+      var formData2 = new URLSearchParams(new FormData(form2));
+      fetch(`/book/edit?idbook=${idbook}`, {
+        "method": "PUT",
+        "body": formData2,
+      })
+      .then( () => {
+        alert("Edited");
+        setTimeout( () => {
+          window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+        }, 1000);
+      })
+    })
+  </script>
+
+<% } %>
+</main>
+
+<footer>
+  <%- include('./footer'); %>
+</footer>
+
+</body>
+</html>

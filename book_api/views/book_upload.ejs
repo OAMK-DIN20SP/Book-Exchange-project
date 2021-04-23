@@ -13,17 +13,18 @@
 <main>
 
   <h2 class="upload-text">Upload your book</h2>
-    <!-- ------------------------------------------------- --> 
   <form class="upload-form" name="uploadForm" action="/book/add" method="POST" enctype="multipart/form-data">
     <div class="upload-items">
       <p><label>Auto fill info by ISBN: </label><input type="text" name="isbn" value="0451526538"><input type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()"></p>
       <div>Image: <input type="file" name="image" /></div>
       <p><label>Book title: </label><input type="text" name="title"></p>
       <p><label>Author(s): </label><input type="text" name="author"></p>  <!-- author for matching with the db -->
-      <p><label>Published Date: </label><input type="text" name="publishedDate"></p>
+      <p><label>Published Year: </label><input type="text" name="year"></p>
+      <p><label>Edition: </label><input type="text" name="edition"></p>
+      <p><label>Book condition: </label><input type="text" name="condition"></p>
+      <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
       <input class="upload-submit" type="submit">
     </div>
-    <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
 
     <script type="text/javascript">
       function autoFillBookInfo() {

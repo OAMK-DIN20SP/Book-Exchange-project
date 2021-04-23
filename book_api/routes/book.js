@@ -57,7 +57,7 @@ router.post('/upload', (req, res) => {
 router.post('/add', upload.single('image'), (req, res) => {
     // console.log(req.file.path);
     // console.log(req.file);
-    req.body.image = req.query.filename;
+    req.body.image = req.file.filename;
     book.add( req.body, (err, dbResult) => {
         if (err) {
                 console.log(err);
@@ -117,6 +117,48 @@ router.delete('/delete', (req, res) => {
             res.json( { success: true, deletedRows: dbResult.affectedRows } );
         }    
     });
+});
+
+// EDIT BOOK
+router.get('/edit', (req, res) => {
+
+    console.log('req.query.idbook:', req.query.idbook);
+    book.getByIdbook( req.query.idbook, (err, dbResult) => {
+        if (err) {
+            res.json(err);
+        } else {
+            // res.json(dbResult[0]);
+            console.log(dbResult[0]);
+            res.render('book_edit', { book: dbResult[0]});
+        }
+    });
+});
+
+router.put('/edit', upload.single('image'), (req, res) => {
+    if (req.body.exist=="exist") {
+        req.body.image = req.file.filename;
+        book.update1( req.query.idbook, req.body, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                res.json(dbResult);
+            }
+        });
+    }
+    else {
+        // const {idbook} = req.query;
+        book.update2( req.query.idbook, req.body, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
+                // res.redirect( '/book?idbook=' + dbResult.insertId );
+                res.json(dbResult);
+            }
+        });
+    }
 });
 
 module.exports = router;
