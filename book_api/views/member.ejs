@@ -120,37 +120,42 @@
   <% if (locals.members) { %>
     <div class="t-profile-information">
       <div class="t-left-panel-avatar-and-name">
-          <div class="t-avatar"><img src="/images/avatar.jpg"></div>
-          <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
-          <button id="edit-my-profile">Edit my profile</button>
+        <div class="t-avatar"><img src="" id="avatar"></div>
+        <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
+        <!-- edit image -->
+        <form method="POST" enctype="multipart/form-data" id="edit-from1">
+          <input type="text" name="exist" value="exist" style="display: none;">
+          <div>Change image: <input type="file" value="" name="image" /></div>
+          <button type="submit">Submit image</button>
+        </form>
+        <button id="edit-my-profile">Edit my profile</button>
       </div>
       <table class="t-right-panel-other-info">
-           <tr>
-               <td><label>Full name </label></td>
-               <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].firstname + ' ' + members[0].lastname%></label></td>
-           </tr>
-           
-           <tr>
-               <td><label>Email </label></td>
-               <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].emailaddress%></label></td>
-           </tr>
-           <tr> 
-               <td><label>Phone </label></td>
-               <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].phonenumber%></label></td>
-           </tr>
-           <tr>
-               <td><label>Address </label></td>
-               <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
-           </tr>
-           <tr>
-          <td><label>Credit score</label></td>
-          <td><label>
-              <script type="text/javascript">
-                const creditScore = <%=members[0].creditScore%>;
-                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
-              </script>
-          </label></td>
+          <tr>
+            <td><label>Full name </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].firstname + ' ' + members[0].lastname%></label></td>
           </tr>
+          <tr>
+            <td><label>Email </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].emailaddress%></label></td>
+          </tr>
+          <tr> 
+            <td><label>Phone </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].phonenumber%></label></td>
+          </tr>
+          <tr>
+            <td><label>Address </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
+          </tr>
+          <tr>
+        <td><label>Credit score</label></td>
+        <td><label>
+          <script type="text/javascript">
+            // const creditScore = <%-members[0].creditScore%> ;
+            // document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
+          </script>
+        </label></td>
+        </tr>
       </table>
     </div>
 
@@ -183,8 +188,12 @@
       </script>
       <input type="submit" name="" value="Upload a book">
     </form>
+    <div class="hide" style="display: none;">
+      <!-- <div id="image"><%=members[0].creditScore%></div> -->
+      <div id="image"><%=members[0].image%></div>
+    </div>
   <% } %>
-
+    
 </main>
 
 <footer>
@@ -291,6 +300,37 @@
           btnNextElem.disabled = false;
       }
     }
+  </script>
+  
+  <script>
+    // Display Avartar
+    var img = document.querySelector("#image").textContent;
+    var avatarDom = document.querySelector("#avatar");
+    if (img) {
+      avatarDom.src =`/images/books/${img}`
+    } else {
+      avatarDom.src ="/images/avatar.jpg"
+    }
+    
+    // Edit image
+    var idmember = localStorage.getItem('idmember');
+
+    form1 = document.getElementById('edit-from1');
+    form1.addEventListener("submit", (event) => {
+      event.preventDefault();
+      data1 = new FormData(form1)
+      fetch(`/member?idmember=${idmember}`, {
+        "method": "PUT",
+        "body": data1,
+      })
+      .then( () => {
+        alert("Edited");
+        setTimeout( () => {
+          window.location.reload();
+        }, 1000);
+      })
+    })
+
   </script>
 </body>
 </html>

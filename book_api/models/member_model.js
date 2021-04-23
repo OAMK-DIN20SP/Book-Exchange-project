@@ -9,7 +9,7 @@ const member = {
     },
 
     getByIdmember: (idmember, callback) => {
-        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore from `member` where idmember=?', 
+        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore, image from `member` where idmember=?', 
             [idmember],
             callback);
     },
@@ -26,6 +26,22 @@ const member = {
             'update `member` set firstname=?, lastname=?, emailaddress=?, address=?, phonenumber=?)', 
             [member.firstname, member.lastname, member.emailaddress, member.address, member.phonenumber],
             callback);
+    },
+
+    update1: function(idmember, member, callback) {
+        return db.query(
+            'update `member` set image=? where idmember=?',
+            [member.image, idmember],
+            callback
+        );
+    },
+
+    update2: function(idmember, member, callback) {
+        return db.query(
+            'update `member` set firstname=?, lastname=?, emailaddress=?, address=?, phonenumber=? where idmember=?',
+            [member.firstname, member.lastname, member.emailaddress, member.address, member.phonenumber, idmember],
+            callback
+        );
     },
 }
 

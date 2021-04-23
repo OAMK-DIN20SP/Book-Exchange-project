@@ -4,6 +4,18 @@ var book = require('../models/book_model.js');
 var member = require('../models/member_model.js');
 var async = require('async');
 
+// ADD IMAGE
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/images/books/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    }
+  })
+var upload = multer({ storage: storage })
+
 router.get('/', (req, res) => {
     const { idmember } = req.query;
     async.parallel({
@@ -42,18 +54,6 @@ router.post('/add', (req, res) => {
     } )
 });
 
-router.put('/edit', (req, res) => {
-    console.log(req.body);
-    member.update( req.body, (err, dbResult) => {
-        if (err) {
-            console.log(err);
-            res.json( {success: false, message: 'Error occures. Please contact the website administrator.'} );
-        } else {
-            res.json( {success: true, message: 'Your information is updated.'} );
-        }
-    } )
-});
-
 router.post('/login', (req, res) => {
     console.log(req.body.emailaddress, req.body.password);
     member.get(req.body.emailaddress, req.body.password, (err, dbResult) => {
@@ -87,7 +87,44 @@ router.post('/login2', (req, res) => { // res w/ json, no redirect
             }
         }
     });
-    
 });
+
+router.put('/edit', (req, res) => {
+    console.log(req.body);
+    member.update( req.body, (err, dbResult) => {
+        if (err) {
+            console.log(err);
+            res.json( {success: false, message: 'Error occures. Please contact the website administrator.'} );
+        } else {
+            res.json( {success: true, message: 'Your information is updated.'} );
+        }
+    } )
+});
+
+// NEW
+router.put('/', upload.single('image'), (req, res) => {
+    if (req.body.exist=="exist") {
+        req.body.image = req.file.filename;
+        member.update1( req.query.idmember, req.body, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                res.json(dbResult);
+            }
+        });
+    }
+    else {
+        member.update2( req.query.idmember, req.body, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                res.json(dbResult);
+            }
+        });
+    }
+});
+
 
 module.exports = router;
