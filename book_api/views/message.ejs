@@ -13,15 +13,13 @@
 </header>
 
 <main>
-  <% if ( locals.data && Object.keys(locals.data).length > 0 ) { %>
-    <script type="text/javascript">
-      const data = <%-JSON.stringify(data)%>;
-    </script>
+  <% if ( locals.data ) { %>
+
     <h4>Users related to this book</h4>
     <ul class="t-user-list">
 
     </ul>
-    <img class="t-book-cover" src="/images/books/<%=data[0].book_image || 'placeholder.png'%>">
+    <img class="t-book-cover">
     <button>Exchange Done</button>
     <div class="t-conversation">
       <div class="t-message-container">
@@ -31,16 +29,17 @@
 
       </div>
     </div>
-
-    <script type="text/javascript" src="/javascripts/t-message.js"></script>
-
   <% } %>
+
 </main>
 
 <footer>
     <%- include('./footer'); %>
 </footer>
 
-  
+  <script type="text/javascript">
+    const data = <%-JSON.stringify(data)%>;
+  </script>
+  <script type="text/javascript" src="/javascripts/t-message.js"></script>
 </body>
 </html>

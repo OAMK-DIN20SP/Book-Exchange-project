@@ -3,7 +3,7 @@ var router = express.Router();
 var book = require('../models/book_model.js');
 
 router.get('/', (req, res) => {
-    const { idbook } = req.query;
+    const { idbook, accept } = req.query;
     book.getByIdbook( idbook, (err, dbResult) => {
         if (err) {
             res.json(err);
@@ -11,7 +11,32 @@ router.get('/', (req, res) => {
             if (dbResult.length > 0) {
                 // res.json(dbResult[0]);
                 console.log(dbResult[0]);
-                res.render('book_detail', { book: dbResult[0]});
+                if (!accept) {
+                    res.render('book_detail', { book: dbResult[0]});
+                } else if (accept == 'json') {
+                    res.json({ success: true, totalBooks: dbResult.length, books: dbResult });
+                }
+                
+            } else {
+                res.json( {success: false, message: 'There is no book with that id.'} );
+            }
+        }
+    });
+});
+
+router.get('/b_mb', (req, res) => { // book look up member
+    const { idbook, accept } = req.query;
+    book.getByIdbookLookupMemberTable( idbook, (err, dbResult) => {
+        if (err) {
+            res.json(err);
+        } else {
+            if (dbResult.length > 0) {
+                if (!accept) {
+                    res.render('book_detail', { book: dbResult[0]});
+                } else if (accept == 'json') {
+                    res.json({ success: true, totalBook_members: dbResult.length, book_members: dbResult });
+                }
+                
             } else {
                 res.json( {success: false, message: 'There is no book with that id.'} );
             }
