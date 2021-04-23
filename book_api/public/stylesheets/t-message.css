@@ -40,3 +40,14 @@ span.time-date {
 }
 
 img.t-book-cover { width: 150px; }
+
+.t-book-cover {
+    display: inline-block;
+}
+
+.t-book-cover img {
+    width: 150px;
+    height: 200px;
+    margin-right: 20px;
+}
+

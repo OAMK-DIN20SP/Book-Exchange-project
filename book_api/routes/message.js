@@ -6,7 +6,7 @@ const member = require('../models/member_model');
 
 router.get('/', (req, res) => {
   const { idmember, idbook, accept } = req.query;
-  if ( idmember && parseInt(idmember) > 0 && idbook && parseInt(idbook) > 0 ) {
+  if ( idmember && parseInt(idmember) > 0 && idbook && parseInt(idbook) > 0 ) { // req has both
     return message.getByIdmemberAndIdbook(idmember, idbook, (err, dbResult) => {
       if (err) {
         res.json(err);
@@ -15,13 +15,13 @@ router.get('/', (req, res) => {
         if (!accept) {
           res.render('message', { data: dbResult });
         } else if (accept == 'json') {
-          res.json(dbResult);
+          res.json({ success: true, totalMessages: dbResult.length, messages: dbResult });
         }
       }
     });
   }
 
-  if ( idmember && parseInt(idmember) ) {
+  if ( idmember && parseInt(idmember) ) { // req has only idmember
     return message.getByIdmember(idmember, (err, dbResult) => {
       if (err) {
         res.json(err);
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
         if (!accept) {
           res.render('message', { data: dbResult });
         } else if (accept == 'json') {
-          res.json(dbResult);
+          res.json({ success: true, totalMessages: dbResult.length, messages: dbResult });
         }
       }
     });

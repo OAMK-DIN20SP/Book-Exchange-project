@@ -88,15 +88,7 @@
         btnMess.style.display = 'none'; // cannot message yourself
       }
       btnMess.onclick = () => {
-        // var idbook = new URLSearchParams(window.location.search).get('idbook');
-        
-        const idreceiver = <%=book.idmember%>;
-        const idbook = <%=book.idbook%>;
-        const message = 'Hi there!';
-        $.post( '/message', { idmember, idreceiver, idbook, message }, (data) => {
-          console.log(data);
-          window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
-        });
+        window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
       }
 
       var btnDel = document.querySelector("#del");
@@ -104,12 +96,12 @@
       btnDel.onclick = () => {
         var check = confirm("Are you sure to delete?");
         if (check == true) {
-            fetch(`/book/delete?idmember=${idowner}&idbook=${idbook}`, {
+            fetch(`/book/delete?idmember=${idmember}&idbook=${idbook}`, {
               method: "DELETE",
             })
             .then( () => {
               alert("Deleted");
-              window.location.href = `http://localhost:3000/member?idmember=${idowner}`;
+              window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
             })
         }
       }
