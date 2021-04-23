@@ -108,6 +108,22 @@ const book = {
             console.error('ERROR: empty POST body!!!');
             return;
         }
+    },
+
+    update1: function(idbook, book, callback) {
+        return db.query(
+            'update book set image=? where idbook=?',
+            [book.image, idbook],
+            callback
+        );
+    },
+
+    update2: function(idbook, book, callback) {
+        return db.query(
+            'update book set title=?, author=?, `year`=?, edition=?, `description`=?, `condition`=? where idbook=?',
+            [book.title, book.author, book.year, book.edition, book.description, book.condition, idbook],
+            callback
+        );
     }
 }
 
