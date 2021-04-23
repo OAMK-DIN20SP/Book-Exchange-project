@@ -25,6 +25,7 @@ function appendMessage(message){
 
   messageElem.innerHTML = messageElemHTMLString;
   document.querySelector('.t-message-container').append(messageElem);
+
 }
 
 
@@ -40,6 +41,8 @@ function showOneToOneConversation(oneToOneData) {
   for (let datum of oneToOneData) {
     appendMessage(datum);
   }
+
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 
@@ -61,14 +64,6 @@ function sendMessage() {
   const message = $('#message').val();
   $('#message').val("");
 
-  // $.ajax({
-  //   url: '/message',
-  //   type: 'GET',
-  //   headers: { Accept: 'application/json' },
-  //   success: (data) => { console.log(data); },
-  //   error: (err) => { console.log(err); }
-  // });
-
   const idmember = loggedinId;
   $.post( '/message', { idmember, idreceiver, message, idbook }, (data) => {
     //
@@ -84,7 +79,6 @@ function getAndShowNewConversationData(){
   $.post('/message/b2p', { id1, id2, idbook, time }, (data) => {
     const newConversationData = data.messages;
     showOneToOneConversation(newConversationData);
-    // window.scrollTo(0, document.body.scrollHeight);
 
     // tam thoi lay het messages lun, vi last time con phai theo user nua met vcl, vay thi append eu duoc :v
     // if (newConversationData.length > 0) {
@@ -107,6 +101,7 @@ function handleClickOnUser(userId){
   getAndShowNewConversationData();
   showSendArea();
   intervalId = setInterval( getAndShowNewConversationData, 500); 
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 
@@ -197,7 +192,12 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
     // list books that have conversation(s)
     if (document.querySelector('main h4')) document.querySelector('main h4').remove();
     if (document.querySelector('main button')) document.querySelector('main button').remove();
-    document.querySelector('main').append('Please click on a book to see the conversation(s) belong to it (that you get involved).');
+    let infoElem = document.createElement('div');
+    infoElem.className = 't-info';
+    infoElem.innerHTML = `
+      Please click on a book to see the conversation(s) belong to it (that you get involved).
+    `;
+    document.querySelector('main').append(infoElem);
 
     const idmember = localStorage.getItem('idmember');
     $.get(`/message?idmember=${idmember}&accept=json`, (response) => {console.log(response);
@@ -226,6 +226,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
         // luoi viet lai, xoa cho nhanh
         if (document.querySelector('main h4')) document.querySelector('main h4').remove();
         if (document.querySelector('main button')) document.querySelector('main button').remove();
+        if (document.querySelector('.t-info')) document.querySelector('.t-info').remove();
         let infoElem = document.createElement('div');
         infoElem.innerHTML = `
           You have no message.<br><br>
