@@ -25,23 +25,26 @@ function insertHiddenIdmemberTo(parent) {
   idmemberElem.value = localStorage.getItem('idmember');
   parent.appendChild(idmemberElem);
 }
-  
 
-function creditScoreToHTMLStar(score){
-  // no half-star allowed
-  if (score < 1.5) {
-    return `<i class="fas fa-star"></i>`;
+
+// thêm 0 sao, và có 2 loại sao "far fa-star" vs "fas fa-star"
+function creditScoreToHTMLStar(score) {
+  if (score < 0.5) {
+    return `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+  }
+  else if (score < 1.5) {
+    return `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
   }
   else if (score < 2.5) {
-    return `<i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
   }
   else if (score < 3.5) {
-    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
   }
   else if (score < 4.5) {
-    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
   }
   else {
-    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`;
+    return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
   }
 }

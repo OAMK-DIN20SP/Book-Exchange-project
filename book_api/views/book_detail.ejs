@@ -47,9 +47,9 @@
           <p><%=book.description%></p>
         </div>  
       </div>
-      <div class="hide" style="display: none;">
+      <!-- <div class="hide" style="display: none;">
         <div id="creditScore"><%=book.creditScore%></div>
-      </div>
+      </div> -->
     </div>
 
 
@@ -57,32 +57,9 @@
     <script type="text/javascript">
       var idbook= <%=book.idbook%>;
       var idowner= <%-book.idmember%>;
-      // var creditScore= <%=book.creditScore%>;
-      var creditScore= document.querySelector('#creditScore').textContent;
-      
-      function countStar() {
-        var score = parseFloat(creditScore);
-        var numberStar = document.querySelector('.number-star')
-        if (creditScore == 0) {
-          numberStar.innerHTML = `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 1.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 2.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 3.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 4.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
-        }
-        else {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
-        }
-      }
-      countStar();
+      // var creditScore= document.querySelector('#creditScore').textContent;
+      var creditScore= <%=book.creditScore%>;
+      document.querySelector('.number-star').innerHTML = creditScoreToHTMLStar(creditScore);
 
       var btnMess = document.querySelector('.buynow');
       btnMess.onclick = () => {

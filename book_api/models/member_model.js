@@ -21,13 +21,6 @@ const member = {
             callback);
     },
 
-    update: (member, callback) => {
-        db.query(
-            'update `member` set firstname=?, lastname=?, emailaddress=?, address=?, phonenumber=?)', 
-            [member.firstname, member.lastname, member.emailaddress, member.address, member.phonenumber],
-            callback);
-    },
-
     update1: function(idmember, member, callback) {
         return db.query(
             'update `member` set image=? where idmember=?',

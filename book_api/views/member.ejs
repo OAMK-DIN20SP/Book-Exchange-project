@@ -126,14 +126,19 @@
         <form method="POST" enctype="multipart/form-data" id="edit-from1">
           <input type="text" name="exist" value="exist" style="display: none;">
           <div>Change image: <input type="file" value="" name="image" /></div>
-          <button type="submit">Submit image</button>
+          <button type="submit" id="btnSubmitImg">Submit image</button>
         </form>
         <button id="edit-my-profile">Edit my profile</button>
       </div>
-      <table class="t-right-panel-other-info">
+      <form method="POST" enctype="multipart/form-data" id="edit-from2">
+        <table class="t-right-panel-other-info">
           <tr>
-            <td><label>Full name </label></td>
-            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].firstname + ' ' + members[0].lastname%></label></td>
+            <td><label>First name </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].firstname%></label></td>
+          </tr>
+          <tr>
+            <td><label>Last name </label></td>
+            <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].lastname%></label></td>
           </tr>
           <tr>
             <td><label>Email </label></td>
@@ -148,15 +153,16 @@
             <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
           </tr>
           <tr>
-        <td><label>Credit score</label></td>
-        <td><label>
-          <script type="text/javascript">
-            // const creditScore = <%-members[0].creditScore%> ;
-            // document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
-          </script>
-        </label></td>
-        </tr>
-      </table>
+            <td><label>Credit score</label></td>
+            <td><label>
+              <script type="text/javascript">
+                const creditScore = <%-members[0].creditScore%> ;
+                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
+              </script>
+            </label></td>
+          </tr>
+        </table>
+      </form>
     </div>
 
     <h2>My books</h2>  <!-- NEW code -->
@@ -200,40 +206,65 @@
     <%- include('./footer'); %>
 </footer>
 
+  <!-- Edit info member -->
   <script>
     function toggleEdit() {
       let editMyProfileButton = document.getElementById('edit-my-profile');
-
       if (editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
           editMyProfileButton.innerText = 'Done editing';
       } else {
           editMyProfileButton.innerText = 'Edit my profile';
       }
       
-      for (let element of document.getElementsByName('profile-info-to-edit')){
-          element.onkeypress = (event) => {
-              if (event.key == 'Enter') {
-                  event.preventDefault();
-              }
-          }
+      var members = <%-JSON.stringify(members)%>;
+      var tableDom = document.querySelector(".t-right-panel-other-info");
+      tableDom.innerHTML = `
+          <tr>
+            <td><label>First name </label></td>
+            <td><input type="text" value="${members[0].firstname}" name="firstname"></td>
+          </tr>
+          <tr>
+            <td><label>Last name </label></td>
+            <td><input type="text" value="${members[0].lastname}" name="lastname"></td>
+          </tr>
+          <tr>
+            <td><label>Email </label></td>
+            <td><input type="text" value="${members[0].emailaddress}" name="emailaddress"></td>
+          </tr>
+          <tr> 
+            <td><label>Phone </label></td>
+            <td><input type="text" value="${members[0].phonenumber}" name="phonenumber"></td>
+          </tr>
+          <tr>
+            <td><label>Address </label></td>
+            <td><input type="text" value="${members[0].address}" name="address"></td>
+          </tr>
 
-              if (element.isContentEditable == false){
-                element.contentEditable = true;
-                element.classList.remove('non-editable');
-                element.classList.add('editable');
-              } else {
-                element.contentEditable = false;
-                element.classList.remove('editable');
-                element.classList.add('non-editable');
-              }
-      }
+          <button type="submit" id="btnDom">Confirm</button>
+      `
     }
-
-
-
     const element = document.getElementById('edit-my-profile');
     if (element) element.onclick = toggleEdit;
 
+    form2 = document.getElementById('edit-from2');
+      form2.addEventListener("submit", (event) => {
+      event.preventDefault();
+      var formData2 = new URLSearchParams(new FormData(form2));
+      fetch(`/member?idmember=${idmember}`, {
+        "method": "PUT",
+        "body": formData2,
+      })
+      .then( () => {
+        alert("Edited");
+        setTimeout( () => {
+          window.location.reload();
+        }, 1000);
+      })
+    })
+  </script>
+    
+  <!-- change pagebook & validate -->
+  <script>
     const itemsPerPage = 12;
     let currentPage = 1;
     
@@ -302,6 +333,7 @@
     }
   </script>
   
+  <!-- Display Avartar & Edit image -->
   <script>
     // Display Avartar
     var img = document.querySelector("#image").textContent;
@@ -314,8 +346,9 @@
     
     // Edit image
     var idmember = localStorage.getItem('idmember');
-
-    form1 = document.getElementById('edit-from1');
+    var btnSubmitImgDom = document.getElementById('btnSubmitImg');
+    btnSubmitImgDom.addEventListener("click", () => {
+      form1 = document.getElementById('edit-from1');
     form1.addEventListener("submit", (event) => {
       event.preventDefault();
       data1 = new FormData(form1)
@@ -329,7 +362,15 @@
           window.location.reload();
         }, 1000);
       })
+      // .catch( (err) => {
+      //   alert("Pls choose image");
+      //   setTimeout( () => {
+      //     window.location.reload();
+      //   }, 1000);
+      // })
     })
+
+    });
 
   </script>
 </body>
