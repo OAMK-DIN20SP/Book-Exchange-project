@@ -16,15 +16,40 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 router.get('/', (req, res) => {
-    console.log('req.query.idbook:', req.query.idbook);
-    book.getByIdbook( req.query.idbook, (err, dbResult) => {
+    const { idbook, accept } = req.query;
+    book.getByIdbook( idbook, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
             if (dbResult.length > 0) {
                 // res.json(dbResult[0]);
                 console.log(dbResult[0]);
-                res.render('book_detail', { book: dbResult[0]});
+                if (!accept) {
+                    res.render('book_detail', { book: dbResult[0]});
+                } else if (accept == 'json') {
+                    res.json({ success: true, totalBooks: dbResult.length, books: dbResult });
+                }
+                
+            } else {
+                res.json( {success: false, message: 'There is no book with that id.'} );
+            }
+        }
+    });
+});
+
+router.get('/b_mb', (req, res) => { // book look up member
+    const { idbook, accept } = req.query;
+    book.getByIdbookLookupMemberTable( idbook, (err, dbResult) => {
+        if (err) {
+            res.json(err);
+        } else {
+            if (dbResult.length > 0) {
+                if (!accept) {
+                    res.render('book_detail', { book: dbResult[0]});
+                } else if (accept == 'json') {
+                    res.json({ success: true, totalBook_members: dbResult.length, book_members: dbResult });
+                }
+                
             } else {
                 res.json( {success: false, message: 'There is no book with that id.'} );
             }
@@ -58,18 +83,26 @@ router.post('/add', upload.single('image'), (req, res) => {
     // console.log(req.file.path);
     // console.log(req.file);
     req.body.image = req.file.filename;
-    book.add( req.body, (err, dbResult) => {
-        if (err) {
+    
+    if (req.body.idmember && parseInt(req.body.idmember) > 0) {
+        if ( !Number.isNaN(req.body.year) ) req.body.year = null;
+        if ( !Number.isNaN(req.body.edition) ) req.body.edition = null;
+
+        book.add( req.body, (err, dbResult) => {
+            if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
                 // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
                 res.redirect( '/book?idbook=' + dbResult.insertId );
-            }    });
+            }    
+        });
+    }
+
     } );
 
 router.get('/search', (req, res) => {
-    const title = req.query.title;
+    const { title } = req.query;
 
     if (title) {
         book.searchByTitle( title, (err, dbResult) => {
@@ -82,13 +115,27 @@ router.get('/search', (req, res) => {
         return
     }
 
-    const author = req.query.author;
+    const { author } = req.query;
     if (author) {
         book.searchByAuthor( author, (err, dbResult) => {
             if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
+                res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
+            }    });
+        return
+    }
+
+    const { idbook } = req.query;
+    console.log(idbook);
+    if (idbook) {
+        book.getByIdbook( idbook, (err, dbResult) => {
+            if (err) {
+                console.log(err);
+                res.json( { success: false });
+            } else {
+                console.log(dbResult);
                 res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
             }    });
         return

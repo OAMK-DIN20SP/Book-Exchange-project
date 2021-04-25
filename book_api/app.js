@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var multer = require('multer');
+const helpers = require('./helpers');
+
 
 var indexRouter = require('./routes/index');
 var bookRouter = require('./routes/book');
@@ -44,6 +47,20 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// var storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads')
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, file.fieldname + '-' + Date.now())
+//   }
+// })
+ 
+// var upload = multer({ storage: storage })
+
+
+
 
 module.exports = app;
 

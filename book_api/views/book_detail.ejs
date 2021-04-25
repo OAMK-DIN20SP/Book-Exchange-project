@@ -19,7 +19,7 @@
         <div class="container-img-info">
           <div class="container--img">
             <div class="container---bigimg">
-              <img src="/images/books/<%=book.image%>">
+              <img src="/images/books/<%=book.image || 'placeholder.png'%>">
             </div>
           </div>
           <div class="container--info">
@@ -35,7 +35,7 @@
             <div class="info-rating">
               <span>Rating:</span>
               <div class="number-star"></div>
-              <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
+              <button class="buynow" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
             <!-- Btn DELETE & EDIT -->
             <button class="btn submit" id="del">Delete</button>
@@ -53,17 +53,44 @@
 
 
     <script type="text/javascript">
-      var book = <%-JSON.stringify(book)%>;
-      var idbook= book.idbook;
-      var idowner= book.idmember;
+      // var book = <%-JSON.stringify(book)%>;
+      var idbook= <%=book.idbook%>;
+      // var idmember= <%-book.idmember%>;
+      var creditScore= <%=book.creditScore%>;
       // var creditScore= document.querySelector('#creditScore').textContent;
-      document.querySelector('.number-star').innerHTML = creditScoreToHTMLStar(book.creditScore);
+      function countStar() {
+        var score = parseFloat(creditScore);
+        var numberStar = document.querySelector('.number-star')
+        if (creditScore == 0) {
+          numberStar.innerHTML = `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+        }
+        else if (score < 1.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+        }
+        else if (score < 2.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+        }
+        else if (score < 3.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
+        }
+        else if (score < 4.5) {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
+        }
+        else {
+          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
+        }
+      }
+      countStar();
 
+      const idmember = localStorage.getItem('idmember');
       var btnMess = document.querySelector('.buynow');
+      if (idmember == <%=book.idmember%>) {
+        btnMess.style.display = 'none'; // cannot message yourself
+      }
       btnMess.onclick = () => {
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
         var idmember = localStorage.getItem('idmember');
-        window.location.href = `/message?idbook=${idbook}&idowner=${idowner}&idmember=${idmember}`;
+        window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
       }
 
       var btnDel = document.querySelector("#del");
@@ -71,13 +98,13 @@
       btnDel.onclick = () => {
         var check = confirm("Are you sure to delete?");
         if (check == true) {
-          fetch(`/book/delete?idmember=${idowner}&idbook=${idbook}`, {
-            method: "DELETE",
-          })
-          .then( () => {
-            alert("Deleted");
-            window.location.href = `http://localhost:3000/member?idmember=${idowner}`;
-          })
+            fetch(`/book/delete?idmember=${idmember}&idbook=${idbook}`, {
+              method: "DELETE",
+            })
+            .then( () => {
+              alert("Deleted");
+              window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+            })
         }
       }
     </script>

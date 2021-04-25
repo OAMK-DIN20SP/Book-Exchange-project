@@ -69,7 +69,6 @@ $(document).ready( () => {
     // document.querySelector("button.signup-button").parentNode.remove();
     // document.querySelector("button.login-button").parentNode.remove();
     for (elem of document.querySelectorAll(".header-navbar button") ) {
-      console.log(elem);
       elem.remove();
     }
 

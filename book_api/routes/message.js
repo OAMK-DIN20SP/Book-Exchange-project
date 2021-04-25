@@ -1,20 +1,69 @@
 const express = require('express');
 const router = express.Router();
 const message = require('../models/message_model');
+const member = require('../models/member_model');
+
 
 router.get('/', (req, res) => {
-  console.log('req.query.idmember:', req.query.idmember);
-  return message.getByIdmember(req.query.idmember, (err, dbResult) => {
+  const { idmember, idbook, accept } = req.query;
+  if ( idmember && parseInt(idmember) > 0 && idbook && parseInt(idbook) > 0 ) { // req has both
+    return message.getByIdmemberAndIdbook(idmember, idbook, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.log('dbResult sample', dbResult[0]);
+        if (!accept) {
+          res.render('message', { data: dbResult });
+        } else if (accept == 'json') {
+          res.json({ success: true, totalMessages: dbResult.length, messages: dbResult });
+        }
+      }
+    });
+  }
+
+  if ( idmember && parseInt(idmember) ) { // req has only idmember
+    return message.getByIdmember(idmember, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.log('dbResult sample', dbResult[0]);
+        if (!accept) {
+          res.render('message', { data: dbResult });
+        } else if (accept == 'json') {
+          res.json({ success: true, totalMessages: dbResult.length, messages: dbResult });
+        }
+      }
+    });
+  }
+});
+
+router.post('/b2p', (req, res) => {
+  // book and 2 people and last message time
+  const { id1, id2, idbook, time } = req.body;
+  console.log('time:', time);
+  if ( id1 && parseInt(id1) > 0 && id2 && parseInt(id2) > 0 && idbook && parseInt(idbook) > 0 ) {
+    return message.getByBookAndTwoPeople(id1, id2, idbook, time, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.error('b2p dbResult sample', dbResult[0]);
+        res.json( { success: true, totalMessages: dbResult.length, messages: dbResult } );
+      }
+    });
+  }
+});
+
+router.get('/withsocket', (req, res) => {
+  return member.getAll( (err, dbResult) => {
     if (err) {
       res.json(err);
     } else {
-      res.render('message', { data: dbResult });
-      console.log('messageRouter.get, dbResult:', dbResult);
+      res.render('message_withsocket', { data: dbResult });
     }
   });
 });
 
-router.get('/latest', (req, res) => {
+router.get('/latest', (req, res) => {  // when did I write this T_T ???
   console.log('req.query:', req.query);
   const idmember = req.query.idmember;
   const time = new Date(req.query.time).toISOString();

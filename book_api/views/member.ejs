@@ -6,7 +6,7 @@
 <body class="container">
 
 <header>
-  <%- include('./header', { isAuthorized: true }); %>
+    <%- include('./header'); %>
 </header>
 
 <main>
@@ -14,107 +14,112 @@
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
     .t-profile-information {
-    display: flex;
-    justify-content: space-evenly;
-    align-content: center;
-    font-size: 20px;
-    margin-top: 20px;
-}
+        display: flex;
+        justify-content: space-evenly;
+        align-content: center;
+        font-size: 20px;
+        margin-top: 20px;
+    }
 
-.t-left-panel-avatar-and-name {
-    border: 1px solid #ccc;
-    width: 25%;
-    height: 285px;
-    margin: 10px 20px;
-    text-align: center;
-}
+    .t-left-panel-avatar-and-name {
+        border: 1px solid #ccc;
+        width: 25%;
+        height: 285px;
+        margin: 10px 20px;
+        text-align: center;
+    }
 
-.t-left-panel-avatar-and-name img {
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    margin: 15px;
-}
+    .t-left-panel-avatar-and-name img {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        margin: 15px;
+    }
 
-.t-left-panel-avatar-and-name button {
-    width: 160px;
-    height: 35px;
-    color: #fff;
-    background-color: #AB9353;
-    border: none;
-    border-radius: 2px;
-    margin: 15px;
-}
+    .t-left-panel-avatar-and-name button {
+        width: 160px;
+        height: 35px;
+        color: #fff;
+        background-color: #AB9353;
+        border: none;
+        border-radius: 2px;
+        margin: 15px;
+    }
 
-.t-right-panel-other-info {
-    border: 1px solid #ccc;
-    width: 50%;
-    height: 285px;
-    margin: 10px 20px;
-    padding: 25px;
-}
+    .t-right-panel-other-info {
+        border: 1px solid #ccc;
+        width: 50%;
+        height: 285px;
+        margin: 10px 20px;
+        padding: 25px;
+    }
 
-  /*Book listing*/
+      /*Book listing*/
 
-.t-book-listing {
-    display: flex;
-    flex-direction: row;
-    margin: 20px;
-}
+    .t-book-listing {
+        display: flex;
+        flex-direction: row;
+        margin: 20px;
+    }
 
-.t-book-listing img {
-    width: 150px;
-    height: 200px;
-    margin: 20px;
-}
+    .t-book-listing img {
+        width: 150px;
+        height: 200px;
+        margin: 20px;
+    }
 
-.centered-pagination {
-    text-align: center;
-}
+    .centered-pagination {
+        text-align: center;
+    }
 
-.t-pagination {
-    display: inline-block;
-}
+    .t-pagination {
+        display: inline-block;
+    }
 
-.t-pagination a  {
-    float: left;
-    padding: 15px 20px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
+    .t-pagination a  {
+        float: left;
+        padding: 15px 20px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
 
-.t-pagination a.active {
-    background-color: #AB9353;
-    color: #fdfbf3;
-    border-color: #AB9353;
-}
+    .t-pagination a.active {
+        background-color: #AB9353;
+        color: #fdfbf3;
+        border-color: #AB9353;
+    }
 
-.t-pagination a:hover:not(.active) {
-    background-color: #AB9353;
-    color: #fdfbf3;
-}
+    .t-pagination a:hover:not(.active) {
+        background-color: #AB9353;
+        color: #fdfbf3;
+    }
 
-  /*Review*/
-  
-.reviews {
-    border: 1px solid #ccc;
-    width: 90%;
-    height: 200px;
-    margin: 10px;
-    padding: 25px;
-}
+      /*Review*/
+      
+    .reviews {
+        border: 1px solid #ccc;
+        width: 90%;
+        height: 200px;
+        margin: 10px;
+        padding: 25px;
+    }
 
-.exchange-history {
-    text-align: center;
-    height: 40px;
-    width: 200px;
-    color: #fdfbf3;
-    background-color: #AB9353;
-    border-color:#AB9353;
-    border-radius: 4px;
-    border: 1px solid;
-    margin-left: 10px;
-}
+    .exchange-history {
+        text-align: center;
+        height: 40px;
+        width: 200px;
+        color: #fdfbf3;
+        background-color: #AB9353;
+        border-color:#AB9353;
+        border-radius: 4px;
+        border: 1px solid;
+        margin-left: 10px;
+    }
+    #t-book-listing img { width: 100px; height: 150px; }
+    span.page-number { margin-right: 5px; cursor: pointer; }
+    span.page-number:hover { border: 1px solid gray; }
+    span.page-number.current-page { background-color: blue; }
+    .t-avatar label[for="btn-change-avatar"] { cursor: pointer; position: absolute; left: 30px; top: 200px; display: inline-block; padding: 5px; border: 1px solid gray; background-color: #e5e5e5; }
   </style>
 
   <% if (locals.members) { %>
@@ -330,6 +335,9 @@
         btnNextElem.disabled = false;
       }
     }
+
+    
+
   </script>
   
   <!-- Display Avartar & Edit image -->
