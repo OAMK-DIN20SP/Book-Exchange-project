@@ -56,7 +56,7 @@
       // var book = <%-JSON.stringify(book)%>;
       var idbook= <%=book.idbook%>;
       // var idmember= <%-book.idmember%>;
-      var creditScore= <%=book.creditScore%>;
+      var creditScore= parseFloat(<%=book.creditScore%>) || 0;
       // var creditScore= document.querySelector('#creditScore').textContent;
       function countStar() {
         var score = parseFloat(creditScore);
@@ -107,6 +107,10 @@
             })
         }
       }
+
+      document.querySelector('button.buynow').onclick = () => {
+        window.location.href = `/message?idmember=${idmember}&idbook=${idbook}`;
+      };
     </script>
     <% } %>
   </main>
