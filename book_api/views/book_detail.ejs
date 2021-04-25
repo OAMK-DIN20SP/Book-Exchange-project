@@ -37,7 +37,7 @@
               <div class="number-star"></div>
               <button class="buynow" onclick="messageOwner" name="btn_message_owner" style="margin-top: 20px;">Message with Owner</button>
             </div>
-            <!-- Btn DELETE -->
+            <!-- Btn DELETE & EDIT -->
             <button class="btn submit" id="del">Delete</button>
             <button id="edit-book"><a href="book/edit?idbook=<%=book.idbook%>">Edit</a></button>
         </div>
@@ -47,42 +47,17 @@
           <p><%=book.description%></p>
         </div>  
       </div>
-      <div class="hide" style="display: none;">
-        <div id="creditScore"><%=book.creditScore%></div>
-      </div>
+      <!-- <div id="creditScore" style="display: none;"><%=book.creditScore%></div> -->
     </div>
 
 
 
     <script type="text/javascript">
-      var idbook= <%=book.idbook%>;
-      var idowner= <%-book.idmember%>;
-      // var creditScore= <%=book.creditScore%>;
-      var creditScore= document.querySelector('#creditScore').textContent;
-      
-      function countStar() {
-        var score = parseFloat(creditScore);
-        var numberStar = document.querySelector('.number-star')
-        if (creditScore == 0) {
-          numberStar.innerHTML = `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 1.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 2.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 3.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 4.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
-        }
-        else {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
-        }
-      }
-      countStar();
+      var book = <%-JSON.stringify(book)%>;
+      var idbook= book.idbook;
+      var idowner= book.idmember;
+      // var creditScore= document.querySelector('#creditScore').textContent;
+      document.querySelector('.number-star').innerHTML = creditScoreToHTMLStar(book.creditScore);
 
       var btnMess = document.querySelector('.buynow');
       btnMess.onclick = () => {
@@ -96,13 +71,13 @@
       btnDel.onclick = () => {
         var check = confirm("Are you sure to delete?");
         if (check == true) {
-            fetch(`/book/delete?idmember=${idowner}&idbook=${idbook}`, {
-              method: "DELETE",
-            })
-            .then( () => {
-              alert("Deleted");
-              window.location.href = `http://localhost:3000/member?idmember=${idowner}`;
-            })
+          fetch(`/book/delete?idmember=${idowner}&idbook=${idbook}`, {
+            method: "DELETE",
+          })
+          .then( () => {
+            alert("Deleted");
+            window.location.href = `http://localhost:3000/member?idmember=${idowner}`;
+          })
         }
       }
     </script>

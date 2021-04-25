@@ -89,18 +89,6 @@ router.post('/login2', (req, res) => { // res w/ json, no redirect
     });
 });
 
-router.put('/edit', (req, res) => {
-    console.log(req.body);
-    member.update( req.body, (err, dbResult) => {
-        if (err) {
-            console.log(err);
-            res.json( {success: false, message: 'Error occures. Please contact the website administrator.'} );
-        } else {
-            res.json( {success: true, message: 'Your information is updated.'} );
-        }
-    } )
-});
-
 // NEW
 router.put('/', upload.single('image'), (req, res) => {
     if (req.body.exist=="exist") {
@@ -125,6 +113,5 @@ router.put('/', upload.single('image'), (req, res) => {
         });
     }
 });
-
 
 module.exports = router;

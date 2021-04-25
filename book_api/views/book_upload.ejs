@@ -25,7 +25,7 @@
       <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
       <input class="upload-submit" type="submit">
     </div>
-
+    
     <script type="text/javascript">
       function autoFillBookInfo() {
         const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
@@ -37,13 +37,13 @@
               alert('Book with that ISBN not found in the database. Please fill the info in by yourself.')
               return
             };
-            let imgSrc = data.items[0].volumeInfo.imageLinks.thumbnail;
-            imgSrc = imgSrc.replace(/^http:\/\//i, 'https://');
+            // let imgSrc = data.items[0].volumeInfo.imageLinks.thumbnail;
+            // imgSrc = imgSrc.replace(/^http:\/\//i, 'https://');
 
-            document.getElementById('book_cover').src = imgSrc;
+            // document.getElementById('book_cover').src = imgSrc;
             document.forms.uploadForm.title.value = data.items[0].volumeInfo.title;
             document.forms.uploadForm.author.value = data.items[0].volumeInfo.authors.join(", ");
-            document.forms.uploadForm.publishedDate.value = data.items[0].volumeInfo.publishedDate;
+            document.forms.uploadForm.year.value = data.items[0].volumeInfo.publishedDate;
 
             let languageNames = new Intl.DisplayNames( ['en'], {type: 'language'} );
             let summary = data.items[0].volumeInfo.description;
@@ -51,12 +51,22 @@
             summary += '\n\nCategories: ' + data.items[0].volumeInfo.categories.join(", ");
             summary += '\n\nLanguage: ' + languageNames.of(data.items[0].volumeInfo.language);
 
-            document.forms.uploadForm.summary.value = summary;
+            document.forms.uploadForm.description.value = summary;
           })
           .catch(error => {
             console.log(error);
           });
       }
+
+      // prevent image empty
+      var inputElement = document.getElementsByName("image")[0];
+      form = document.getElementsByClassName('upload-form')[0];
+      form.addEventListener("submit", (event) => {
+        if (inputElement.value == "") {
+          event.preventDefault();
+          alert("File is empty");
+        }
+      })
     </script>
     <script type="text/javascript">
       insertHiddenIdmemberTo(document.currentScript.parentNode);
@@ -65,9 +75,8 @@
 </main>
 
 <footer>
-    <%- include('./footer'); %>
+  <%- include('./footer'); %>
 </footer>
-
 
 </body>
 </html>
