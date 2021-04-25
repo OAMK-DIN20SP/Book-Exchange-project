@@ -19,13 +19,13 @@
       <div>Image: <input type="file" name="image" /></div>
       <p><label>Book title: </label><input type="text" name="title"></p>
       <p><label>Author(s): </label><input type="text" name="author"></p>  <!-- author for matching with the db -->
-      <p><label>Published Year: </label><input type="number" name="year"></p>
-      <p><label>Edition: </label><input type="number" name="edition"></p>
+      <p><label>Published Year: </label><input type="text" name="year"></p>
+      <p><label>Edition: </label><input type="text" name="edition"></p>
       <p><label>Book condition: </label><input type="text" name="condition"></p>
       <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
       <input class="upload-submit" type="submit">
     </div>
-
+    
     <script type="text/javascript">
       function autoFillBookInfo() {
         const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
@@ -57,6 +57,16 @@
             console.log(error);
           });
       }
+
+      // prevent image empty
+      var inputElement = document.getElementsByName("image")[0];
+      form = document.getElementsByClassName('upload-form')[0];
+      form.addEventListener("submit", (event) => {
+        if (inputElement.value == "") {
+          event.preventDefault();
+          alert("File is empty");
+        }
+      })
     </script>
     <script type="text/javascript">
       insertHiddenIdmemberTo(document.currentScript.parentNode);
@@ -65,9 +75,8 @@
 </main>
 
 <footer>
-    <%- include('./footer'); %>
+  <%- include('./footer'); %>
 </footer>
-
 
 </body>
 </html>

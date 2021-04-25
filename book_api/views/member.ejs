@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./head'); %>
+  <%- include('./head'); %>
 </head>
 <body class="container">
 
 <header>
-    <%- include('./header', { isAuthorized: true }); %>
+  <%- include('./header', { isAuthorized: true }); %>
 </header>
 
 <main>
@@ -130,7 +130,7 @@
         </form>
         <button id="edit-my-profile">Edit my profile</button>
       </div>
-      <form method="POST" enctype="multipart/form-data" id="edit-from2">
+      <form method="POST" enctype="multipart/form-data" id="edit-from2" style="width: 700px;">
         <table class="t-right-panel-other-info">
           <tr>
             <td><label>First name </label></td>
@@ -156,8 +156,8 @@
             <td><label>Credit score</label></td>
             <td><label>
               <script type="text/javascript">
-                const creditScore = <%-members[0].creditScore%> ;
-                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(creditScore);
+                const members = <%-JSON.stringify(members)%>;
+                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(members[0].creditScore);
               </script>
             </label></td>
           </tr>
@@ -203,7 +203,7 @@
 </main>
 
 <footer>
-    <%- include('./footer'); %>
+  <%- include('./footer'); %>
 </footer>
 
   <!-- Edit info member -->
@@ -211,43 +211,42 @@
     function toggleEdit() {
       let editMyProfileButton = document.getElementById('edit-my-profile');
       if (editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
-          editMyProfileButton.innerText = 'Done editing';
+        editMyProfileButton.innerText = 'Done editing';
       } else {
-          editMyProfileButton.innerText = 'Edit my profile';
+        editMyProfileButton.innerText = 'Edit my profile';
       }
       
       var members = <%-JSON.stringify(members)%>;
       var tableDom = document.querySelector(".t-right-panel-other-info");
       tableDom.innerHTML = `
-          <tr>
-            <td><label>First name </label></td>
-            <td><input type="text" value="${members[0].firstname}" name="firstname"></td>
-          </tr>
-          <tr>
-            <td><label>Last name </label></td>
-            <td><input type="text" value="${members[0].lastname}" name="lastname"></td>
-          </tr>
-          <tr>
-            <td><label>Email </label></td>
-            <td><input type="text" value="${members[0].emailaddress}" name="emailaddress"></td>
-          </tr>
-          <tr> 
-            <td><label>Phone </label></td>
-            <td><input type="text" value="${members[0].phonenumber}" name="phonenumber"></td>
-          </tr>
-          <tr>
-            <td><label>Address </label></td>
-            <td><input type="text" value="${members[0].address}" name="address"></td>
-          </tr>
-
-          <button type="submit" id="btnDom">Confirm</button>
+        <tr>
+          <td><label>First name </label></td>
+          <td><input type="text" value="${members[0].firstname}" name="firstname"></td>
+        </tr>
+        <tr>
+          <td><label>Last name </label></td>
+          <td><input type="text" value="${members[0].lastname}" name="lastname"></td>
+        </tr>
+        <tr>
+          <td><label>Email </label></td>
+          <td><input type="text" value="${members[0].emailaddress}" name="emailaddress"></td>
+        </tr>
+        <tr> 
+          <td><label>Phone </label></td>
+          <td><input type="text" value="${members[0].phonenumber}" name="phonenumber"></td>
+        </tr>
+        <tr>
+          <td><label>Address </label></td>
+          <td><input type="text" value="${members[0].address}" name="address"></td>
+        </tr>
+        <button type="submit" id="btnDom">Confirm</button>
       `
     }
     const element = document.getElementById('edit-my-profile');
     if (element) element.onclick = toggleEdit;
 
     form2 = document.getElementById('edit-from2');
-      form2.addEventListener("submit", (event) => {
+    form2.addEventListener("submit", (event) => {
       event.preventDefault();
       var formData2 = new URLSearchParams(new FormData(form2));
       fetch(`/member?idmember=${idmember}`, {
@@ -274,18 +273,18 @@
 
     function prevPage()
     {
-        if (currentPage > 1) {
-            currentPage--;
-            changePage(currentPage);
-        }
+      if (currentPage > 1) {
+        currentPage--;
+        changePage(currentPage);
+      }
     }
 
     function nextPage()
     {
-        if (currentPage < pageCount) {
-            currentPage++;
-            changePage(currentPage);
-        }
+      if (currentPage < pageCount) {
+        currentPage++;
+        changePage(currentPage);
+      }
     }
         
     function changePage(page)
@@ -320,15 +319,15 @@
       }
 
       if (page == 1) {
-          btnPrevElem.disabled = true;
+        btnPrevElem.disabled = true;
       } else {
-          btnPrevElem.disabled = false;
+        btnPrevElem.disabled = false;
       }
 
       if (page == pageCount) {
-          btnNextElem.disabled = true;
+        btnNextElem.disabled = true;
       } else {
-          btnNextElem.disabled = false;
+        btnNextElem.disabled = false;
       }
     }
   </script>
@@ -347,29 +346,29 @@
     // Edit image
     var idmember = localStorage.getItem('idmember');
     var btnSubmitImgDom = document.getElementById('btnSubmitImg');
+
     btnSubmitImgDom.addEventListener("click", () => {
       form1 = document.getElementById('edit-from1');
-    form1.addEventListener("submit", (event) => {
-      event.preventDefault();
-      data1 = new FormData(form1)
-      fetch(`/member?idmember=${idmember}`, {
-        "method": "PUT",
-        "body": data1,
-      })
-      .then( () => {
-        alert("Edited");
-        setTimeout( () => {
-          window.location.reload();
-        }, 1000);
-      })
-      // .catch( (err) => {
-      //   alert("Pls choose image");
-      //   setTimeout( () => {
-      //     window.location.reload();
-      //   }, 1000);
-      // })
-    })
+      form1.addEventListener("submit", (event) => {
+        event.preventDefault();
 
+        var inputElement = document.getElementsByName("image")[0];
+        if (inputElement.value != "") {
+          data1 = new FormData(form1)
+          fetch(`/member?idmember=${idmember}`, {
+            "method": "PUT",
+            "body": data1,
+          })
+          .then( () => {
+            alert("Edited");
+            setTimeout( () => {
+              window.location.reload();
+            }, 1000);
+          })
+        } else {
+          alert("File is empty");
+        }
+      })
     });
 
   </script>
