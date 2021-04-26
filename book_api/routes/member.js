@@ -3,6 +3,9 @@ var router = express.Router();
 var book = require('../models/book_model.js');
 var member = require('../models/member_model.js');
 var async = require('async');
+var multer = require('multer');
+const helpers = require('../helpers');
+const path = require('path');
 
 // ADD IMAGE
 var multer = require('multer');
@@ -17,7 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 router.get('/', (req, res) => {
-    const { idmember } = req.query;
+    const { idmember, accept } = req.query;
     async.parallel({
         books: callback => book.getByIdmember(idmember, callback),
         member: callback => member.getByIdmember(idmember, callback)
@@ -27,13 +30,23 @@ router.get('/', (req, res) => {
             responses.json( {success: false} );
         } else {
             // console.log(responses.books); // not only data
-            res.render( 'member', {
-                'success': true, 
-                totalBooks: responses.books[0].length, 
-                books: responses.books[0], //responses.books: not only data
-                totalMembers: responses.member[0].length, 
-                members: responses.member[0] }
-            );
+            if (!accept) {
+                res.render( 'member', {
+                    'success': true, 
+                    totalBooks: responses.books[0].length, 
+                    books: responses.books[0], //responses.books: not only data
+                    totalMembers: responses.member[0].length, 
+                    members: responses.member[0] }
+                );
+            } else if (accept == 'json'){
+                res.json( {
+                    'success': true, 
+                    totalBooks: responses.books[0].length, 
+                    books: responses.books[0], //responses.books: not only data
+                    totalMembers: responses.member[0].length, 
+                    members: responses.member[0] }
+                );
+            }
         }
     });
 });

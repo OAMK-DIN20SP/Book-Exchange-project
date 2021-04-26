@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./head'); %>
+    <script type="text/javascript" src="/javascripts/utils.js"></script> 
+    <script type="text/javascript">
+      const idmember = localStorage.getItem('idmember');
+      if ( !idmember || parseInt(idmember) <= 0 ) {
+        alert('Please login first');
+        window.location.href = "/";
+      }
+    </script>
+    <!-- temp styles -->
+    <style type="text/css">
+      .inbox__people {
+          border: 1px solid black;
+      }
+
+      span.message__author {
+          font-weight: bold;
+      }
+
+      span.time_date {
+          font-style: italic;
+          font-size: x-small;
+      }
+
+      .time_date {display: none;}
+
+      .outgoing__message {
+          border: 1px solid blue;
+          width: 200px;
+          display: flex;
+          justify-content: flex-end;
+          margin-left: 50%;
+          padding-right: 10px;
+      }
+
+      .incoming__message {
+          border: 1px solid red;
+          width: 200px;
+          display: flex;
+          justify-content: flex-end;
+          margin-left: 10px;
+          padding-right: 10px;
+      }
+    </style>
+</head>
+<body class="container">
+
+<header>
+    <%- include('./header'); %>
+</header>
+
+<main>
+    <div class="container">
+      <div class="inbox">
+        <div class="inbox__people">
+          <h4>Active users</h4>
+        </div>
+        <div class="inbox__messages">
+          <div class="messages__history"></div>
+          <div class="fallback"></div>
+        </div>
+      </div>
+
+      <form class="message_form">
+        <input type="text" class="message_form__input" placeholder="Type a message" />
+        <button class="message_form__button" type="submit">
+          Enter
+        </button>
+      </form>
+    </div>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/javascripts/t-socket.js"></script>
+</main>
+
+<footer>
+    <%- include('./footer'); %>
+</footer>
+
+
+</body>
+</html>

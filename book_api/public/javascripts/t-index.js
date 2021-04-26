@@ -1,9 +1,17 @@
 $(document).ready( () => {
   $('#Author').keypress( (e) => {
-    if (e.key == 'Enter') searchBookByAuthor();
+    if (e.key == 'Enter') {
+      e.preventDefault();
+      searchBookByAuthor();
+    }
   });
 
-  // $('#Title') already had default Enter behavior
+  $('#Title').keypress( (e) => {
+    if (e.key == 'Enter') {
+      e.preventDefault();
+      searchBookByTitle();
+    }
+  });
 
   function displaySearchResult(url) {
     $.get(url, (data) => {
