@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html2 lang="en">
 <head>
-    <%- include('./head'); %>
+    <%- include('./head', { title: "Edit a book" }); %>
 </head>
 <body class="container">
 
@@ -11,6 +11,13 @@
 
 <main>
 <% if (locals.book) { %>
+  <script type="text/javascript">
+    forceLogin();
+
+    // redirect to book detail page if the current logged in user is not the book owner
+    if (localStorage.getItem('idmember') != <%=book.idmember%>) window.location.href = `/book?idbook=${<%=book.idbook%>}`;
+  </script>
+
   <h2>Edit your book</h2>
   <div><img src="/images/books/<%=book.image%>" style="width:100px;height:100px"></div>
   <form method="POST" enctype="multipart/form-data" id="edit-from1">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('./head'); %>
+  <%- include('./head', { title: "Profile" }); %>
 </head>
 <body class="container">
 
@@ -175,12 +175,13 @@
         <div class="centered-pagination">
           <div class="t-pagination">
               <a id="btn_prev">Previous</a>
-              <a id="page_span" class="active">1</a>
+              <!-- <a id="page_span" class="active">1</a>
               <a id="page_span">2</a>
-              <a id="page_span">3</a>
+              <a id="page_span">3</a> -->
+              <div id="page_span"></div>
               <a id="btn_next">Next</a>
           </div>
-          </div>
+        </div>
       </div>  
 
       <h2>About me</h2>
@@ -247,6 +248,9 @@
         <button type="submit" id="btnDom">Confirm</button>
       `
     }
+
+    forceLogin();
+    
     const element = document.getElementById('edit-my-profile');
     if (element) element.onclick = toggleEdit;
 
@@ -299,7 +303,7 @@
       const btnNextElem = document.getElementById("btn_next");
       const btnPrevElem = document.getElementById("btn_prev");
       const bookListingElem = document.getElementById("t-book-listing");
-      const pageSpanElem = document.getElementById("page-span");
+      const pageSpanElem = document.getElementById("page_span");
 
       btnNextElem.onclick = nextPage;
       btnPrevElem.onclick = prevPage;
