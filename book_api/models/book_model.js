@@ -4,7 +4,7 @@ const book = {
     getByIdbook: (idbook, callback) => {
         if ( idbook ) { 
             db.query(
-                'select book.*, `member`.firstname, `member`.lastname, `member`.creditScore from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
+                'select book.*, `member`.firstname, `member`.lastname from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
                 [idbook],
                 callback
             );
@@ -17,7 +17,7 @@ const book = {
     getByIdbookLookupMemberTable: (idbook, callback) => {
         if ( idbook ) { 
             db.query(
-                'select book.*, firstname, lastname, emailaddress, address, phonenumber, creditScore, `member`.image as member_image, aboutme from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
+                'select book.*, firstname, lastname, emailaddress, address, phonenumber, `member`.image as member_image, aboutme from book inner join `member` on book.idmember=`member`.idmember where idbook=?',
                 [idbook],
                 callback
             );
