@@ -94,6 +94,19 @@
     opacity: 0.9;
 }
 
+.btn-submit {
+    text-align: center;
+    height: 40px;
+    width: 150px;
+    color: #AB9353;
+    background-color: #fdfbf3;
+    border-color:#AB9353;
+    border-radius: 2px;
+    border: 1px solid;
+    padding: 5px;
+    cursor: pointer;
+}
+
 /* .buynow > a {
     text-decoration: none;
     color: var(--white-color);
