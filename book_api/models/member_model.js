@@ -3,18 +3,18 @@ const db = require('../database.js');
 const member = {
     get: (emailaddress, password, callback) => {
         console.log(emailaddress, password);
-        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore, image from `member` where emailaddress=? and password=?', 
+        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, image from `member` where emailaddress=? and password=?', 
             [emailaddress, password],
             callback);
     },
 
     getAll: (callback) => {
-        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore, image from `member`', 
+        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, image from `member`', 
             callback);
     },
 
     getByIdmember: (idmember, callback) => {
-        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, creditScore, image from `member` where idmember=?', 
+        db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, image from `member` where idmember=?', 
             [idmember],
             callback);
     },
