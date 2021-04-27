@@ -110,8 +110,12 @@ function addUserToList(userId, userFullName){
   userElement.className = `t-user-item`; 
   userElement.classList.add(`user-${userId}`);
   userElement.innerText = userFullName;
-  userElement.onclick = () => handleClickOnUser(userId);
-  document.querySelector('.t-user-list').append(userElement);
+  userElement.onclick = () => {
+    handleClickOnUser(userId);
+    $('.t-conversation').removeAttr('style');
+  }
+  document.querySelector('.t-user-list').append(userElement)
+  
 }
 
 
@@ -234,6 +238,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
           and a conversation will be gone when the book\'s owner delete his/her book
           or mark it as "Exchange Completed".<br><br><br>
         `;
+        infoElem.style = "clear: both; margin-left: 50px;"
         document.querySelector('main').append(infoElem);
       }
     }); 
