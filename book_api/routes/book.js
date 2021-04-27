@@ -182,7 +182,7 @@ router.get('/edit', (req, res) => {
 });
 
 router.put('/edit', upload.single('image'), (req, res) => {
-    if (req.body.exist=="exist") {
+    if (req.file) {
         req.body.image = req.file.filename;
         book.update1( req.query.idbook, req.body, (err, dbResult) => {
             if (err) {

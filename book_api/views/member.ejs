@@ -129,7 +129,6 @@
         <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
         <!-- edit image -->
         <form method="POST" enctype="multipart/form-data" id="edit-from1">
-          <input type="text" name="exist" value="exist" style="display: none;">
           <div>Change image: <input type="file" value="" name="image" /></div>
           <button type="submit" id="btnSubmitImg">Submit image</button>
         </form>
@@ -346,7 +345,7 @@
     var img = document.querySelector("#image").textContent;
     var avatarDom = document.querySelector("#avatar");
     if (img) {
-      avatarDom.src =`/images/books/${img}`
+      avatarDom.src =`/images/avatars/${img}`
     } else {
       avatarDom.src ="/images/avatar.jpg"
     }
