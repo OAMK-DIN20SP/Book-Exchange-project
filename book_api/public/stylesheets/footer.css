@@ -5,6 +5,7 @@
   color: #fdfbf3;
   padding: 10px;
   text-align: center;
+  clear: both;
 }
 
 .footer-body {
@@ -37,5 +38,5 @@
   color: #565656;
 }
 .footer-lastLine {
-  text align: center;
+  text-align: center;
 }

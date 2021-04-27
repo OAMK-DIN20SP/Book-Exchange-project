@@ -1,3 +1,131 @@
+#blocka {
+    margin-left: 30%;
+    float: left;
+    width: 250px;
+}
+
+.t-info {
+    color: var(--text-color);
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+    /* margin-left: 250px; */
+}
+
+.t-book-list {
+    display: flex;
+    justify-content: center;
+    /* margin-left: 234px; */
+}
+
+.t-book-cover {
+    display: inline-block;
+    margin-left: 16px;
+}
+
+img.t-book-cover {
+    width: 150px;
+}
+
+.t-book-cover img {
+    width: 150px;
+    height: 200px;
+}
+
+button {
+    margin: 20px 0 20px 38px;
+}
+
+/* ----------------- */
+/* ----------------- */
+#blockb {
+    float: left;
+}
+
+.t-user-list {
+    padding-left: 0px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.t-user-item {     
+    list-style: none;
+    font-weight: bold;
+    background-color: rgb(168, 168, 255);
+    min-width: 100px;
+    height: 30px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.t-user-item:hover {     
+    cursor: pointer;
+    background-color: rgb(93, 93, 255);
+}
+
+/* ----------------- */
+/* ----------------- */
+.t-conversation {
+    border: 1px solid blue;
+    border-radius: 4px;
+    width: 300px;
+    display: block;
+}
+
+
+.outgoing-message {
+    margin-bottom: 1px;
+    border-top: 1px solid blue;
+    border-bottom: 1px solid blue;
+    padding-right: 10px;
+    text-align: right;
+    /* width: fit-content; */
+    /* --width: fit-content; */
+
+    clear: both;
+    position: relative;
+    /* left: calc(100% - var(--width)); */
+
+    /* display: flex;
+    justify-content: flex-end; */
+    /* margin-left: 50%; */
+    /* margin-left: calc(100% - var(--width)); */
+}
+
+.incoming-message {
+    margin-bottom: 1px;
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    padding-left: 10px;
+    width: 100%;
+    /* width: fit-content; */
+    /* clear: both; */
+
+    /* display: flex;
+    justify-content: flex-end; */
+}
+
+img.avatar {
+    width: 20px;
+    height: 20px;
+    clip-path: circle(50%);
+}
+
+.t-time {
+    font-size: 10px;
+}
+
+.t-message {
+    color: var(--text-color);
+    font-weight: 400;
+    padding-left: 10px;
+    /* width: fit-content; */
+    max-width: 300px;
+    /* text-align: left; */
+}
+
 .inbox__people {
     border: 1px solid black;
 }
@@ -12,42 +140,6 @@ span.time-date {
     display: none;
 }
 
-.outgoing-message {
-    border: 1px solid blue;
-    width: fit-content;
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 50%;
-    padding-right: 10px;
+#blockb h4 {
+    text-align: center;
 }
-
-.incoming-message {
-    border: 1px solid red;
-    width: fit-content;
-    display: flex;
-    justify-content: flex-end;
-    margin-left: 10px;
-    padding-right: 10px;
-}
-
-.t-user-item {     
-    cursor: pointer;
-    background-color: lightgray;
-    width: fit-content;
-    padding: 10px;
-    border: 1px solid gray;
-    margin-bottom: 5px;
-}
-
-img.t-book-cover { width: 150px; }
-
-.t-book-cover {
-    display: inline-block;
-}
-
-.t-book-cover img {
-    width: 150px;
-    height: 200px;
-    margin-right: 20px;
-}
-
