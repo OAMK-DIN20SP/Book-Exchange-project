@@ -12,6 +12,14 @@
 
 
   <main>
+    <script type="text/javascript">
+      const idmember = localStorage.getItem('idmember');
+      if ( !idmember || parseInt(idmember) <= 0 ){
+        alert('Please login first.');
+        window.location.href = '/';
+      }
+    </script>
+
     <% if (locals.book) { %>
     <div class="web">
       <div class="container">
@@ -82,10 +90,13 @@
       }
       countStar();
 
-      const idmember = localStorage.getItem('idmember');
+      // const idmember = localStorage.getItem('idmember');
       var btnMess = document.querySelector('.buynow');
       if (idmember == <%=book.idmember%>) {
         btnMess.style.display = 'none'; // cannot message yourself
+      } else {
+        if (document.querySelector('#edit-book')) document.querySelector('#edit-book').style.display = 'none';
+        if (document.querySelector('#del')) document.querySelector('#edit-book').style.display = 'none';
       }
       btnMess.onclick = () => {
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
