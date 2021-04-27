@@ -51,13 +51,29 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/search', (req, res) => {
+    const { idmember } = req.query;
+    member.getByIdmember( idmember, (err, dbResult) => {
+        if (err) {
+            console.log(err);
+            err.json( {success: false} );
+        } else {
+            res.json( {
+                'success': true, 
+                totalMembers: dbResult.length, 
+                members: dbResult }
+            );
+        }
+    });
+});
+
 router.post('/add', (req, res) => {
     console.log(req.body);
     member.add( req.body, (err, dbResult) => {
         if (err) {
             console.log(err);
             if (err.errno == 1062) {
-                res.json( {success: false, message: 'This email address is not available. Please choose a different one.'} )
+                res.json( {success: false, message: 'This email address is not available. Please choose another one.'} )
             } else {
                 res.json( {success: false, message: 'Error occures. Please contact the website administrator.'} )
             }

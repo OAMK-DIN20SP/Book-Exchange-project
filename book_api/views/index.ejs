@@ -3,7 +3,38 @@
 <head>
     <%- include('./head'); %>
     <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
-    <script type="text/javascript" src='/javascripts/t-index.js'></script>    
+    <script type="text/javascript" src='/javascripts/t-index.js'></script> 
+    <style type="text/css">
+      table, th, td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      #search-result {
+        position: absolute;
+        display: block;
+        z-index: 999;
+        background-color: #a4e1d9;
+        top: 53%;
+        left: 33%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #search-result img {
+        width: 150px;
+      }
+
+      #search-result thead {
+        font-weight: bold;
+      }
+
+    </style>
+       
 </head>
 <body class="container">
 
@@ -37,28 +68,6 @@
         </div>
       </form>
       
-      <style type="text/css">
-        table, th, td {
-          border: 1px solid black;
-          padding: 5px;
-        }
-
-        table {
-          border-collapse: collapse;
-        }
-
-        #search-result {
-          position: absolute;
-          display: block;
-          z-index: 999;
-          background-color: #a4e1d9;
-          top: 53%;
-          left: 33%;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-      </style>
       <br>
       <button id="btn-latest-books">See latest posted books</button>
       </div>

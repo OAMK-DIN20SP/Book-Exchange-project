@@ -1,24 +1,74 @@
-  function openSignupForm() {
-      document.getElementById("signupForm").style.display = "block";
+function openSignupForm() {
+    document.getElementById("signupForm").style.display = "block";
+}
+
+
+function closeSignupForm() {
+    document.getElementById("signupForm").style.display = "none";
+}
+
+
+function openLoginForm() {
+    document.getElementById("loginForm").style.display = "block";
+}
+
+
+function closeLoginForm() {
+    document.getElementById("loginForm").style.display = "none";
+}
+
+
+function validate(obj) {
+    removeValidatingNotification(obj);
+
+    if (obj.value.trim() == "") {
+      const notificationElement = document.createElement('p');
+      notificationElement.innerText = "Please enter your " + obj.name + ".";
+      notificationElement.style.color = 'red';
+      notificationElement.id = obj.name + '-validating-notification';
+      obj.parentNode.append(notificationElement);
+      return false;
+    }
+
+    return true;
+}
+
+
+function removeValidatingNotification(obj) {
+  const x = document.getElementById(obj.name + '-validating-notification');
+  if(x) x.remove();
+}
+
+
+function validatePasswordMatch(){
+  const pw = document.forms.signupForm["password"];
+  const pw2 = document.forms.signupForm["password2"];
+
+  removeValidatingNotification(pw2);
+
+  if (pw2.value != pw.value){
+      const notificationElement = document.createElement('p');
+      notificationElement.innerText = "Your password does not match. Please try again.";
+      notificationElement.style.color = 'red';
+      notificationElement.id = pw2.name + '-validating-notification';
+      pw2.parentNode.append(notificationElement);
+      return false;
   }
 
-  function closeSignupForm() {
-      document.getElementById("signupForm").style.display = "none";
-  }
+  return true;
+}
 
-  function openLoginForm() {
-      document.getElementById("loginForm").style.display = "block";
-  }
 
-  function closeLoginForm() {
-      document.getElementById("loginForm").style.display = "none";
-  }
+function validateSignupForm() {
+  return validate( document.querySelector('#signupForm input[name="firstname"]') )
+      && validate( document.querySelector('#signupForm input[name="emailaddress"]') )
+      && validate( document.querySelector('#signupForm input[name="password"]') )
+      && validate( document.querySelector('#signupForm input[name="address"]') )
+      && validatePasswordMatch();
+} 
 
 
 $(document).ready( () => {
-
-
-
   $('button.signup-button').click( () => openSignupForm());
   $('button.login-button').click( () => openLoginForm());
 
@@ -43,6 +93,8 @@ $(document).ready( () => {
   });
 
   $('#btn-signup').click( () => {
+    if ( !validateSignupForm() ) return;
+
     $.post( '/member/add', $('form.signup-form').serialize(), (data, status) => {
       console.log(data.success);
       alert(data.message);
