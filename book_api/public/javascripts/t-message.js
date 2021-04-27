@@ -10,7 +10,7 @@ function appendMessage(message){
     <div class="${idmember == message.idmember ? 'outgoing-message' : 'incoming-message'}">
       <div class="t-avatar-container">
         <div class="t-avatar">
-          <img src="/images/avatars/${message.member_image || 'placeholder.png'}">
+          <img class="avatar" src="/images/avatars/${message.member_image || 'placeholder.png'}">
         </div>
       </div>
       <div class="t-sender-time-message">
@@ -121,7 +121,7 @@ function addBookCoverToList(imageSrc, idbook){
   if (!bookCoverListElem){
     bookCoverListElem = document.createElement('div');
     bookCoverListElem.className = 't-book-list';
-    document.querySelector('main').append(bookCoverListElem);
+    document.querySelector('#blocka').before(bookCoverListElem);
   }
 
   const bookCoverElem = document.createElement('div');
@@ -197,7 +197,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
     infoElem.innerHTML = `
       Please click on a book to see the conversation(s) belong to it (that you get involved).
     `;
-    document.querySelector('main').append(infoElem);
+    document.querySelector('main').prepend(infoElem);
 
     const idmember = localStorage.getItem('idmember');
     $.get(`/message?idmember=${idmember}&accept=json`, (response) => {console.log(response);

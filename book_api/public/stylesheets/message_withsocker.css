@@ -1,0 +1,37 @@
+.container {
+    background-color: aqua;
+}
+
+
+.inbox__people {
+    border: 1px solid black;
+}
+
+span.message__author {
+    font-weight: bold;
+}
+
+span.time_date {
+    font-style: italic;
+    font-size: x-small;
+}
+
+.time_date {display: none;}
+
+.outgoing__message {
+    border: 1px solid blue;
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 50%;
+    padding-right: 10px;
+}
+
+.incoming__message {
+    border: 1px solid red;
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 10px;
+    padding-right: 10px;
+}

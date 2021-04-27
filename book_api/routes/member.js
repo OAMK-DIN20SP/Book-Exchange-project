@@ -11,7 +11,7 @@ const path = require('path');
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './public/images/books/')
+      cb(null, './public/images/avatars/')
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname);
@@ -104,7 +104,7 @@ router.post('/login2', (req, res) => { // res w/ json, no redirect
 
 // NEW
 router.put('/', upload.single('image'), (req, res) => {
-    if (req.body.exist=="exist") {
+    if (req.file) {
         req.body.image = req.file.filename;
         member.update1( req.query.idmember, req.body, (err, dbResult) => {
             if (err) {
