@@ -3,7 +3,6 @@
 <head>
     <%- include('./head'); %>
     <script type="text/javascript" src="/javascripts/utils.js"></script> 
-    <!-- TESTING STYLES -->
     <link rel="stylesheet" type="text/css" href="/stylesheets/t-message.css">
 </head>
 <body class="container">
@@ -14,19 +13,25 @@
 
 <main>
   <% if ( locals.data ) { %>
+    <div id="blocka">
+      <h4>Users related to this book</h4>
+      <img class="t-book-cover">
+      <button>Exchange Done</button>
+    </div>
 
-    <h4>Users related to this book</h4>
-    <ul class="t-user-list">
+    <div id="blockb">
+      <h4>Click below to chat with other users</h4>
+      <ul class="t-user-list">
 
-    </ul>
-    <img class="t-book-cover">
-    <button>Exchange Done</button>
-    <div class="t-conversation">
-      <div class="t-message-container">
+      </ul>
 
-      </div>
-      <div class="t-send-area">
-
+      <div class="t-conversation">
+        <div class="t-message-container">
+  
+        </div>
+        <div class="t-send-area">
+  
+        </div>
       </div>
     </div>
   <% } %>
