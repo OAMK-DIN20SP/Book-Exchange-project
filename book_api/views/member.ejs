@@ -10,9 +10,13 @@
 </header>
 
 <main>
+  <script type="text/javascript">forceLogin();</script>
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
+    .t-my-books { display: flex; align-items: center; }
+    .t-my-books form { margin-left: 30px; }
+
     .t-profile-information {
         display: flex;
         justify-content: space-evenly;
@@ -44,6 +48,7 @@
         border: none;
         border-radius: 2px;
         margin: 15px;
+        margin-left: 650px;
     }
 
     .t-right-panel-other-info {
@@ -117,6 +122,20 @@
     }
     
     .t-avatar label[for="btn-change-avatar"] { cursor: pointer; position: absolute; left: 30px; top: 200px; display: inline-block; padding: 5px; border: 1px solid gray; background-color: #e5e5e5; }
+
+    label[for="t-file-picker"] {
+        width: 160px;
+        height: 35px;
+        color: #fff;
+        background-color: #AB9353;
+        border: none;
+        border-radius: 2px;
+        margin: 15px;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .t-full-name{ margin-bottom: 5px; }
   </style>
 
   <% if (locals.members) { %>
@@ -126,8 +145,12 @@
         <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
         <!-- edit image -->
         <form method="POST" enctype="multipart/form-data" id="edit-from1">
-          <div>Change image: <input type="file" value="" name="image" /></div>
-          <button type="submit" id="btnSubmitImg">Submit image</button>
+          <div><label for="t-file-picker" style=".t-left-panel-avatar-and-name button {
+    width: 160px;
+    height: 35px;
+    color: #fff;
+    background-color: #AB9353;border: none;border-radius: 2px;margin: 15px;">Change image</label><input type="file" value="" name="image" id="t-file-picker" style="display: none;" /></div>
+          <button type="submit" id="btnSubmitImg" style="display: none;">Submit image</button>
         </form>
         <button id="edit-my-profile">Edit my profile</button>
       </div>
@@ -166,8 +189,16 @@
       </form>
     </div>
 
-    <h2>My books</h2>  <!-- NEW code -->
-    <p style="color: red">(Now 12 books per page. Remember to insert enough data to your db if you want to see more than 1 page.)</p>
+    <div class="t-my-books">
+      <h2>My books</h2>  <!-- NEW code -->
+      <form action="/book/upload" method="POST" class="upload-book">
+        <script type="text/javascript">
+          insertHiddenIdmemberTo(document.currentScript.parentNode);
+        </script>
+        <input type="submit" name="" value="Upload a new book">
+      </form>
+    </div>
+      
       <div id="t-my-books">
         <div id="t-book-listing">
           
@@ -186,16 +217,15 @@
 
       <h2>About me</h2>
       <div class="about-me">
-        <p style="color: red">(There must exist a new column in the member table to store this 'about me' data.)</p>
       </div>
 
         
-    <form action="/book/upload" method="POST">
+    <!-- <form action="/book/upload" method="POST">
       <script type="text/javascript">
         insertHiddenIdmemberTo(document.currentScript.parentNode);
       </script>
       <input type="submit" name="" value="Upload a book">
-    </form>
+    </form> -->
     <div class="hide" style="display: none;">
       <!-- <div id="image"><%=members[0].creditScore%></div> -->
       <div id="image"><%=members[0].image%></div>
@@ -210,12 +240,22 @@
 
   <!-- Edit info member -->
   <script>
+    // remove 'Edit my profile' button in guest view
+    if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+      if ($('#edit-my-profile')) $('#edit-my-profile').remove();
+      if ($('#btnSubmitImg')) $('#btnSubmitImg').remove();
+    }
+
     function toggleEdit() {
       let editMyProfileButton = document.getElementById('edit-my-profile');
-      if (editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
-        editMyProfileButton.innerText = 'Done editing';
-      } else {
-        editMyProfileButton.innerText = 'Edit my profile';
+
+      if (editMyProfileButton) {
+        if ( editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
+          editMyProfileButton.innerText = 'Done editing';
+        } else {
+          editMyProfileButton.innerText = 'Edit my profile';
+          document.getElementById('edit-from2').submit();
+        }
       }
       
       var members = <%-JSON.stringify(members)%>;
@@ -227,7 +267,7 @@
         </tr>
         <tr>
           <td><label>Last name </label></td>
-          <td><input type="text" value="${members[0].lastname}" name="lastname"></td>
+          <td><input type="text" value="${members[0].lastname || ''}" name="lastname"></td>
         </tr>
         <tr>
           <td><label>Email </label></td>
@@ -235,17 +275,15 @@
         </tr>
         <tr> 
           <td><label>Phone </label></td>
-          <td><input type="text" value="${members[0].phonenumber}" name="phonenumber"></td>
+          <td><input type="text" value="${members[0].phonenumber || ''}" name="phonenumber"></td>
         </tr>
         <tr>
           <td><label>Address </label></td>
-          <td><input type="text" value="${members[0].address}" name="address"></td>
+          <td><input type="text" value="${members[0].address || ''}" name="address"></td>
         </tr>
         <button type="submit" id="btnDom">Confirm</button>
       `
     }
-
-    forceLogin();
     
     const element = document.getElementById('edit-my-profile');
     if (element) element.onclick = toggleEdit;
@@ -264,7 +302,7 @@
           window.location.reload();
         }, 1000);
       })
-    })
+    });
   </script>
     
   <!-- change pagebook & validate -->
@@ -380,6 +418,49 @@
         }
       })
     });
+
+    $('#t-file-picker').change( (e) => {
+      var tgt = e.target || window.event.srcElement,
+          files = tgt.files;
+
+      // FileReader support
+      if (FileReader && files && files.length) {
+          var fr = new FileReader();
+          fr.onload = function () {
+              document.querySelector('.t-avatar img').src = fr.result;
+          }
+          fr.readAsDataURL(files[0]);
+      }
+
+      // Not supported
+      else {
+          // fallback -- perhaps submit the input to an iframe and temporarily store
+          // them on the server until the user's session ends.
+      }
+
+
+      form1 = document.getElementById('edit-from1');
+
+      if ( this.value != "" ) {
+        data1 = new FormData(form1)
+        fetch(`/member?idmember=${idmember}`, {
+            "method": "PUT",
+            "body": data1,
+          })
+            .then( (res) => res.json())
+            .then( (data) => {
+              console.log(data);
+              if( data.success == false ) {
+                alert('Server cannot process this image. Please choose another one.');
+              } else {
+                // window.location.reload();
+              }
+            })
+            .catch( (err) => console.log(err));
+      }
+    });
+
+
 
   </script>
 </body>

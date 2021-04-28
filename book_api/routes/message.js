@@ -35,6 +35,8 @@ router.get('/', (req, res) => {
       }
     });
   }
+
+  res.send('Invalid request');
 });
 
 router.post('/b2p', (req, res) => {

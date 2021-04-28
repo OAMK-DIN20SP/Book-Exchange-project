@@ -12,6 +12,8 @@
 </header>
 
 <main>
+  <script type="text/javascript">forceLogin();</script>
+  
   <% if ( locals.data ) { %>
     <div id="blocka">
       <h4>Users related to this book</h4>
@@ -41,8 +43,6 @@
 </footer>
 
   <script type="text/javascript">
-    forceLogin();
-    
     const data = <%-JSON.stringify(data)%>;
   </script>
   <script type="text/javascript" src="/javascripts/t-message.js"></script>
