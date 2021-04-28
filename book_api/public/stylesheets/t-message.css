@@ -142,3 +142,15 @@ span.time-date {
 #blockb h4 {
     text-align: center;
 }
+
+.t-send-area {
+    margin-left: 10px;
+}
+
+#message {
+    width: 234px;
+}
+
+#btn-send {
+    margin-left: 10px;
+}
