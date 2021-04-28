@@ -17,6 +17,26 @@
     .t-my-books { display: flex; align-items: center; }
     .t-my-books form { margin-left: 30px; }
 
+    .editable {
+        border: 1px solid black;
+        padding: 0px 10px;
+        cursor: text;
+        color: red;
+    }
+
+    .non-editable {
+        border: none;
+        padding: none;
+        cursor: default;
+        color: black;
+    }
+
+    body {
+          font-family: 'Lato', sans-serif;
+          color: #565656;
+          background-image: linear-gradient( rgba(171,147,83,0.1), rgba(171, 148, 83, 0.2));
+        }
+
     .t-profile-information {
         display: flex;
         justify-content: space-evenly;
@@ -28,7 +48,7 @@
     .t-left-panel-avatar-and-name {
         border: 1px solid #ccc;
         width: 25%;
-        height: 285px;
+        height: 403px;
         margin: 10px 20px;
         text-align: center;
     }
@@ -61,42 +81,33 @@
 
       /*Book listing*/
 
-    #t-book-listing {
+      #t-my-books {
+        margin: 50px;
+        text-align: center;
+      }
+
+      #t-book-listing {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         margin: 20px;
     }
 
-    #t-book-listing img {
-        width: 150px;
-        height: 200px;
-        margin: 20px;
+    
+    .book-listing {
+      padding: 10px;
+      width: 22%;
+      cursor: pointer;
     }
 
-    .centered-pagination {
-        text-align: center;
+    .book-listing img { 
+      width: 100%;
+      height: auto;
     }
 
-    .t-pagination {
-        display: inline-block;
-    }
-
-    .t-pagination a  {
-        float: left;
-        padding: 15px 20px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-    }
-
-    .t-pagination a.active {
-        background-color: #AB9353;
-        color: #fdfbf3;
-        border-color: #AB9353;
-    }
-
-    .t-pagination a:hover:not(.active) {
-        background-color: #AB9353;
-        color: #fdfbf3;
+    .book-name {
+      padding: 20px;
+      text-align: center;
     }
 
       /*Review*/
@@ -175,15 +186,6 @@
           <tr>
             <td><label>Address </label></td>
             <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
-          </tr>
-          <tr>
-            <td><label>Credit score</label></td>
-            <td><label>
-              <script type="text/javascript">
-                const members = <%-JSON.stringify(members)%>;
-                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(members[0].creditScore);
-              </script>
-            </label></td>
           </tr>
         </table>
       </form>

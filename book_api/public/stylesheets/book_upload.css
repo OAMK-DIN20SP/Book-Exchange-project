@@ -5,8 +5,7 @@
 
 .upload-form {
     border: 1px solid #ccc;    
-    margin-left: 50px;
-    margin-bottom: 50px;
+    margin: 50px;
     padding: 50px;
     font-size: 20px;
     display: flex;
