@@ -25,10 +25,10 @@
       <p><label>Published Year: </label><input type="text" name="year"></p>
       <p><label>Edition: </label><input type="text" name="edition"></p>
       <p><label>Book condition: </label><input type="text" name="condition"></p>
-      <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
       <input class="upload-submit" type="submit">
     </div>
-    
+    <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
+
     <script type="text/javascript">
       function autoFillBookInfo() {
         const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
@@ -64,7 +64,6 @@
       <script type="text/javascript">
         insertHiddenIdmemberTo(document.currentScript.parentNode);
       </script>
-      <input type="submit">
     </form>
     <script type="text/javascript">
       // prevent image empty
