@@ -13,6 +13,26 @@
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
+    .editable {
+    border: 1px solid black;
+    padding: 0px 10px;
+    cursor: text;
+    color: red;
+}
+
+.non-editable {
+    border: none;
+    padding: none;
+    cursor: default;
+    color: black;
+}
+
+body {
+      font-family: 'Lato', sans-serif;
+      color: #565656;
+      background-image: linear-gradient( rgba(171,147,83,0.1), rgba(171, 148, 83, 0.2));
+    }
+
     .t-profile-information {
         display: flex;
         justify-content: space-evenly;
@@ -24,7 +44,7 @@
     .t-left-panel-avatar-and-name {
         border: 1px solid #ccc;
         width: 25%;
-        height: 285px;
+        height: 403px;
         margin: 10px 20px;
         text-align: center;
     }
@@ -56,16 +76,33 @@
 
       /*Book listing*/
 
-    #t-book-listing {
+      #t-my-books {
+        margin: 50px;
+        text-align: center;
+      }
+
+      #t-book-listing {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         margin: 20px;
     }
 
-    #t-book-listing img {
-        width: 150px;
-        height: 200px;
-        margin: 20px;
+    
+    .book-listing {
+      padding: 10px;
+      width: 22%;
+      cursor: pointer;
+    }
+
+    .book-listing img { 
+      width: 100%;
+      height: auto;
+    }
+
+    .book-name {
+      padding: 20px;
+      text-align: center;
     }
 
     .centered-pagination {
@@ -170,7 +207,35 @@
     <p style="color: red">(Now 12 books per page. Remember to insert enough data to your db if you want to see more than 1 page.)</p>
       <div id="t-my-books">
         <div id="t-book-listing">
-          
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+          <div class="book-listing">
+            <img width="160" height="240">
+            <p class="book-name">Book name</p>
+          </div>
+        </div>
         </div>
         <div class="centered-pagination">
           <div class="t-pagination">
@@ -181,7 +246,7 @@
               <a id="btn_next">Next</a>
           </div>
           </div>
-      </div>  
+      </div>   
 
       <h2>About me</h2>
       <div class="about-me">
