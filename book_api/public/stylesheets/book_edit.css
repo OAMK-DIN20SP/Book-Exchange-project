@@ -1,0 +1,50 @@
+.edit-text {
+    font-size: 28px;
+    padding-left: 110px;
+}
+
+.edit {
+    border: 1px solid #ccc;    
+    margin: 50px;
+/*    padding: 50px;
+    font-size: 20px;
+    display: inline;
+    justify-content: center; */
+}
+
+
+.edit img {
+    max-width: 100%;
+    max-width: 100%;
+    float: left;
+    margin: 50px;
+}
+
+.edit-form1 {
+    float: center;
+    margin: 50px;
+}
+
+.edit-items  {
+/*     margin-bottom: 10px;
+    padding-right: 60px; */
+    text-align: center;
+
+}
+
+.edit-summary {
+    float: right;
+
+}
+
+
+.edit-submit {
+    width: 160px;
+    height: 35px;
+    color: #fff;
+    background-color: #AB9353;
+    border: none;
+    border-radius: 2px;
+    margin: 15px;
+    font-size: 20px;
+}
