@@ -105,32 +105,6 @@ body {
       text-align: center;
     }
 
-    .centered-pagination {
-        text-align: center;
-    }
-
-    .t-pagination {
-        display: inline-block;
-    }
-
-    .t-pagination a  {
-        float: left;
-        padding: 15px 20px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-    }
-
-    .t-pagination a.active {
-        background-color: #AB9353;
-        color: #fdfbf3;
-        border-color: #AB9353;
-    }
-
-    .t-pagination a:hover:not(.active) {
-        background-color: #AB9353;
-        color: #fdfbf3;
-    }
-
       /*Review*/
       
     .reviews {
@@ -190,15 +164,6 @@ body {
             <td><label>Address </label></td>
             <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
           </tr>
-          <tr>
-            <td><label>Credit score</label></td>
-            <td><label>
-              <script type="text/javascript">
-                const members = <%-JSON.stringify(members)%>;
-                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(members[0].creditScore);
-              </script>
-            </label></td>
-          </tr>
         </table>
       </form>
     </div>
@@ -237,15 +202,6 @@ body {
           </div>
         </div>
         </div>
-        <div class="centered-pagination">
-          <div class="t-pagination">
-              <a id="btn_prev">Previous</a>
-              <a id="page_span" class="active">1</a>
-              <a id="page_span">2</a>
-              <a id="page_span">3</a>
-              <a id="btn_next">Next</a>
-          </div>
-          </div>
       </div>   
 
       <h2>About me</h2>
