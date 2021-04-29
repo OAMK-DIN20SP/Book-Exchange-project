@@ -1,0 +1,39 @@
+.edit-text {
+    font-size: 28px;
+    padding-left: 110px;
+}
+
+.edit {
+    border: 1px solid #ccc;
+    width: 25%;
+    height: 285px;
+    margin: 15px;
+    text-align: left;
+    float: left;
+    padding-left: 50px;
+}
+
+.edit img {
+    margin: 10px;
+}
+
+.edit-summary {
+    border: 1px solid #ccc;
+    width: 40%;
+    height: 285px;
+    margin: 15px;
+    text-align: left;
+    float: left;
+    padding-left: 50px;
+}
+
+.edit-submit {
+    width: 160px;
+    height: 35px;
+    color: #fff;
+    background-color: #AB9353;
+    border: none;
+    border-radius: 2px;
+    margin: 5px;
+    font-size: 15px;
+}

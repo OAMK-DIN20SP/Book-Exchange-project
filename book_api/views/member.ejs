@@ -53,9 +53,25 @@
         margin: 10px 20px;
         padding: 25px;
     }
+    
 
       /*Book listing*/
 
+    .myBooks-text {
+    font-size: 28px;
+    padding-left: 110px;
+    }
+
+    .edit-profile {
+      width: 160px;
+      height: 35px;
+      color: #fff;
+      background-color: #AB9353;
+      border: none;
+      border-radius: 2px;
+      margin: 15px;
+      font-size: 20px;
+    }
     #t-book-listing {
         display: flex;
         flex-direction: row;
@@ -129,7 +145,6 @@
           <div>Change image: <input type="file" value="" name="image" /></div>
           <button type="submit" id="btnSubmitImg">Submit image</button>
         </form>
-        <button id="edit-my-profile">Edit my profile</button>
       </div>
       <form method="POST" enctype="multipart/form-data" id="edit-from2" style="width: 700px;">
         <table class="t-right-panel-other-info">
@@ -154,20 +169,14 @@
             <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
           </tr>
           <tr>
-            <td><label>Credit score</label></td>
-            <td><label>
-              <script type="text/javascript">
-                const members = <%-JSON.stringify(members)%>;
-                document.currentScript.parentNode.innerHTML = creditScoreToHTMLStar(members[0].creditScore);
-              </script>
-            </label></td>
+            <td></td>
+            <td><button class="edit-profile" id="edit-my-profile">Edit my profile</button></td>
           </tr>
         </table>
       </form>
     </div>
 
-    <h2>My books</h2>  <!-- NEW code -->
-    <p style="color: red">(Now 12 books per page. Remember to insert enough data to your db if you want to see more than 1 page.)</p>
+    <h2 class="myBooks-text">My books</h2>  <!-- NEW code -->
       <div id="t-my-books">
         <div id="t-book-listing">
           
@@ -180,18 +189,13 @@
               <a id="page_span">3</a>
               <a id="btn_next">Next</a>
           </div>
-          </div>
+        </div>
       </div>  
 
-      <h2>About me</h2>
-      <div class="about-me">
-        <p style="color: red">(There must exist a new column in the member table to store this 'about me' data.)</p>
-      </div>
+    <h2>About me</h2>
+    <div class="about-me">
+    </div>
 
-      <h2>Latest Reviews</h2>
-      <div class="latest-reviews">
-        <p style="color: red">(Updating...)</p>
-      </div>
         
     <form action="/book/upload" method="POST">
       <script type="text/javascript">
