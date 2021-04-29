@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('./head'); %>
+  <%- include('./head', { title: "Profile" }); %>
 </head>
 <body class="container">
 
@@ -10,9 +10,47 @@
 </header>
 
 <main>
+  <script type="text/javascript">forceLogin();</script>
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
+    .t-my-books-heading { display: flex; align-items: center; }
+    .t-my-books-heading form { margin-left: 30px; }
+    #t-book-listing img {width:200px;height:300px;padding-bottom: 10px;}
+    #t-book-listing {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          margin: 20px;
+          padding: 0px 110px;
+      }
+
+      #t-book-listing a {
+        flex: 1 0 calc(25% - 30px);
+        display: flex;
+        justify-content: center;
+      }
+
+    .editable {
+        border: 1px solid black;
+        padding: 0px 10px;
+        cursor: text;
+        color: red;
+    }
+
+    .non-editable {
+        border: none;
+        padding: none;
+        cursor: default;
+        color: black;
+    }
+
+    body {
+          font-family: 'Lato', sans-serif;
+          color: #565656;
+          background-image: linear-gradient( rgba(171,147,83,0.1), rgba(171, 148, 83, 0.2));
+        }
+
     .t-profile-information {
         display: flex;
         justify-content: space-evenly;
@@ -24,7 +62,7 @@
     .t-left-panel-avatar-and-name {
         border: 1px solid #ccc;
         width: 25%;
-        height: 285px;
+        height: 403px;
         margin: 10px 20px;
         text-align: center;
     }
@@ -44,6 +82,7 @@
         border: none;
         border-radius: 2px;
         margin: 15px;
+        margin-left: 650px;
     }
 
     .t-right-panel-other-info {
@@ -74,40 +113,26 @@
     }
     #t-book-listing {
         display: flex;
-        flex-direction: row;
-        margin: 20px;
+        flex-direction: column;
+      }
+
+
+
+    
+    .book-listing {
+      padding: 10px;
+      width: 22%;
+      cursor: pointer;
     }
 
-    #t-book-listing img {
-        width: 150px;
-        height: 200px;
-        margin: 20px;
+    .book-listing img { 
+      width: 100%;
+      height: auto;
     }
 
-    .centered-pagination {
-        text-align: center;
-    }
-
-    .t-pagination {
-        display: inline-block;
-    }
-
-    .t-pagination a  {
-        float: left;
-        padding: 15px 20px;
-        border: 1px solid #ccc;
-        cursor: pointer;
-    }
-
-    .t-pagination a.active {
-        background-color: #AB9353;
-        color: #fdfbf3;
-        border-color: #AB9353;
-    }
-
-    .t-pagination a:hover:not(.active) {
-        background-color: #AB9353;
-        color: #fdfbf3;
+    .book-name {
+      padding: 20px;
+      text-align: center;
     }
 
       /*Review*/
@@ -133,6 +158,24 @@
     }
     
     .t-avatar label[for="btn-change-avatar"] { cursor: pointer; position: absolute; left: 30px; top: 200px; display: inline-block; padding: 5px; border: 1px solid gray; background-color: #e5e5e5; }
+
+    label[for="t-file-picker"] {
+        width: 160px;
+        height: 35px;
+        color: #fff;
+        background-color: #AB9353;
+        border: none;
+        border-radius: 2px;
+        margin: 15px;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    label[for="t-file-picker"]:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+    }
+
+    .t-full-name{ margin-bottom: 5px; }
   </style>
 
   <% if (locals.members) { %>
@@ -142,8 +185,8 @@
         <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
         <!-- edit image -->
         <form method="POST" enctype="multipart/form-data" id="edit-from1">
-          <div>Change image: <input type="file" value="" name="image" /></div>
-          <button type="submit" id="btnSubmitImg">Submit image</button>
+          <div><label for="t-file-picker">Change image</label><input type="file" value="" accept="image/*" name="image" id="t-file-picker" style="display: none;" /></div>
+          <button type="submit" id="btnSubmitImg" style="display: none;">Submit image</button>
         </form>
       </div>
       <form method="POST" enctype="multipart/form-data" id="edit-from2" style="width: 700px;">
@@ -176,7 +219,21 @@
       </form>
     </div>
 
-    <h2 class="myBooks-text">My books</h2>  <!-- NEW code -->
+    <div class="t-my-books-heading">
+      <h2 class="myBooks-text">My books</h2>  <!-- NEW code -->
+      <script type="text/javascript">
+        if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+          $('.t-my-books-heading h2').text(`<%=members[0].firstname%>'s books`);
+        }
+      </script>
+      <form action="/book/upload" method="POST" class="upload-book">
+        <script type="text/javascript">
+          insertHiddenIdmemberTo(document.currentScript.parentNode);
+        </script>
+        <input type="submit" name="" value="Upload a new book">
+      </form>
+    </div>
+
       <div id="t-my-books">
         <div id="t-book-listing">
           
@@ -184,25 +241,31 @@
         <div class="centered-pagination">
           <div class="t-pagination">
               <a id="btn_prev">Previous</a>
-              <a id="page_span" class="active">1</a>
+              <!-- <a id="page_span" class="active">1</a>
               <a id="page_span">2</a>
-              <a id="page_span">3</a>
+              <a id="page_span">3</a> -->
+              <div id="page_span"></div>
               <a id="btn_next">Next</a>
           </div>
         </div>
       </div>  
 
-    <h2>About me</h2>
-    <div class="about-me">
-    </div>
+<!--       <h2 class="about-me-heading">About me</h2>
+      <script type="text/javascript">
+        if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+          $('.about-me-heading').text( `About <%=members[0].firstname%>`);
+        }
+      </script>
+      <div class="about-me">
+      </div> -->
 
         
-    <form action="/book/upload" method="POST">
+    <!-- <form action="/book/upload" method="POST">
       <script type="text/javascript">
         insertHiddenIdmemberTo(document.currentScript.parentNode);
       </script>
       <input type="submit" name="" value="Upload a book">
-    </form>
+    </form> -->
     <div class="hide" style="display: none;">
       <!-- <div id="image"><%=members[0].creditScore%></div> -->
       <div id="image"><%=members[0].image%></div>
@@ -217,12 +280,23 @@
 
   <!-- Edit info member -->
   <script>
+    // remove 'Edit my profile' button in guest view
+    if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+      if ($('#edit-my-profile')) $('#edit-my-profile').remove();
+      if ($('#btnSubmitImg')) $('#btnSubmitImg').remove();
+      if ($('label[for="t-file-picker"')) $('label[for="t-file-picker"').remove();
+    }
+
     function toggleEdit() {
       let editMyProfileButton = document.getElementById('edit-my-profile');
-      if (editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
-        editMyProfileButton.innerText = 'Done editing';
-      } else {
-        editMyProfileButton.innerText = 'Edit my profile';
+
+      if (editMyProfileButton) {
+        if ( editMyProfileButton.innerText == 'Edit my profile'){  //contentEditable == false
+          editMyProfileButton.innerText = 'Done editing';
+        } else {
+          editMyProfileButton.innerText = 'Edit my profile';
+          document.getElementById('edit-from2').submit();
+        }
       }
       
       var members = <%-JSON.stringify(members)%>;
@@ -234,7 +308,7 @@
         </tr>
         <tr>
           <td><label>Last name </label></td>
-          <td><input type="text" value="${members[0].lastname}" name="lastname"></td>
+          <td><input type="text" value="${members[0].lastname || ''}" name="lastname"></td>
         </tr>
         <tr>
           <td><label>Email </label></td>
@@ -242,15 +316,16 @@
         </tr>
         <tr> 
           <td><label>Phone </label></td>
-          <td><input type="text" value="${members[0].phonenumber}" name="phonenumber"></td>
+          <td><input type="text" value="${members[0].phonenumber || ''}" name="phonenumber"></td>
         </tr>
         <tr>
           <td><label>Address </label></td>
-          <td><input type="text" value="${members[0].address}" name="address"></td>
+          <td><input type="text" value="${members[0].address || ''}" name="address"></td>
         </tr>
         <button type="submit" id="btnDom">Confirm</button>
       `
     }
+    
     const element = document.getElementById('edit-my-profile');
     if (element) element.onclick = toggleEdit;
 
@@ -268,7 +343,7 @@
           window.location.reload();
         }, 1000);
       })
-    })
+    });
   </script>
     
   <!-- change pagebook & validate -->
@@ -303,7 +378,7 @@
       const btnNextElem = document.getElementById("btn_next");
       const btnPrevElem = document.getElementById("btn_prev");
       const bookListingElem = document.getElementById("t-book-listing");
-      const pageSpanElem = document.getElementById("page-span");
+      const pageSpanElem = document.getElementById("page_span");
 
       btnNextElem.onclick = nextPage;
       btnPrevElem.onclick = prevPage;
@@ -316,7 +391,7 @@
 
       for (let i = (page-1) * itemsPerPage; i < (page * itemsPerPage); i++) {
           if (i >= books.length) break;  //last page may not have enough items like previous pages
-          bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image}"></a>`;
+          bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image || 'placeholder.png'}"></a>`;
       }
 
       pageSpanElem.innerHTML = "";
@@ -384,6 +459,38 @@
         }
       })
     });
+
+    $('#t-file-picker').change( (e) => {
+      var tgt = e.target || window.event.srcElement,
+          files = tgt.files;
+
+      // FileReader support
+      if (FileReader && files && files.length) {
+          var fr = new FileReader();
+          fr.onload = function () {
+              document.querySelector('.t-avatar img').src = fr.result;
+          }
+          fr.readAsDataURL(files[0]);
+
+          form1 = document.getElementById('edit-from1');
+          data1 = new FormData(form1)
+          fetch(`/member?idmember=${idmember}`, {
+              "method": "PUT",
+              "body": data1,
+            })
+              .then( (res) => res.json())
+              .then( (data) => {
+                if( data.success == false ) {
+                  alert('Server cannot process this image. Please choose another one.');
+                } else {
+                  // window.location.reload();
+                }
+              })
+              .catch( (err) => console.log(err));
+      }
+    });
+
+
 
   </script>
 </body>

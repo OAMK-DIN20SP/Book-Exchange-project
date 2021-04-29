@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./head'); %>
+    <%- include('./head', { title: "About this project" }); %>
 </head>
 <body class="container">
 
@@ -42,9 +42,13 @@
       </div>
 </main>
 
+<footer>
+    <%- include('./footer'); %>
+</footer>
+
 <style> 
 
-main {
+body {
     background-image: linear-gradient( rgba(171,147,83,0), rgba(171, 148, 83, 0.3));
 
 }
@@ -174,9 +178,7 @@ main {
 
 </style>
 
-<footer>
-    <%- include('./footer'); %>
-</footer>
+
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html2 lang="en">
 <head>
-    <%- include('./head'); %>
+    <%- include('./head', { title: "Edit a book" }); %>
     <link rel="stylesheet" href="/stylesheets/book_edit.css">
 </head>
 <body class="container">
@@ -11,33 +11,107 @@
 </header>
 
 <main>
+  <style>
+    label[for="t-file-picker"] {
+        width: 160px;
+        height: 35px;
+        color: #fff;
+        background-color: #AB9353;
+        border: none;
+        border-radius: 2px;
+        margin: 15px;
+        cursor: pointer;
+        padding: 5px;
+    }
+  </style>
 <% if (locals.book) { %>
+  <script type="text/javascript">
+    forceLogin();
+
+    // redirect to book detail page if the current logged in user is not the book owner
+    if (localStorage.getItem('idmember') != <%=book.idmember%>) window.location.href = `/book?idbook=${<%=book.idbook%>}`;
+  </script>
+
+  <!-- <h2>Edit your book</h2>
+  <div><img src="/images/books/<%=book.image%>" style="width:100px;height:100px"></div>
+  <form method="POST" enctype="multipart/form-data" id="edit-from1">
+    <div>New file: <input type="file" value="" name="image" /></div>
+    <button type="submit">Submit image</button>
+  </form> -->
   <h2 class="edit-text">Edit your book</h2>
   <div class="edit">
     <img src="/images/books/<%=book.image%>" style="width:100px;height:100px">
-    <form method="POST" enctype="multipart/form-data" id="edit-from1">
-      <div>New file: <input type="file" value="" name="image" /></div>
-      <button type="submit">Edit image</button>
+    <form class="edit-form1" method="POST" enctype="multipart/form-data" id="edit-from1">
+      <div><label for="t-file-picker">Change cover</label><input style="display:none;" type="file" accept="image/*" value="" name="image" id="t-file-picker"/></div>
+      <!-- <button type="submit">Edit image</button> -->
     </form>
   </div>
   <div>
     <form method="POST" enctype="multipart/form-data" id="edit-from2">
-      <div class="edit">
-        <p><label>Book title: </label><input type="text" value="<%=book.title%>" name="title"></p>
-        <p><label>Author(s): </label><input type="text" value="<%=book.author%>" name="author"></p>
-        <p><label>Published Year: </label><input type="text" value="<%=book.year%>" name="year"></p>
-        <p><label>Edition: </label><input type="text" value="<%=book.edition%>" name="edition"></p>
-        <p><label>Book condition: </label><input type="text" value="<%=book.condition%>" name="condition"></p>
-        <button  class="edit-submit" type="submit">Submit</button>
+      <div class="edit-form">
+        <div>
+          <label>Book title: </label>
+          <input type="text" value="<%=book.title%>" name="title">
+        </div>
+        <div>
+          <label>Author(s): </label>
+          <input type="text" value="<%=book.author%>" name="author">
+        </div>
+        <div>
+          <label>Published Year: </label>
+          <input type="text" value="<%=book.year%>" name="year">
+        </div>
+        <div>
+          <label>Edition: </label>
+          <input type="text" value="<%=book.edition%>" name="edition">
+        </div>
+        <div>
+          <label>Book condition: </label>
+          <input type="text" value="<%=book.condition%>" name="condition">
+        </div>
       </div>
+      <button class="edit-submit" type="submit">Submit</button> 
     </form>
+
   </div>
+  
+  <!-- Suit with css -->
   <div class="edit-summary">
     <p><label>Summary: </label></br><p></p><textarea name="description" rows="10" cols="50" form="edit-from2"><%=book.description%></textarea></p>
   </div>
   
 
   <script>
+    $('#t-file-picker').change( (e) => {
+      var target = e.target || window.event.srcElement,
+          files = target.files;
+
+      // FileReader support
+      if (FileReader && files && files.length) {
+          var fr = new FileReader();
+          fr.onload = function () {
+              document.querySelector('.edit img').src = fr.result;
+          }
+          fr.readAsDataURL(files[0]);
+
+          form1 = document.getElementById('edit-from1');
+          data1 = new FormData(form1)
+          fetch(`/book/edit?idbook=${idbook}`, {
+              "method": "PUT",
+              "body": data1,
+            })
+              .then( (res) => res.json())
+              .then( (data) => {
+                if( data.success == false ) {
+                  alert('Server cannot process this image. Please choose another one.');
+                } else {
+                  // console.log('data');
+                }
+              })
+              .catch( (err) => console.log(err));
+      }
+    });
+
     var idbook= <%=book.idbook%>;
     var idmember = localStorage.getItem('idmember');
 
@@ -74,7 +148,7 @@
       .then( () => {
         alert("Edited");
         setTimeout( () => {
-          window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+          window.location.href = `/member?idmember=${idmember}`;
         }, 1000);
       })
     })
