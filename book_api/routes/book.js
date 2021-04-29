@@ -85,8 +85,8 @@ router.post('/add', upload.single('image'), (req, res) => {
     req.body.image = req.file.filename;
     
     if (req.body.idmember && parseInt(req.body.idmember) > 0) {
-        if ( !Number.isNaN(req.body.year) ) req.body.year = null;
-        if ( !Number.isNaN(req.body.edition) ) req.body.edition = null;
+        // if ( !Number.isNaN(req.body.year) ) req.body.year = null;
+        // if ( !Number.isNaN(req.body.edition) ) req.body.edition = null;
 
         book.add( req.body, (err, dbResult) => {
             if (err) {
