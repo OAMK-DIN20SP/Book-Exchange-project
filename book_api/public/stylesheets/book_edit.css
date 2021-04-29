@@ -4,39 +4,28 @@
 }
 
 .edit {
-    border: 1px solid #ccc;    
-    margin: 50px;
-/*    padding: 50px;
-    font-size: 20px;
-    display: inline;
-    justify-content: center; */
+    border: 1px solid #ccc;
+    width: 25%;
+    height: 285px;
+    margin: 15px;
+    text-align: left;
+    float: left;
+    padding-left: 50px;
 }
-
 
 .edit img {
-    max-width: 100%;
-    max-width: 100%;
-    float: left;
-    margin: 50px;
-}
-
-.edit-form1 {
-    float: center;
-    margin: 50px;
-}
-
-.edit-items  {
-/*     margin-bottom: 10px;
-    padding-right: 60px; */
-    text-align: center;
-
+    margin: 10px;
 }
 
 .edit-summary {
-    float: right;
-
+    border: 1px solid #ccc;
+    width: 40%;
+    height: 285px;
+    margin: 15px;
+    text-align: left;
+    float: left;
+    padding-left: 50px;
 }
-
 
 .edit-submit {
     width: 160px;
@@ -45,6 +34,6 @@
     background-color: #AB9353;
     border: none;
     border-radius: 2px;
-    margin: 15px;
-    font-size: 20px;
+    margin: 5px;
+    font-size: 15px;
 }

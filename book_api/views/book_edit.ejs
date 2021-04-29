@@ -15,22 +15,25 @@
   <h2 class="edit-text">Edit your book</h2>
   <div class="edit">
     <img src="/images/books/<%=book.image%>" style="width:100px;height:100px">
-    <form class="edit-form1" method="POST" enctype="multipart/form-data" id="edit-from1">
+    <form method="POST" enctype="multipart/form-data" id="edit-from1">
       <div>New file: <input type="file" value="" name="image" /></div>
       <button type="submit">Edit image</button>
     </form>
-
+  </div>
+  <div>
     <form method="POST" enctype="multipart/form-data" id="edit-from2">
-      <div class="edit-items">
+      <div class="edit">
         <p><label>Book title: </label><input type="text" value="<%=book.title%>" name="title"></p>
         <p><label>Author(s): </label><input type="text" value="<%=book.author%>" name="author"></p>
         <p><label>Published Year: </label><input type="text" value="<%=book.year%>" name="year"></p>
         <p><label>Edition: </label><input type="text" value="<%=book.edition%>" name="edition"></p>
         <p><label>Book condition: </label><input type="text" value="<%=book.condition%>" name="condition"></p>
         <button  class="edit-submit" type="submit">Submit</button>
-        <p class="edit-summary"><label>Summary: </label></br><textarea name="description" rows="10" cols="50"><%=book.description%></textarea></p>
       </div>
     </form>
+  </div>
+  <div class="edit-summary">
+    <p><label>Summary: </label></br><p></p><textarea name="description" rows="10" cols="50"><%=book.description%></textarea></p>
   </div>
   
 
