@@ -30,7 +30,7 @@
 .edit-form label {
     float: left;
     width: 32%;
-    margin-top: 20px;
+    margin-top: 10px;
     font-weight: bold;
 }
 
@@ -61,5 +61,6 @@
     border-radius: 2px;
     margin: 5px;
     font-size: 15px;
-/*     cursor: pointer;
- */}
+    cursor: pointer;
+    float: left;
+}
