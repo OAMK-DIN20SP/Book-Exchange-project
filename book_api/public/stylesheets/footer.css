@@ -6,9 +6,6 @@
   padding: 10px;
   text-align: center;
   clear: both;
-  position: sticky;
-  position: -webkit-sticky;
-  bottom: 0;
 }
 
 .footer-body {
