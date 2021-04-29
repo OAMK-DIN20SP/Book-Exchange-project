@@ -49,7 +49,7 @@ $(document).ready( () => {
         const book = books[i];
         const idmember = book.idmember;
 
-        $.get( `/member/search?idmember=${idmember}`, (data2) => {console.log(data2);
+        $.get( `/member/search?idmember=${idmember}`, (data2) => {
           const member = data2.members[0];
           const fullName = member.firstname + ' ' + member.lastname;
           document.querySelectorAll('#search-result tbody tr td:last-child a')[i].textContent = fullName;

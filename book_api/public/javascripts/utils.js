@@ -48,3 +48,12 @@ function creditScoreToHTMLStar(score) {
     return `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
   }
 }
+
+
+function forceLogin() {
+  const idmember = localStorage.getItem('idmember');
+  if ( !idmember || parseInt(idmember) <= 0 ){
+    alert('Please login first.');
+    window.location.href = '/';
+  }
+}
