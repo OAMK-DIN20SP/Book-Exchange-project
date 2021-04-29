@@ -34,15 +34,14 @@
             <div class="info-book"><%=book.title%></div>
             <div class="info-book"><%=book.author%></div>
 
-            <div class="info-version">
-              <div>Issue date: <span><%=book.year%></span></div>
-              <div>Edition: <span><%=book.edition%></span></div>
-            </div>
+            <div class="info-version">Issue date: <span><%=book.year%></span></div>
+            <div class="info-version">Edition: <span><%=book.edition%></span></div>
+
             <div class="info-condition">Book condition: <span><%=book.condition%></span></div>
             <div class="info-owner">Owner: <span><%=book.firstname + ' ' + book.lastname%></span></div>
             <div class="info-rating">
-              <span>Rating:</span>
-              <div class="number-star"></div>
+              <!-- <span>Rating:</span>
+              <div class="number-star"></div> -->
               <button class="buynow" name="btn_message_owner" style="margin-top: 20px;">Send a message to owner</button>
             </div>
             <!-- Btn DELETE & EDIT -->
@@ -52,7 +51,14 @@
         <!-- container-summary -->
         <div class="container-summary">
           <h1>SUMMARY</h1>
-          <p><%=book.description%></p>
+          <p>
+            <script>
+              var book = <%-JSON.stringify(book)%>;
+              var bookContent = book.description.replaceAll("\n","<br />");
+              document.currentScript.parentNode.innerHTML = bookContent;
+            </script>
+          </p>
+          <!-- <p><%=book.description%></p> -->
         </div>  
       </div>
       <!-- <div id="creditScore" style="display: none;"><%=book.creditScore%></div> -->
@@ -64,40 +70,24 @@
       // var book = <%-JSON.stringify(book)%>;
       var idbook= <%=book.idbook%>;
       // var idmember= <%-book.idmember%>;
-      var creditScore= parseFloat(<%=book.creditScore%>) || 0;
-      // var creditScore= document.querySelector('#creditScore').textContent;
-      function countStar() {
-        var score = parseFloat(creditScore);
-        var numberStar = document.querySelector('.number-star')
-        if (creditScore == 0) {
-          numberStar.innerHTML = `<i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 1.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 2.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 3.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>`
-        }
-        else if (score < 4.5) {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>`
-        }
-        else {
-          numberStar.innerHTML = `<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>`
-        }
-      }
-      countStar();
+      // var creditScore= book.creditScore
 
       // const idmember = localStorage.getItem('idmember');
       var btnMess = document.querySelector('.buynow');
-      if (idmember == <%=book.idmember%>) {
+
+      // if (idmember == <%=book.idmember%>) {
+      //   btnMess.style.display = 'none'; // cannot message yourself
+      // } else {
+      //   if (document.querySelector('#edit-book')) document.querySelector('#edit-book').style.display = 'none';
+      //   if (document.querySelector('#del')) document.querySelector('#edit-book').style.display = 'none';
+      // }
+      // fix rule
+      if (idmember != <%=book.idmember%>) {
         btnMess.style.display = 'none'; // cannot message yourself
-      } else {
         if (document.querySelector('#edit-book')) document.querySelector('#edit-book').style.display = 'none';
-        if (document.querySelector('#del')) document.querySelector('#edit-book').style.display = 'none';
+        if (document.querySelector('#del')) document.querySelector('#del').style.display = 'none';
       }
+      
       btnMess.onclick = () => {
         // var idbook = new URLSearchParams(window.location.search).get('idbook');
         var idmember = localStorage.getItem('idmember');

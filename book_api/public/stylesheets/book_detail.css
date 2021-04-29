@@ -3,7 +3,8 @@
 } */
 
 .container {
-    margin: auto;
+    margin-left: 20px;
+    /* margin: auto; */
     padding-top: 20px;
     /* background-color: var(--white-color); */
     /* background-color: var(--ground-color); */
@@ -22,6 +23,7 @@
     padding-left: 80px;
     /* padding-right: 30px; */
     position: relative;
+    margin-bottom: 20px;
 }
 
 .container---bigimg > img{
@@ -32,7 +34,7 @@
 /* ----- container--info ------*/
 .container--info {
     width: 400px;
-    margin-top: 60px;
+    margin-bottom: 20px;
     padding-left: 75px;
 }
 
@@ -40,12 +42,17 @@
     font-weight: bold;
     font-size: 32px;
     line-height: 32px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-align: left;
 }
 .info-book:first-child {
     line-height: initial;
 }
+.info-book:nth-child(2) {
+    font-style: italic;
+    font-size: 30px;
+}
+
 
 .info-version , .info-condition,
 .info-delivery, .info-owner, 
@@ -53,7 +60,7 @@
     font-weight: bold;
     font-size: 20px;
     line-height: 20px;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
 }
 
 .info-rating span {
@@ -66,10 +73,10 @@
     padding-left: 5px;
 }
 
-.info-version > div:first-child {
+/* .info-version > div:first-child {
     float: left;
     width: 280px;
-}
+} */
 
 .fas.fa-star , .far.fa-star {
     color: rgb(255, 196, 0);
@@ -78,7 +85,8 @@
 .buynow {
     background-color: var(--main-color);
     border-radius: 8px;
-    width: 222px;
+    /* width: 222px; */
+    width: fit-content;
     height: 40px;
     font-size: 20px;
     font-weight: bold;
@@ -114,21 +122,44 @@
 
 /* ----- container-summary ----- */
 .container-summary {
-    padding: 20px 80px 0 80px;
+    padding-left: 75px;
+    margin-bottom: 20px;
     text-align: justify;
+    width: 500px;
+}
+
+.container-summary > h1 {
+    margin-top: 0;
 }
 
 .container-summary > p {
     line-height: 25px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+#del, #edit-book {
+    font-weight: bold;
+    border: 0;
+    background: none;
+    width: fit-content;
 }
 
 #del {
     color: red;
-    font-weight: bold;
-    border: 0;
-    background: none;
+    padding-left: 0;
 }
 
-#del:hover{
+#del:hover {
+    font-size: large;
+}
+
+#edit-book > a {
+    text-decoration: none;
+    color: blue;
+    padding-left: 50px;
+}
+
+#edit-book:hover {
     font-size: large;
 }
