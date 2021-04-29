@@ -86,8 +86,13 @@ function getAndShowNewConversationData(){
     //     (acc, cval) => new Date(cval.time) > new Date(acc.time) ? cval : acc 
     //   ).time;
     // }
-    let messageNotis = [];
-    console.log('global?', data);
+    
+    // if (data && idbook && idreceiver) {
+    //   let messageNotis = localStorage.getItem('messageNotis') || {};
+    //   messageNotis.push({ idbook, idreceiver, seenMessages, totalMessages })
+    // } else {
+    //   console.log('data, idbook, idreceiver at least one of them is not available');
+    // }
   });
 }
 
