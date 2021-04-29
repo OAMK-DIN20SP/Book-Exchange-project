@@ -19,7 +19,7 @@
   <form class="upload-form" name="uploadForm" action="/book/add" method="POST" enctype="multipart/form-data">
     <div class="upload-items">
       <p><label>Auto fill info by ISBN: </label><input type="text" name="isbn" value="0451526538"><input type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()"></p>
-      <div>Image: <input type="file" name="image" /></div>
+      <div>Image: <input type="file" name="image" accept="image/*" /></div>
       <p><label>Book title: </label><input type="text" name="title"></p>
       <p><label>Author(s): </label><input type="text" name="author"></p>  <!-- author for matching with the db -->
       <p><label>Published Year: </label><input type="text" name="year"></p>

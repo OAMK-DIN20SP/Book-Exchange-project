@@ -37,8 +37,8 @@
             <div class="info-condition">Book condition: <span><%=book.condition%></span></div>
             <div class="info-owner">Owner: <span><%=book.firstname + ' ' + book.lastname%></span></div>
             <div class="info-rating">
-              <span>Rating:</span>
-              <div class="number-star"></div>
+              <!-- <span>Rating:</span> -->
+              <div class="number-star" style="display:none;"></div>
               <button class="buynow" name="btn_message_owner" style="margin-top: 20px;">Send a message to owner</button>
             </div>
             <!-- Btn DELETE & EDIT -->
@@ -110,7 +110,7 @@
             })
             .then( () => {
               alert("Deleted");
-              window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+              window.location.href = `/member?idmember=${idmember}`;
             })
         }
       }

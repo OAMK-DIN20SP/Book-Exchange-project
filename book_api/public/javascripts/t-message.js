@@ -86,6 +86,8 @@ function getAndShowNewConversationData(){
     //     (acc, cval) => new Date(cval.time) > new Date(acc.time) ? cval : acc 
     //   ).time;
     // }
+    let messageNotis = [];
+    console.log('global?', data);
   });
 }
 
@@ -144,6 +146,23 @@ function addBookCoverToList(imageSrc, idbook){
 
 
 // main() :v
+$('#btn-exchange-done').click( () => {
+  const deleteConfirmed = confirm('Are you sure you want to delete this book and all of its conversations? You can NOT undo this action.')
+  if (deleteConfirmed) {
+    const idmember = localStorage.getItem('idmember');
+    //idbook: global
+
+    fetch(`/book/delete?idmember=${idmember}&idbook=${idbook}`, {
+        method: "DELETE",
+      })
+      .then( (res) => res.json() )
+      .then( (data) => {
+        alert("Deleted");
+        window.location.href = `/member?idmember=${idmember}`;
+      });
+  }
+});
+
 let idreceiver; // will be set/changed on click events
 const loggedinId = localStorage.getItem('idmember');  // the logged in user
 let intervalId, book_idmember, book_image;

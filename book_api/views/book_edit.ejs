@@ -11,6 +11,19 @@
 </header>
 
 <main>
+  <style>
+    label[for="t-file-picker"] {
+        width: 160px;
+        height: 35px;
+        color: #fff;
+        background-color: #AB9353;
+        border: none;
+        border-radius: 2px;
+        margin: 15px;
+        cursor: pointer;
+        padding: 5px;
+    }
+  </style>
 <% if (locals.book) { %>
   <script type="text/javascript">
     forceLogin();
@@ -29,8 +42,8 @@
   <div class="edit">
     <img src="/images/books/<%=book.image%>" style="width:100px;height:100px">
     <form class="edit-form1" method="POST" enctype="multipart/form-data" id="edit-from1">
-      <div>New file: <input type="file" value="" name="image" /></div>
-      <button type="submit">Edit image</button>
+      <div><label for="t-file-picker">Change cover</label><input style="display:none;" type="file" accept="image/*" value="" name="image" id="t-file-picker"/></div>
+      <!-- <button type="submit">Edit image</button> -->
     </form>
 
     <form method="POST" enctype="multipart/form-data" id="edit-from2">
@@ -48,6 +61,36 @@
   
 
   <script>
+    $('#t-file-picker').change( (e) => {
+      var target = e.target || window.event.srcElement,
+          files = target.files;
+
+      // FileReader support
+      if (FileReader && files && files.length) {
+          var fr = new FileReader();
+          fr.onload = function () {
+              document.querySelector('.edit img').src = fr.result;
+          }
+          fr.readAsDataURL(files[0]);
+
+          form1 = document.getElementById('edit-from1');
+          data1 = new FormData(form1)
+          fetch(`/book/edit?idbook=${idbook}`, {
+              "method": "PUT",
+              "body": data1,
+            })
+              .then( (res) => res.json())
+              .then( (data) => {
+                if( data.success == false ) {
+                  alert('Server cannot process this image. Please choose another one.');
+                } else {
+                  // console.log('data');
+                }
+              })
+              .catch( (err) => console.log(err));
+      }
+    });
+
     var idbook= <%=book.idbook%>;
     var idmember = localStorage.getItem('idmember');
 
@@ -84,7 +127,7 @@
       .then( () => {
         alert("Edited");
         setTimeout( () => {
-          window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+          window.location.href = `/member?idmember=${idmember}`;
         }, 1000);
       })
     })

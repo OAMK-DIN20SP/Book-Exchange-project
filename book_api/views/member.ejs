@@ -14,8 +14,22 @@
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
-    .t-my-books { display: flex; align-items: center; }
-    .t-my-books form { margin-left: 30px; }
+    .t-my-books-heading { display: flex; align-items: center; }
+    .t-my-books-heading form { margin-left: 30px; }
+    #t-book-listing img {width:200px;height:300px;padding-bottom: 10px;}
+    #t-book-listing {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          margin: 20px;
+          padding: 0px 110px;
+      }
+
+      #t-book-listing a {
+        flex: 1 0 calc(25% - 30px);
+        display: flex;
+        justify-content: center;
+      }
 
     .editable {
         border: 1px solid black;
@@ -82,16 +96,11 @@
       /*Book listing*/
 
       #t-my-books {
-        margin: 50px;
-        text-align: center;
+        display: flex;
+        flex-direction: column;
       }
 
-      #t-book-listing {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin: 20px;
-    }
+
 
     
     .book-listing {
@@ -146,6 +155,10 @@
         padding: 5px;
     }
 
+    label[for="t-file-picker"]:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+    }
+
     .t-full-name{ margin-bottom: 5px; }
   </style>
 
@@ -156,11 +169,7 @@
         <div class="t-full-name"><%=members[0].firstname + ' ' + members[0].lastname%></div>
         <!-- edit image -->
         <form method="POST" enctype="multipart/form-data" id="edit-from1">
-          <div><label for="t-file-picker" style=".t-left-panel-avatar-and-name button {
-    width: 160px;
-    height: 35px;
-    color: #fff;
-    background-color: #AB9353;border: none;border-radius: 2px;margin: 15px;">Change image</label><input type="file" value="" name="image" id="t-file-picker" style="display: none;" /></div>
+          <div><label for="t-file-picker">Change image</label><input type="file" value="" accept="image/*" name="image" id="t-file-picker" style="display: none;" /></div>
           <button type="submit" id="btnSubmitImg" style="display: none;">Submit image</button>
         </form>
         <button id="edit-my-profile">Edit my profile</button>
@@ -191,8 +200,13 @@
       </form>
     </div>
 
-    <div class="t-my-books">
+    <div class="t-my-books-heading">
       <h2>My books</h2>  <!-- NEW code -->
+      <script type="text/javascript">
+        if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+          $('.t-my-books-heading h2').text(`<%=members[0].firstname%>'s books`);
+        }
+      </script>
       <form action="/book/upload" method="POST" class="upload-book">
         <script type="text/javascript">
           insertHiddenIdmemberTo(document.currentScript.parentNode);
@@ -217,7 +231,12 @@
         </div>
       </div>  
 
-      <h2>About me</h2>
+      <h2 class="about-me-heading">About me</h2>
+      <script type="text/javascript">
+        if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
+          $('.about-me-heading').text( `About <%=members[0].firstname%>`);
+        }
+      </script>
       <div class="about-me">
       </div>
 
@@ -246,6 +265,7 @@
     if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
       if ($('#edit-my-profile')) $('#edit-my-profile').remove();
       if ($('#btnSubmitImg')) $('#btnSubmitImg').remove();
+      if ($('label[for="t-file-picker"')) $('label[for="t-file-picker"').remove();
     }
 
     function toggleEdit() {
@@ -352,7 +372,7 @@
 
       for (let i = (page-1) * itemsPerPage; i < (page * itemsPerPage); i++) {
           if (i >= books.length) break;  //last page may not have enough items like previous pages
-          bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image}"></a>`;
+          bookListingElem.innerHTML += `<a href="/book?idbook=${books[i].idbook}"><img src="/images/books/${books[i].image || 'placeholder.png'}"></a>`;
       }
 
       pageSpanElem.innerHTML = "";
@@ -432,33 +452,22 @@
               document.querySelector('.t-avatar img').src = fr.result;
           }
           fr.readAsDataURL(files[0]);
-      }
 
-      // Not supported
-      else {
-          // fallback -- perhaps submit the input to an iframe and temporarily store
-          // them on the server until the user's session ends.
-      }
-
-
-      form1 = document.getElementById('edit-from1');
-
-      if ( this.value != "" ) {
-        data1 = new FormData(form1)
-        fetch(`/member?idmember=${idmember}`, {
-            "method": "PUT",
-            "body": data1,
-          })
-            .then( (res) => res.json())
-            .then( (data) => {
-              console.log(data);
-              if( data.success == false ) {
-                alert('Server cannot process this image. Please choose another one.');
-              } else {
-                // window.location.reload();
-              }
+          form1 = document.getElementById('edit-from1');
+          data1 = new FormData(form1)
+          fetch(`/member?idmember=${idmember}`, {
+              "method": "PUT",
+              "body": data1,
             })
-            .catch( (err) => console.log(err));
+              .then( (res) => res.json())
+              .then( (data) => {
+                if( data.success == false ) {
+                  alert('Server cannot process this image. Please choose another one.');
+                } else {
+                  // window.location.reload();
+                }
+              })
+              .catch( (err) => console.log(err));
       }
     });
 

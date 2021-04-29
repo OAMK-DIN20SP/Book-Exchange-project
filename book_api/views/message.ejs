@@ -18,7 +18,7 @@
     <div id="blocka">
       <h4>Users related to this book</h4>
       <img class="t-book-cover">
-      <button>Exchange Done</button>
+      <button id="btn-exchange-done">Exchange Done</button>
     </div>
 
     <div id="blockb">
@@ -44,6 +44,10 @@
 
   <script type="text/javascript">
     const data = <%-JSON.stringify(data)%>;
+
+    if (data && data[0] && parseInt(data[0].book_idmember) > 0 && localStorage.getItem('idmember') != data[0].book_idmember){
+      if ($('#btn-exchange-done')) $('#btn-exchange-done').remove();
+    }
   </script>
   <script type="text/javascript" src="/javascripts/t-message.js"></script>
 </body>
