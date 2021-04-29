@@ -92,10 +92,26 @@
         margin: 10px 20px;
         padding: 25px;
     }
+    
 
       /*Book listing*/
 
-      #t-my-books {
+    .myBooks-text {
+    font-size: 28px;
+    padding-left: 110px;
+    }
+
+    .edit-profile {
+      width: 160px;
+      height: 35px;
+      color: #fff;
+      background-color: #AB9353;
+      border: none;
+      border-radius: 2px;
+      margin: 15px;
+      font-size: 20px;
+    }
+    #t-book-listing {
         display: flex;
         flex-direction: column;
       }
@@ -172,7 +188,6 @@
           <div><label for="t-file-picker">Change image</label><input type="file" value="" accept="image/*" name="image" id="t-file-picker" style="display: none;" /></div>
           <button type="submit" id="btnSubmitImg" style="display: none;">Submit image</button>
         </form>
-        <button id="edit-my-profile">Edit my profile</button>
       </div>
       <form method="POST" enctype="multipart/form-data" id="edit-from2" style="width: 700px;">
         <table class="t-right-panel-other-info">
@@ -196,12 +211,16 @@
             <td><label>Address </label></td>
             <td><label class="non-editable" name="profile-info-to-edit" contentEditable="false"><%=members[0].address%></label></td>
           </tr>
+          <tr>
+            <td></td>
+            <td><button class="edit-profile" id="edit-my-profile">Edit my profile</button></td>
+          </tr>
         </table>
       </form>
     </div>
 
     <div class="t-my-books-heading">
-      <h2>My books</h2>  <!-- NEW code -->
+      <h2 class="myBooks-text">My books</h2>  <!-- NEW code -->
       <script type="text/javascript">
         if (localStorage.getItem('idmember') != <%=members[0].idmember%>) {
           $('.t-my-books-heading h2').text(`<%=members[0].firstname%>'s books`);
@@ -214,7 +233,7 @@
         <input type="submit" name="" value="Upload a new book">
       </form>
     </div>
-      
+
       <div id="t-my-books">
         <div id="t-book-listing">
           
