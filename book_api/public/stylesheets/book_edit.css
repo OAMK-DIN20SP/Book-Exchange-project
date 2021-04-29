@@ -17,6 +17,30 @@
     margin: 10px;
 }
 
+.edit-form {
+    border: 1px solid #ccc;
+    width: 30%;
+    height: 285px;
+    margin: 15px;
+    text-align: left;
+    float: left;
+    padding-left: 50px;
+}
+
+.edit-form label {
+    float: left;
+    width: 32%;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.edit-form input {
+    width: 65%;
+    padding: 15px 0 5px 15px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+}
+
 .edit-summary {
     border: 1px solid #ccc;
     width: 40%;
@@ -24,7 +48,7 @@
     margin: 15px;
     text-align: left;
     float: left;
-    padding-left: 50px;
+    padding-left: 40px;
 }
 
 .edit-submit {
@@ -36,4 +60,5 @@
     border-radius: 2px;
     margin: 5px;
     font-size: 15px;
+    cursor: pointer;
 }
