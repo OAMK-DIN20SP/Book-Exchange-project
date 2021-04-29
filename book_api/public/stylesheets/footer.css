@@ -1,11 +1,14 @@
 .footer {
   background-color: rgba(171,147,83, 0.8);
   width: 100%;
-  height: auto;
+  height: 200px;
   color: #fdfbf3;
   padding: 10px;
   text-align: center;
   clear: both;
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
 }
 
 .footer-body {
