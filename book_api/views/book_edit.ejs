@@ -47,19 +47,37 @@
     </form>
   </div>
   <div>
-    <form method="POST" enctype="multipart/form-data" id="edit-from2">
-      <div class="edit">
-        <p><label>Book title: </label><input type="text" value="<%=book.title%>" name="title"></p>
-        <p><label>Author(s): </label><input type="text" value="<%=book.author%>" name="author"></p>
-        <p><label>Published Year: </label><input type="text" value="<%=book.year%>" name="year"></p>
-        <p><label>Edition: </label><input type="text" value="<%=book.edition%>" name="edition"></p>
-        <p><label>Book condition: </label><input type="text" value="<%=book.condition%>" name="condition"></p>
-        <button  class="edit-submit" type="submit">Submit</button>
+    <form class="edit-form" method="POST" enctype="multipart/form-data" id="edit-from2">
+      <div>
+        <label>Book title: </label>
+        <input type="text" value="<%=book.title%>" name="title">
       </div>
+      <div>
+        <label>Author(s): </label>
+        <input type="text" value="<%=book.author%>" name="author">
+      </div>
+      <div>
+        <label>Published Year: </label>
+        <input type="text" value="<%=book.year%>" name="year">
+      </div>
+      <div>
+        <label>Edition: </label>
+        <input type="text" value="<%=book.edition%>" name="edition">
+      </div>
+      <div>
+        <label>Book condition: </label>
+        <input type="text" value="<%=book.condition%>" name="condition">
+      </div>
+    </form>
+    <form method="POST" enctype="multipart/form-data" id="edit-from2">
       <div class="edit-summary">
         <p><label>Summary: </label></br><p></p><textarea name="description" rows="10" cols="50"><%=book.description%></textarea></p>
       </div>
+      <div class="edit-submit" >
+<!--         <button type="submit">Submit</button>
+ -->      </div>
     </form>
+
   </div>
 
   
