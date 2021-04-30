@@ -16,57 +16,82 @@
   </script>
 
   <h2 class="upload-text">Upload your book</h2>
-  <form class="upload-form" name="uploadForm" action="/book/add" method="POST" enctype="multipart/form-data">
-    <div class="upload-items">
-      <p><label>Auto fill info by ISBN: </label><input type="text" name="isbn" value="0451526538"><input type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()"></p>
-      <div>Image: <input type="file" name="image" accept="image/*" /></div>
-      <p><label>Book title: </label><input type="text" name="title"></p>
-      <p><label>Author(s): </label><input type="text" name="author"></p>  <!-- author for matching with the db -->
-      <p><label>Published Year: </label><input type="number" name="year" placeholder="Input the number of year"></p>
-      <p><label>Edition: </label><input type="number" name="edition" placeholder="Input the number"></p>
-      <p><label>Book condition: </label><input type="text" name="condition"></p>
-      <input class="upload-submit" type="submit">
-    </div>
-    <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
-
-    <script type="text/javascript">
-      function autoFillBookInfo() {
-        const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
-        console.log('isbn: ', isbn);
-        fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
-          .then(response => response.json() )
-          .then(data => {
-            if (data.totalItems == 0) {
-              alert('Book with that ISBN not found in the database. Please fill the info in by yourself.')
-              return
-            };
-            // let imgSrc = data.items[0].volumeInfo.imageLinks.thumbnail;
-            // imgSrc = imgSrc.replace(/^http:\/\//i, 'https://');
-
-            // document.getElementById('book_cover').src = imgSrc;
-            document.forms.uploadForm.title.value = data.items[0].volumeInfo.title;
-            document.forms.uploadForm.author.value = data.items[0].volumeInfo.authors.join(", ");
-            document.forms.uploadForm.year.value = data.items[0].volumeInfo.publishedDate;
-            document.forms.uploadForm.edition.value = 2;
-            document.forms.uploadForm.condition.value = "like new 90%";
-
-              let languageNames = new Intl.DisplayNames( ['en'], {type: 'language'} );
-              let description = data.items[0].volumeInfo.description;
-              description += '\n\nPage Count: ' + data.items[0].volumeInfo.pageCount;
-              description += '\n\nCategories: ' + data.items[0].volumeInfo.categories.join(", ");
-              description += '\n\nLanguage: ' + languageNames.of(data.items[0].volumeInfo.language);
-
-              document.forms.uploadForm.description.value = description;
-            })
-            .catch(error => {
-              console.log(error);
-            });
+  <div class="upload-form">
+    <form class="upload-items" action="/book/add" method="POST" enctype="multipart/form-data">
+      <div >
+<!--         <div>
+          <label>Auto fill info by ISBN: </label>
+          <input type="text" name="isbn" value="">
+          <input class="fill-button" type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()">
+        </div> -->
+        <div>
+          <label>Image: </label>
+          <input type="file" name="image" accept="image/*" />
+        </div>
+        <div>
+          <label>Book title: </label>
+          <input type="text" name="title" required>
+        </div>
+        <div>
+          <label>Author(s): </label>
+          <input type="text" name="author" required>  <!-- author for matching with the db -->
+        </div>
+        <div>
+          <label>Published Year: </label>
+          <input type="text" name="year" pattern="[0-9]+" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
+        </div>
+        <div>
+          <label>Edition: </label>
+          <input type="text" name="edition" pattern="[0-9]+" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
+        </div>
+        <div>
+          <label>Book condition: </label>
+          <input type="text" name="condition" required>
+        </div>
+        <input class="upload-submit" type="submit">
+      </div>
+      <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50" required></textarea></p>
+  
+      <script type="text/javascript">
+        function autoFillBookInfo() {
+          const isbn = document.forms.uploadForm.isbn.value.replaceAll('-', '').trim();
+          console.log('isbn: ', isbn);
+          fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`)
+            .then(response => response.json() )
+            .then(data => {
+              if (data.totalItems == 0) {
+                alert('Book with that ISBN not found in the database. Please fill the info in by yourself.')
+                return
+              };
+              // let imgSrc = data.items[0].volumeInfo.imageLinks.thumbnail;
+              // imgSrc = imgSrc.replace(/^http:\/\//i, 'https://');
+  
+              // document.getElementById('book_cover').src = imgSrc;
+              document.forms.uploadForm.title.value = data.items[0].volumeInfo.title;
+              document.forms.uploadForm.author.value = data.items[0].volumeInfo.authors.join(", ");
+              document.forms.uploadForm.year.value = data.items[0].volumeInfo.publishedDate;
+              document.forms.uploadForm.edition.value = 2;
+              document.forms.uploadForm.condition.value = "like new 90%";
+  
+                let languageNames = new Intl.DisplayNames( ['en'], {type: 'language'} );
+                let description = data.items[0].volumeInfo.description;
+                description += '\n\nPage Count: ' + data.items[0].volumeInfo.pageCount;
+                description += '\n\nCategories: ' + data.items[0].volumeInfo.categories.join(", ");
+                description += '\n\nLanguage: ' + languageNames.of(data.items[0].volumeInfo.language);
+  
+                document.forms.uploadForm.description.value = description;
+              })
+              .catch(error => {
+                console.log(error);
+              });
         }
       </script>
       <script type="text/javascript">
         insertHiddenIdmemberTo(document.currentScript.parentNode);
       </script>
     </form>
+  </div>
+  
     <script type="text/javascript">
       // prevent image empty
       var inputElement = document.getElementsByName("image")[0];
