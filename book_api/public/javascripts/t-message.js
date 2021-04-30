@@ -112,7 +112,7 @@ function handleClickOnUser(userId){
   document.querySelector('.t-message-container'). innerHTML = '';
   getAndShowNewConversationData();
   showSendArea();
-  intervalId = setInterval( getAndShowNewConversationData, 500); 
+  // intervalId = setInterval( getAndShowNewConversationData, 500); 
   // window.scrollTo(0, document.body.scrollHeight);
 }
 
