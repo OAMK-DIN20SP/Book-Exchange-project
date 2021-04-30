@@ -48,8 +48,8 @@
     body {
           font-family: 'Lato', sans-serif;
           color: #565656;
-          background-image: linear-gradient( rgba(171,147,83,0.1), rgba(171, 148, 83, 0.2));
-        }
+/*           background-image: linear-gradient( rgba(171,147,83,0.1), rgba(171, 148, 83, 0.2));
+ */        }
 
     .t-profile-information {
         display: flex;
@@ -147,7 +147,24 @@
       padding: 20px;
       text-align: center;
     }
+    .t-pagination {
+      color: white;
+    }
 
+    .upload-book-button {
+      width: 200px;
+      height: 35px;
+      color: #fff;
+      background-color: #AB9353;
+      border: none;
+      border-radius: 2px;
+      margin: 20px;
+      font-size: 20px;
+    }
+    .upload-book-button:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+      cursor: pointer;
+    }
       /*Review*/
       
     .reviews {
@@ -249,7 +266,7 @@
         <script type="text/javascript">
           insertHiddenIdmemberTo(document.currentScript.parentNode);
         </script>
-        <input type="submit" name="" value="Upload a new book">
+          <input class="upload-book-button" type="submit" name="" value="Upload a new book">
       </form>
     </div>
 
@@ -268,6 +285,7 @@
           </div>
         </div>
       </div>  
+
 
 <!--       <h2 class="about-me-heading">About me</h2>
       <script type="text/javascript">
