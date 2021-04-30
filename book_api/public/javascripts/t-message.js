@@ -35,14 +35,11 @@ function showOneToOneConversation(oneToOneData) {
     return
   }
 
-  // CAUTION: temp solution, not append but load all (lastMessageTime always 1970 0:0)
   document.querySelector('.t-message-container').innerHTML = '';
 
   for (let datum of oneToOneData) {
     appendMessage(datum);
   }
-
-  // window.scrollTo(0, document.body.scrollHeight);
 }
 
 
@@ -85,19 +82,6 @@ function getAndShowNewConversationData(){
   $.post('/message/b2p', { id1, id2, idbook, time }, (data) => {
     const newConversationData = data.messages;
     showOneToOneConversation(newConversationData);
-
-    // if (newConversationData.length > 0) {
-    //   lastMessageTime = newConversationData.reduce( 
-    //     (acc, cval) => new Date(cval.time) > new Date(acc.time) ? cval : acc 
-    //   ).time;
-    // }
-    
-    // if (data && idbook && idreceiver) {
-    //   let messageNotis = localStorage.getItem('messageNotis') || {};
-    //   messageNotis.push({ idbook, idreceiver, seenMessages, totalMessages })
-    // } else {
-    //   console.log('data, idbook, idreceiver at least one of them is not available');
-    // }
   });
 }
 
@@ -112,8 +96,7 @@ function handleClickOnUser(userId){
   document.querySelector('.t-message-container'). innerHTML = '';
   getAndShowNewConversationData();
   showSendArea();
-  // intervalId = setInterval( getAndShowNewConversationData, 500); 
-  // window.scrollTo(0, document.body.scrollHeight);
+  intervalId = setInterval( getAndShowNewConversationData, 500); 
 }
 
 
@@ -207,8 +190,6 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
 
   // add other member involved in the conversation to the list
   for (let d of data) {  // data must be provided before calling this script
-    // const otherUserElement = document.createElement('li');
-    // otherUserElement.className = `t-user-item`; 
     const senderId = d.idmember;
     
     if (loggedinId == senderId) {
@@ -245,7 +226,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
       handleClickOnUser(userId);
     }); 
   } else { // no idbook <=> click "Messages" on the nav bar
-    if ($('#btn-delete-conversation')) $('#btn-delete-conversation').remove();  // ok if condition chua chuan viet lai met wa
+    if ($('#btn-delete-conversation')) $('#btn-delete-conversation').remove();
     // list books that have conversation(s)
     if (document.querySelector('main h4')) document.querySelector('main h4').remove();
     if (document.querySelector('main button')) document.querySelector('main button').remove();
@@ -271,7 +252,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
 
         for (let idbook of idbooks){
           $.get(`/book?idbook=${idbook}&accept=json`, (response2) => {
-            const book = response2.books[0]; // get by id => only 1 book in response array
+            const book = response2.books[0];
             book_image = book.image || 'placeholder.png';
             book_idmember = book.idmember;
             addBookCoverToList(book.image, idbook);

@@ -53,7 +53,6 @@ const book = {
     },
 
     add: (book, callback) => {
-        console.log(book);
         if ( book && Object.keys(book).length > 0 ) {  
             db.query(
                 'insert into book(title, idmember, author, `year`, edition, `description`, `condition`, image) values(?, ?, ?, ?, ?, ?, ?, ?)',
@@ -67,7 +66,6 @@ const book = {
     },
 
     delete: (idmember, idbook, callback) => {
-        console.log(book);
         if ( idmember && idbook ) {  
             db.query(
                 'delete from book where idmember=? and idbook=?',
@@ -81,7 +79,6 @@ const book = {
     },
 
     searchByTitle: (title, callback) => {
-        console.log('title:', title);
         if ( title ) {  
             const likeString = `%${title}%`;
             db.query(
@@ -96,7 +93,6 @@ const book = {
     },
 
     searchByAuthor: (author, callback) => {
-        console.log('author:', author);
         if ( author ) {  
             const likeString = `%${author}%`;
             db.query(
