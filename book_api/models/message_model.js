@@ -28,6 +28,15 @@ const message = {
     );
   },
 
+  deleteByBookAndTwoPeople: function(id1, id2, idbook, callback) {
+    // delete all messages for the specified: book, person 1, person 2
+    return db.query(
+      "delete from message where idbook=? and (idmember=? or idreceiver=?) and (idmember=? or idreceiver=?)",
+      [idbook, id1, id1, id2, id2, time],
+      callback
+    );
+  },
+
   getByIdmemberAndTime: function(idmember, time, callback) {
     return db.query(
       "select message.*, concat(member1.firstname, ' ', member1.lastname) as sender_name, concat(member2.firstname, ' ', member2.lastname) as receiver_name from message inner join `member` as member1 on member1.idmember=message.idmember inner join `member` as member2 on member2.idmember=message.idreceiver where message.idmember=? or message.idreceiver=? and `time`>? order by `time` asc",
