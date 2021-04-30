@@ -228,7 +228,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
     document.querySelector('main').prepend(infoElem);
 
     const idmember = localStorage.getItem('idmember');
-    $.get(`/message?idmember=${idmember}&accept=json`, (response) => {console.log(response);
+    $.get(`/message?idmember=${idmember}&accept=json`, (response) => {
       const messages = response.messages;
 
       if (messages.length > 0){
@@ -239,11 +239,9 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
         }
 
         idbooks.sort( (a, b) => a - b );
-        console.log(idbooks);
 
         for (let idbook of idbooks){
           $.get(`/book?idbook=${idbook}&accept=json`, (response2) => {
-            console.log(response2);
             const book = response2.books[0]; // get by id => only 1 book in response array
             book_image = book.image || 'placeholder.png';
             book_idmember = book.idmember;
