@@ -104,71 +104,39 @@ $(document).ready( () => {
     });
   });
 
-  $(document).mouseup(function(e) 
-  {
-      var container = $("#user-avatar-menu-panel");
-
-      // if the target of the click isn't the container nor a descendant of the container
-      if (!container.is(e.target) && container.has(e.target).length === 0) 
-      {
-          container.hide();
-      }
-  });
-
   const idmember = localStorage.getItem('idmember');
 
   if (idmember && parseInt(idmember) > 0) {
-    // document.querySelector("button.signup-button").parentNode.remove();
-    // document.querySelector("button.login-button").parentNode.remove();
     for (elem of document.querySelectorAll(".header-navbar button") ) {
       elem.remove();
     }
 
     const headerElem = document.querySelector('.header-navbar');
     headerElem.innerHTML += `
-      <a id="my-profile" href="/member?idmember=${idmember}" style="right: 360px;">Profile</a>
-      <a id="my-messages" href="/message?idmember=${idmember}" style="right: 420px;">Messages</a>
-      <a id="upload-book" href="/book/upload?idmember=${idmember}" style="right: 500px;">Upload</a>
+      <a id="my-profile" href="/member?idmember=${idmember}" style="right: 220px;">Profile</a>
+      <a id="my-messages" href="/message?idmember=${idmember}" style="right: 275px;">Messages</a>
+      <a id="upload-book" href="/book/upload?idmember=${idmember}" style="right: 360px;">Upload</a>
+      <a id="search-book" href="/#welcome-message" style="right: 420px;">Search</a>
       `;
 
-
     const firstname = localStorage.getItem('firstname');
-    const userAvatarElem = document.createElement('button');
-    // userAvatarElem.id = "user-avatar";
-
-    // userAvatarElem.innerText = `Hi, ${firstname}!`;
-    // userAvatarElem.style = `
-    //   background-image: url(http://localhost:3000/images/avatar.jpg);
-    //   background-size: cover;
-    //   display: block;
-    //   width: 32px;
-    //   height: 32px;
-    //   border-radius: 50%;
-    //   right: 260px;
-    // `;
+    const logOutButton = document.createElement('button');
 
     // new, simple UI
-    userAvatarElem.id = "btn-logout";
-    userAvatarElem.style.right = '210px';
-    userAvatarElem.innerText = 'Log Out';
+    logOutButton.id = "btn-logout";
+    logOutButton.style.right = '80px';
+    logOutButton.innerText = 'Log Out';
 
-    headerElem.append(userAvatarElem);
-    
-    // const lastname = localStorage.getItem('lastname'); 
-    // let userAvatarMenuPanelElem = document.createElement('div');
-    // userAvatarMenuPanelElem.innerHTML = `
-    //    <div id="user-avatar-menu-panel" style="display: none; background: white; position: fixed; width: 120px; padding-top: 10px;">
-    //      <div style="display: flex; flex-direction: column; align-items: center;">
-    //        <img src="/images/avatar.jpg" style="width: 80px; height: 80px">
-    //        <h4 style="text-transform: capitalize;">${firstname + ' ' + lastname}</h4>
-    //        <button id="btn-logout">Log Out</button>
-    //      </div>
-    //    </div>`;
-    // headerElem.append(userAvatarMenuPanelElem);
+    headerElem.append(logOutButton);
 
-    // $('#user-avatar').click( () => {
-    //   $('#user-avatar-menu-panel').show();  
-    // });
+    let avatarElem = document.createElement('img');
+    avatarElem.className = 't-header-avatar';
+
+    $.get(`/member?idmember=${idmember}&accept=json`, (data) => {
+      const member_image = data.members[0].image;
+      avatarElem.src = `/images/avatars/${member_image || 'placeholder.png'}`;
+      headerElem.append(avatarElem);
+    });
 
     $('#btn-logout').click( () => {
       const idmember = localStorage.getItem('idmember');

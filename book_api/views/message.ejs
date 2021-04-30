@@ -8,7 +8,7 @@
 <body class="container">
 
 <header>
-    <%- include('./header', { isAuthorized: true }); %>
+    <%- include('./header'); %>
 </header>
 
 <main>
@@ -17,8 +17,11 @@
   <% if ( locals.data ) { %>
     <div id="blocka">
       <h4>Users related to this book</h4>
-      <img class="t-book-cover">
-      <button id="btn-exchange-done">Exchange Done</button>
+      <a class="t-book-cover" target="_blank"><img class="t-book-cover"></a>
+      <div class="t-flex">
+        <button id="btn-exchange-done">Exchange Done<br>(Delete Book)</button>
+        <button id="btn-delete-conversation">Delete this<br>Conversation</button>
+      </div>
     </div>
 
     <div id="blockb">
