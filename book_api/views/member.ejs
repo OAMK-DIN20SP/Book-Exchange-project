@@ -92,6 +92,13 @@
         margin: 10px 20px;
         padding: 25px;
     }
+
+    .t-right-panel-other-info label {
+      float: left;
+      width: 32%;
+      margin-top: 20px;
+      font-weight: bold;
+    }
     
 
       /*Book listing*/
@@ -108,9 +115,15 @@
       background-color: #AB9353;
       border: none;
       border-radius: 2px;
-      margin: 15px;
+      margin: 20px;
       font-size: 20px;
     }
+
+    .edit-profile:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+      cursor: pointer;
+    }
+
     #t-book-listing {
         display: flex;
         flex-direction: column;
@@ -157,6 +170,9 @@
         margin-left: 10px;
     }
     
+    .t-avatar img {
+      margin: 40px;
+    }
     .t-avatar label[for="btn-change-avatar"] { cursor: pointer; position: absolute; left: 30px; top: 200px; display: inline-block; padding: 5px; border: 1px solid gray; background-color: #e5e5e5; }
 
     label[for="t-file-picker"] {
@@ -175,7 +191,10 @@
       filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
     }
 
-    .t-full-name{ margin-bottom: 5px; }
+    .t-full-name{ 
+      margin-bottom: 25px; 
+    }
+
   </style>
 
   <% if (locals.members) { %>
