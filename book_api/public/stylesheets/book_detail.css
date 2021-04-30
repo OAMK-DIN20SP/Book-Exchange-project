@@ -15,20 +15,20 @@
 
 .container-img-info {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 /* ----- container--img ------*/
 .container--img {
-    padding-left: 80px;
+    padding-left: 65px;
     /* padding-right: 30px; */
     position: relative;
     margin-bottom: 20px;
 }
 
 .container---bigimg > img{
-    width: 350px;
-    height:500px;
+    width: 220px;
+    height:300px;
 }
 
 /* ----- container--info ------*/
@@ -113,6 +113,7 @@
     border: 1px solid;
     padding: 5px;
     cursor: pointer;
+    margin: 15px;
 }
 
 /* .buynow > a {
@@ -135,7 +136,9 @@
 .container-summary > p {
     line-height: 25px;
     color: var(--text-color);
-    font-weight: 500;
+    font-weight: 700;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 #del, #edit-book {

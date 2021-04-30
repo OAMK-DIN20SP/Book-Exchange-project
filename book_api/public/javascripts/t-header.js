@@ -111,7 +111,7 @@ $(document).ready( () => {
       elem.remove();
     }
 
-    const headerElem = document.querySelector('.header-navbar');
+    const headerElem = document.querySelector('.header-navbar-inner');
     headerElem.innerHTML += `
       <a id="my-profile" href="/member?idmember=${idmember}" style="right: 220px;">Profile</a>
       <a id="my-messages" href="/message?idmember=${idmember}" style="right: 275px;">Messages</a>
