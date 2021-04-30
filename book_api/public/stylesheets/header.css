@@ -16,6 +16,9 @@
     color: #565656;
     margin: 0px 5px;
 }
+.header-navbar a:hover {
+    color: #AB9353;
+}
 
 @media (max-width: 768px) {
     .header-navbar {
@@ -124,6 +127,7 @@ img.t-header-avatar{
     width: 50px;
     position: absolute;
     right: 20px;
+    top: 18px;
     border-radius: 50%;
     height: 50px;
 }
