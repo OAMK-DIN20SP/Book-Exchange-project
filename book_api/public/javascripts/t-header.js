@@ -113,10 +113,10 @@ $(document).ready( () => {
 
     const headerElem = document.querySelector('.header-navbar');
     headerElem.innerHTML += `
-      <a id="my-profile" href="/member?idmember=${idmember}" style="right: 220px;">Profile</a>
-      <a id="my-messages" href="/message?idmember=${idmember}" style="right: 275px;">Messages</a>
-      <a id="upload-book" href="/book/upload?idmember=${idmember}" style="right: 360px;">Upload</a>
-      <a id="search-book" href="/#welcome-message" style="right: 420px;">Search</a>
+      <a id="my-profile" href="/member?idmember=${idmember}" >Profile</a>
+      <a id="my-messages" href="/message?idmember=${idmember}" >Messages</a>
+      <a id="upload-book" href="/book/upload?idmember=${idmember}" >Upload</a>
+      <a id="search-book" href="/#welcome-message" >Search</a>
       `;
 
     const firstname = localStorage.getItem('firstname');
