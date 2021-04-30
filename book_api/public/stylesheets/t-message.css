@@ -154,3 +154,11 @@ span.time-date {
 #btn-send {
     margin-left: 10px;
 }
+
+#btn-exchange-done, #btn-delete-conversation {
+    margin: auto;
+}
+
+.t-flex {
+    display: flex;
+}

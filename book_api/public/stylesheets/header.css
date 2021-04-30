@@ -107,3 +107,21 @@
 .login-button:hover {
     opacity: 0.9;
 }
+
+img.t-header-avatar{
+    width: 50px;
+    position: absolute;
+    right: 20px;
+    border-radius: 50%;
+    height: 50px;
+}
+
+@media only screen and (max-width: 850px) {
+  img.t-logo { width: 70%; text-align: left;}
+  a.t-logo { text-align: left;}
+}
+
+@media only screen and (max-width: 750px) {
+  img.t-logo { width: 50%; }
+  a.t-logo { text-align: left;}
+}

@@ -469,6 +469,7 @@
           var fr = new FileReader();
           fr.onload = function () {
               document.querySelector('.t-avatar img').src = fr.result;
+              document.querySelector('img.t-header-avatar').src = fr.result;
           }
           fr.readAsDataURL(files[0]);
 

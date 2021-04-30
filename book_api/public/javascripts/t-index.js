@@ -1,5 +1,7 @@
 $(document).ready( () => {
   function displaySearchResult(url) {
+    if ($('#search-result')) $('#search-result').remove();
+
     $.get(url, (data) => {
       const books = data.books;
       let searchResultElem = document.createElement('div');

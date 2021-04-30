@@ -55,6 +55,21 @@ router.post('/b2p', (req, res) => {
   }
 });
 
+router.delete('/b2p', (req, res) => {
+  // delete all messages for the specified: book, person 1, person 2
+  const { id1, id2, idbook } = req.query;
+  if ( id1 && parseInt(id1) > 0 && id2 && parseInt(id2) > 0 && idbook && parseInt(idbook) > 0 ) {
+    return message.deleteByBookAndTwoPeople(id1, id2, idbook, (err, dbResult) => {
+      if (err) {
+        res.json(err);
+      } else {
+        console.log(dbResult);
+        res.json( { success: true, message:'Conversation deleted.' } );
+      }
+    });
+  }
+});
+
 router.get('/withsocket', (req, res) => {
   return member.getAll( (err, dbResult) => {
     if (err) {

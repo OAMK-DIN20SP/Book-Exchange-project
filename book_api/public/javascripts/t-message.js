@@ -1,4 +1,4 @@
-function appendMessage(message){
+function appendMessage(message){  
   //append the message (arg) to .t-messsage-container
   const idmember = localStorage.getItem('idmember');
   const time = new Date(message.time);
@@ -31,7 +31,7 @@ function appendMessage(message){
 
 function showOneToOneConversation(oneToOneData) {
   if ( !oneToOneData ) {
-    console.log('showOneToOneConversation(): undefined arg');
+    console.log('showOneToOneConversation(): arg undefined');
     return
   }
 
@@ -49,11 +49,15 @@ function showOneToOneConversation(oneToOneData) {
 function showSendArea() {
   document.querySelector('.t-send-area').innerHTML = `
     <input type="text" name="message" id="message" placeholder="Type here...">
-    <button id="btn-send"><i class="far fa-paper-plane"></i></button>
+    <button id="btn-send" disabled><i class="far fa-paper-plane"></i></button>
   `;
 
   $('#message').keypress( (e) => {
     if (e.key == 'Enter') sendMessage();
+  });
+
+  $('#message').on( "input", (e) => {
+    document.querySelector('#btn-send').disabled = (document.querySelector('#message').value.trim() == '');
   });
 
   $('#btn-send').click( () => sendMessage() );
@@ -63,6 +67,8 @@ function showSendArea() {
 function sendMessage() {
   const message = $('#message').val();
   $('#message').val("");
+
+  if (message.trim() == '') return;
 
   const idmember = loggedinId;
   $.post( '/message', { idmember, idreceiver, message, idbook }, (data) => {
@@ -80,7 +86,6 @@ function getAndShowNewConversationData(){
     const newConversationData = data.messages;
     showOneToOneConversation(newConversationData);
 
-    // tam thoi lay het messages lun, vi last time con phai theo user nua met vcl, vay thi append eu duoc :v
     // if (newConversationData.length > 0) {
     //   lastMessageTime = newConversationData.reduce( 
     //     (acc, cval) => new Date(cval.time) > new Date(acc.time) ? cval : acc 
@@ -151,8 +156,25 @@ function addBookCoverToList(imageSrc, idbook){
 
 
 // main() :v
+$('#btn-delete-conversation').click( () => {
+  const deleteConfirmed = confirm('Are you sure you want to delete THIS CONVERSATION?\n\nYou can NOT undo this action.')
+  if (deleteConfirmed) {
+    const idmember = localStorage.getItem('idmember');
+    //idbook, idreceiver: global
+
+    fetch(`/message/b2p?id1=${idmember}&id2=${idreceiver}&idbook=${idbook}`, {
+        method: "DELETE",
+      })
+      .then( (res) => res.json() )
+      .then( (data) => {console.log(data);
+        alert("Deleted");
+        window.location.href = `/message?idmember=${idmember}`;
+      });
+  }
+});
+
 $('#btn-exchange-done').click( () => {
-  const deleteConfirmed = confirm('Are you sure you want to delete this book and all of its conversations? You can NOT undo this action.')
+  const deleteConfirmed = confirm('Are you sure you want to delete THIS BOOK AND ALL OF ITS CONVERSATIONS?\n\nYou can NOT undo this action.')
   if (deleteConfirmed) {
     const idmember = localStorage.getItem('idmember');
     //idbook: global
@@ -175,11 +197,13 @@ let lastMessageTime = "1970-01-01T00:00:00.000Z";
 let idbook = new URLSearchParams(window.location.search).get('idbook');
 
 // code to list books that have conversation(s) below :v ("should be first")
-if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
+if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old conversations
+
   // idbook = data[0].idbook;
   book_idmember = data[0].book_idmember;
   book_image = data[0].book_image || 'placeholder.png';
-  $('.t-book-cover').attr('src', `/images/books/${book_image}`);
+  $('img.t-book-cover').attr('src', `/images/books/${book_image}`);
+  $('a.t-book-cover').attr('href', `/book?idbook=${idbook}`);
 
   // add other member involved in the conversation to the list
   for (let d of data) {  // data must be provided before calling this script
@@ -201,22 +225,27 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
       }
     } 
   }
-} else { // Object.keys(data).length = 0, aka new conversation
+} else { // new conversation
+
   idbook = new URLSearchParams(window.location.search).get('idbook');
 
   if (idbook && parseInt(idbook) > 0) {
+
     $.get(`/book/b_mb?idbook=${idbook}&accept=json`, (response) => {
+      if (response.success == false || response.book_members.length == 0) return;
+
       book_idmember = response.book_members[0].idmember;
       book_image = response.book_members[0].image || 'placeholder.png';
-      $('.t-book-cover').attr('src', `/images/books/${book_image}`);
+      $('img.t-book-cover').attr('src', `/images/books/${book_image}`);
+      $('a.t-book-cover').attr('href', `/book?idbook=${idbook}`);
 
       const userId = book_idmember;
       const userFullName = response.book_members[0].firstname + ' ' + response.book_members[0].lastname;
       addUserToList(userId, userFullName);
       handleClickOnUser(userId);
     }); 
-  } else {
-    // no idbook <=> click "Messages" on the nav bar
+  } else { // no idbook <=> click "Messages" on the nav bar
+    if ($('#btn-delete-conversation')) $('#btn-delete-conversation').remove();  // ok if condition chua chuan viet lai met wa
     // list books that have conversation(s)
     if (document.querySelector('main h4')) document.querySelector('main h4').remove();
     if (document.querySelector('main button')) document.querySelector('main button').remove();
@@ -249,7 +278,6 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){
           });
         }
       } else { // no conv. at all
-        // luoi viet lai, xoa cho nhanh
         if (document.querySelector('main h4')) document.querySelector('main h4').remove();
         if (document.querySelector('main button')) document.querySelector('main button').remove();
         if (document.querySelector('.t-info')) document.querySelector('.t-info').remove();
