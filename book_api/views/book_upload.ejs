@@ -20,14 +20,18 @@
     <div class="upload-items">
       <p><label>Auto fill info by ISBN: </label><input type="text" name="isbn" value="0451526538"><input type="button" name="auto_fill" value="Fill" onclick="autoFillBookInfo()"></p>
       <div>Image: <input type="file" name="image" accept="image/*" /></div>
-      <p><label>Book title: </label><input type="text" name="title"></p>
-      <p><label>Author(s): </label><input type="text" name="author"></p>  <!-- author for matching with the db -->
-      <p><label>Published Year: </label><input type="number" name="year" placeholder="Input the number of year"></p>
-      <p><label>Edition: </label><input type="number" name="edition" placeholder="Input the number"></p>
-      <p><label>Book condition: </label><input type="text" name="condition"></p>
+      <p><label>Book title: </label><input type="text" name="title" required></p>
+      <p><label>Author(s): </label><input type="text" name="author" required></p>  <!-- author for matching with the db -->
+      <p><label>Published Year: </label>
+        <input type="text" name="year" pattern="[0-9]+" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
+      </p>
+      <p><label>Edition: </label>
+        <input type="text" name="edition" pattern="[0-9]+" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
+      </p>
+      <p><label>Book condition: </label><input type="text" name="condition" required></p>
       <input class="upload-submit" type="submit">
     </div>
-    <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50"></textarea></p>
+    <p class="upload-summary"><label>Summary: </label><br><textarea name="description" rows="10" cols="50" required></textarea></p>
 
     <script type="text/javascript">
       function autoFillBookInfo() {
