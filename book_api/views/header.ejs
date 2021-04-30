@@ -17,9 +17,11 @@
   <!-- header_navbar -->
   <div class="header-navbar">
     <a href="/" class="t-logo"><img class="t-logo" src="/images/logo.PNG"></a>
-    <a href="/about" style="right:170px">About</a>
-    <button onclick="openSignupForm()" style="right:350px; color:#AB9353; background-color:#fdfbf3">Sign Up</button>
-    <button onclick="openLoginForm()" style="right:250px">Log In</button>
+    <div class="header-navbar-inner">
+    <a href="/about">About</a>
+    <button onclick="openSignupForm()" style="color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+    <button onclick="openLoginForm()" >Log In</button>
+    </div>
   </div>
 
   <div class="popup-signup-form" id="signupForm" >
