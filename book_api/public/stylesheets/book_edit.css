@@ -11,6 +11,7 @@
     text-align: left;
     float: left;
     padding-left: 50px;
+    margin-bottom: 90px;
 }
 
 .edit img {
@@ -59,8 +60,8 @@
     background-color: #AB9353;
     border: none;
     border-radius: 2px;
-    margin: 5px;
+    margin: 20px;
     font-size: 15px;
     cursor: pointer;
-    float: left;
+    float: right;
 }

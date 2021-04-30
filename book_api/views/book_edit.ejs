@@ -69,10 +69,9 @@
           <label>Book condition: </label>
           <input type="text" value="<%=book.condition%>" name="condition">
         </div>
+        <button class="edit-submit" type="submit">Submit</button> 
       </div>
-      <button class="edit-submit" type="submit">Submit</button> 
     </form>
-
   </div>
   
   <!-- Suit with css -->
@@ -132,7 +131,7 @@
             window.location.reload();
           }, 1000);
         })
-      } else {
+        } else {
         alert("File is empty");
       }
     })
