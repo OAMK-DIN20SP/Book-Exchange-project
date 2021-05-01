@@ -234,7 +234,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
     let infoElem = document.createElement('div');
     infoElem.className = 't-info';
     infoElem.innerHTML = `
-      Please click on a book to see the conversation(s) belong to it (that you get involved).
+      Please click on a book to see the conversation.
     `;
     document.querySelector('main').prepend(infoElem);
 
@@ -265,10 +265,8 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
         if (document.querySelector('.t-info')) document.querySelector('.t-info').remove();
         let infoElem = document.createElement('div');
         infoElem.innerHTML = `
-          You have no message.<br><br>
-          Conversations in this website are special in a way that they are one-to-one, grouped by books,
-          and a conversation will be gone when the book\'s owner delete his/her book
-          or mark it as "Exchange Completed".<br><br><br>
+          You have no messages.<br><br>
+          Messages will get deleted along with the books by clicking on the "Exchange done".<br><br><br>
         `;
         infoElem.style = "clear: both; margin-left: 50px;"
         document.querySelector('main').append(infoElem);
