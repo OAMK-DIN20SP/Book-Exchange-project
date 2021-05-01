@@ -93,6 +93,7 @@ function handleClickOnUser(userId){
 
   // set the receiver of the message (the global variable)
   idreceiver = userId;
+  if ($('#btn-delete-conversation')) $('#btn-delete-conversation').prop('disabled', false);
   document.querySelector('.t-message-container'). innerHTML = '';
   getAndShowNewConversationData();
   showSendArea();
