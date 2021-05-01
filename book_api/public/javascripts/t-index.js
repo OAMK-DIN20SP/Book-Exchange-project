@@ -25,10 +25,6 @@ $(document).ready( () => {
       
       for (let i=0; i<books.length; i++) {
         const book = books[i];
-        // await fetch(`/member/search?idmember=${book.idmember}`)
-        //   .then( res => res.json() )
-        //   .then( data => console.log(data) );
-
 
         innerHTMLString += `
           <tr>
@@ -38,13 +34,6 @@ $(document).ready( () => {
             <td><a href="/member?idmember=${book.idmember}">Visit owner</a></td>
           </tr>`;
 
-
-        // await $.ajax({
-        //   url: `/member/search?idmember=${book.idmember}`,
-        //   type: 'GET',
-        //   error: (err) => console.log(err),
-        //   success: (data) => console.log(data),
-        // });
       };
 
       for (let i=0; i<books.length; i++) {

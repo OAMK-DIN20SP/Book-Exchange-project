@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
       if (err) {
         res.json(err);
       } else {
-        console.log('dbResult sample', dbResult[0]);
         if (!accept) {
           res.render('message', { data: dbResult });
         } else if (accept == 'json') {
@@ -26,7 +25,6 @@ router.get('/', (req, res) => {
       if (err) {
         res.json(err);
       } else {
-        console.log('dbResult sample', dbResult[0]);
         if (!accept) {
           res.render('message', { data: dbResult });
         } else if (accept == 'json') {
@@ -63,7 +61,6 @@ router.delete('/b2p', (req, res) => {
       if (err) {
         res.json(err);
       } else {
-        console.log(dbResult);
         res.json( { success: true, message:'Conversation deleted.' } );
       }
     });
@@ -81,28 +78,22 @@ router.get('/withsocket', (req, res) => {
 });
 
 router.get('/latest', (req, res) => {  // when did I write this T_T ???
-  console.log('req.query:', req.query);
-  const idmember = req.query.idmember;
+  const {idmember} = req.query;
   const time = new Date(req.query.time).toISOString();
-  console.log(time);
   return message.getByIdmemberAndTime(idmember, time, (err, dbResult) => {
     if (err) {
       res.json(err);
     } else {
       res.json(dbResult);
-      console.log('messageRouter.get, dbResult:', dbResult, dbResult.sqlMessage);
     }
   });
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
   message.add(req.body, (err, dbResult) => {
     if (err) {
       console.log(err);
       res.send( {success: false} );
-      console.log('error rui');
-      console.log(err);
     } else {
       console.log('message insert success, affect rows = ', dbResult.affectedRows);
       res.send( {success: true} );

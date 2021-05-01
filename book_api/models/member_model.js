@@ -2,7 +2,6 @@ const db = require('../database.js');
 
 const member = {
     get: (emailaddress, password, callback) => {
-        console.log(emailaddress, password);
         db.query('select idmember, firstname, lastname, emailaddress, address, phonenumber, image from `member` where emailaddress=? and password=?', 
             [emailaddress, password],
             callback);

@@ -29,7 +29,6 @@ router.get('/', (req, res) => {
             console.log(err);
             responses.json( {success: false} );
         } else {
-            // console.log(responses.books); // not only data
             if (!accept) {
                 res.render( 'member', {
                     'success': true, 
@@ -68,7 +67,6 @@ router.get('/search', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-    console.log(req.body);
     member.add( req.body, (err, dbResult) => {
         if (err) {
             console.log(err);
@@ -84,13 +82,12 @@ router.post('/add', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    console.log(req.body.emailaddress, req.body.password);
-    member.get(req.body.emailaddress, req.body.password, (err, dbResult) => {
+    const { emailaddress, password } = req.body;
+    member.get(emailaddress, password, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
             if (dbResult.length > 0) {
-                console.log(dbResult);
                 res.redirect('/member?idmember=' + dbResult[0].idmember);
                 // res.json(dbResult);
             } else {
@@ -102,13 +99,12 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/login2', (req, res) => { // res w/ json, no redirect
-    console.log(req.body.emailaddress, req.body.password);
-    member.get(req.body.emailaddress, req.body.password, (err, dbResult) => {
+    const { emailaddress, password } = req.body;
+    member.get(emailaddress, password, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
             if (dbResult.length > 0) {
-                console.log(dbResult);
                 res.json(dbResult);
                 // res.json(dbResult);
             } else {
