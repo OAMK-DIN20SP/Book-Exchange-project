@@ -16,6 +16,9 @@
     color: #565656;
     margin: 0px 5px;
 }
+.header-navbar a:hover {
+    color: #AB9353;
+}
 
 @media (max-width: 768px) {
     .header-navbar {
@@ -51,7 +54,8 @@
 .signup-form, .login-form {
     width: 1624px;
     height: 830px;
-    padding: 20px 650px 20px 550px;
+    /* padding: 20px 650px 20px 550px; */
+    padding: 20px 600px 20px 600px;
     background-color: rgba(255,255,255,0.9);
 }
 
@@ -62,10 +66,11 @@
     text-align: center;
 }
 
-.signup-form label, .signup-form label {
+.signup-form label, .login-form label {
     float: left;
     width: 32%;
     margin-top: 20px;
+    text-align: left;
 }
 
 .signup-form input[type=text],
@@ -122,6 +127,7 @@ img.t-header-avatar{
     width: 50px;
     position: absolute;
     right: 20px;
+    top: 18px;
     border-radius: 50%;
     height: 50px;
 }

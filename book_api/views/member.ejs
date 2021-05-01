@@ -14,22 +14,38 @@
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
-    .t-my-books-heading { display: flex; align-items: center; }
-    .t-my-books-heading form { margin-left: 30px; }
-    #t-book-listing img {width:200px;height:300px;padding-bottom: 10px;}
-    #t-book-listing {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          margin: 20px;
-          padding: 0px 110px;
-      }
+    .t-my-books-heading { 
+      display: flex; 
+      align-items: center; 
+    }
+    .t-my-books-heading form { 
+      margin-left: 30px; 
+    }
+    #t-book-listing img {
+      width:250px;
+      height:320px;
+      margin: 20px;
+    }
 
-      #t-book-listing a {
-        flex: 1 0 calc(25% - 30px);
-        display: flex;
-        justify-content: center;
-      }
+    #t-book-listing img:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+      cursor: pointer;
+      margin-top: -10px;
+    }
+    #t-book-listing {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 20px;
+      justify-content: flex-start;
+      padding: 0px 110px;
+    }
+
+    #t-book-listing a {
+/*       flex: 1 0 calc(25% - 30px);
+      display: flex;
+      justify-content: center; */
+    }
 
     .editable {
         border: 1px solid black;
@@ -159,6 +175,22 @@
       font-size: 20px;
     }
     .upload-book-button:hover {
+      filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+      cursor: pointer;
+    }
+
+    .edit-confirm-button {
+      width: 120px;
+      height: 40px;
+      color: #fff;
+      background-color: #AB9353;
+      border: none;
+      border-radius: 2px;
+      margin: 15px;
+      font-size: 20px;
+    }
+
+    .edit-confirm-button:hover {
       filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
       cursor: pointer;
     }
@@ -356,7 +388,7 @@
           <td><label>Address </label></td>
           <td><input type="text" value="${members[0].address || ''}" name="address"></td>
         </tr>
-        <button type="submit" id="btnDom">Confirm</button>
+        <button class="edit-confirm-button" type="submit" id="btnDom">Confirm</button>
       `
     }
     

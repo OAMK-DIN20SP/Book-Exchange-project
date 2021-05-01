@@ -40,9 +40,9 @@
   </form> -->
   <h2 class="edit-text">Edit your book</h2>
   <div class="edit">
-    <img src="/images/books/<%=book.image%>" style="width:100px;height:100px">
-    <form class="edit-form1" method="POST" enctype="multipart/form-data" id="edit-from1">
-      <div><label for="t-file-picker">Change cover</label><input style="display:none;" type="file" accept="image/*" value="" name="image" id="t-file-picker"/></div>
+    <img src="/images/books/<%=book.image%>" style="width:180px;height:230px">
+    <form method="POST" enctype="multipart/form-data" id="edit-from1">
+      <div class="edit-image-button"><label for="t-file-picker">Change cover</label><input style="display:none;" type="file" accept="image/*" value="" name="image" id="t-file-picker"/></div>
       <!-- <button type="submit">Edit image</button> -->
     </form>
   </div>
