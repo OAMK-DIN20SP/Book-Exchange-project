@@ -274,3 +274,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
     }); 
   }
 }
+
+if (window.location.href.split("?")[1].indexOf("&") != -1) {
+  document.querySelector("#hidan").style.display = "block";
+}
