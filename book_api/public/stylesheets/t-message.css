@@ -21,7 +21,7 @@
 
 .t-book-cover {
     display: inline-block;
-    margin-left: 16px;
+    margin-left: 15px;
 }
 
 img.t-book-cover {
@@ -29,8 +29,8 @@ img.t-book-cover {
 }
 
 .t-book-cover img {
-    width: 150px;
-    height: 200px;
+    width: 180px;
+    height: 220px;
 }
 
 button {
@@ -58,6 +58,7 @@ button {
     border: 1px solid gray;
     border-radius: 4px;
     text-align: center;
+    margin-left: 100px;
 }
 
 .t-user-item:hover {     
@@ -72,6 +73,8 @@ button {
     border-radius: 4px;
     width: 300px;
     display: block;
+    margin-left: 100px;
+
 }
 
 .outgoing-message {
@@ -156,7 +159,23 @@ span.time-date {
 }
 
 #btn-exchange-done, #btn-delete-conversation {
-    margin: auto;
+    width: 160px;
+    height: 50px;
+    color: #fff;
+    background-color: #AB9353;
+    border: none;
+    border-radius: 2px;
+    margin: 15px;
+    font-size: 20px;
+}
+#btn-exchange-done:hover {
+    filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+    cursor: pointer;
+  }
+
+#btn-delete-conversation:hover {
+    filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
+    cursor: pointer;
 }
 
 .t-flex {

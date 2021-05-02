@@ -22,8 +22,6 @@ router.get('/', (req, res) => {
             res.json(err);
         } else {
             if (dbResult.length > 0) {
-                // res.json(dbResult[0]);
-                console.log(dbResult[0]);
                 if (!accept) {
                     res.render('book_detail', { book: dbResult[0]});
                 } else if (accept == 'json') {
@@ -59,9 +57,6 @@ router.get('/b_mb', (req, res) => { // book look up member
 
 router.get('/upload', (req, res) => {
     const { idmember } = req.query;
-    console.log(idmember);
-    console.log(!idmember);
-    console.log(parseInt(idmember));
     if (!idmember || isNaN(idmember) || parseInt(idmember) <= 0) {
         res.redirect('/login');
         return
@@ -72,7 +67,6 @@ router.get('/upload', (req, res) => {
 });
 
 router.post('/upload', (req, res) => {
-    console.log('req.body.idmember', req.body.idmember);
     book.getByIdmember( req.body.idmember, (err, dbResult) => {
         err ? res.json(err) : res.render('book_upload');
     } )
@@ -128,14 +122,12 @@ router.get('/search', (req, res) => {
     }
 
     const { idbook } = req.query;
-    console.log(idbook);
     if (idbook) {
         book.getByIdbook( idbook, (err, dbResult) => {
             if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
-                console.log(dbResult);
                 res.json( { success: true, totalBooks: dbResult.length, books: dbResult } );
             }    });
         return
@@ -155,7 +147,6 @@ router.get('/latest', (req, res) => {
 
 router.delete('/delete', (req, res) => {
     const { idmember, idbook } = req.query;
-    console.log(idmember, idbook);
     book.delete( idmember, idbook, (err, dbResult) => {
         if (err) {
             console.log(err);
@@ -168,14 +159,10 @@ router.delete('/delete', (req, res) => {
 
 // EDIT BOOK
 router.get('/edit', (req, res) => {
-
-    console.log('req.query.idbook:', req.query.idbook);
     book.getByIdbook( req.query.idbook, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
-            // res.json(dbResult[0]);
-            console.log(dbResult[0]);
             res.render('book_edit', { book: dbResult[0]});
         }
     });

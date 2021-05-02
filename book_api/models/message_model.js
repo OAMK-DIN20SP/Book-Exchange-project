@@ -32,7 +32,7 @@ const message = {
     // delete all messages for the specified: book, person 1, person 2
     return db.query(
       "delete from message where idbook=? and (idmember=? or idreceiver=?) and (idmember=? or idreceiver=?)",
-      [idbook, id1, id1, id2, id2, time],
+      [idbook, id1, id1, id2, id2],
       callback
     );
   },

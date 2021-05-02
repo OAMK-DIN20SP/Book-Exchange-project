@@ -69,6 +69,7 @@ function validateSignupForm() {
 
 
 $(document).ready( () => {
+
   $('button.signup-button').click( () => openSignupForm());
   $('button.login-button').click( () => openLoginForm());
 
@@ -136,6 +137,8 @@ $(document).ready( () => {
       const member_image = data.members[0].image;
       avatarElem.src = `/images/avatars/${member_image || 'placeholder.png'}`;
       headerElem.append(avatarElem);
+      $('img.t-header-avatar').click( () => window.location.href = '/member?idmember=' + localStorage.getItem('idmember'));
+      $('img.t-header-avatar').css('cursor', 'pointer');
     });
 
     $('#btn-logout').click( () => {
