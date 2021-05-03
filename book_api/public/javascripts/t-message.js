@@ -75,12 +75,11 @@ function sendMessage() {
 
 
 function updateMsg_seen_totals(messages, idmember, idreceiver, idbook){
-  if (!messages || messages.length == 0) return;
+  if (!messages) return;  // case []: still set LS in case of delete conv
 
   let msg_seen_totals = getMsg_seen_totals() || [];
   let cur_msg_seen_total = {};
   const seen = messages.length;
-  const total = messages.length;
 
   for (i = 0; i < msg_seen_totals.length; i++){
     m = msg_seen_totals[i];
@@ -91,7 +90,7 @@ function updateMsg_seen_totals(messages, idmember, idreceiver, idbook){
     }
   }
 
-  cur_msg_seen_total = { idbook, idmember, idreceiver, seen, total };
+  cur_msg_seen_total = { idbook, idmember, idreceiver, seen };
   msg_seen_totals.push( cur_msg_seen_total );
   setMsg_seen_totals(msg_seen_totals);
 }
@@ -190,6 +189,23 @@ $('#btn-delete-conversation').click( () => {
       })
       .then( (res) => res.json() )
       .then( (data) => {
+        const msg_seen_totals = getMsg_seen_totals() || [];
+        let cur_msg_seen_total = {};
+
+        for (i = 0; i < msg_seen_totals.length; i++){
+          m = msg_seen_totals[i];
+          if ( m.idbook == idbook && m.idmember == idmember && m.idreceiver == idreceiver ) {  // partners
+            cur_msg_seen_total = m;
+            msg_seen_totals.splice(i, 1);  
+            break
+          }
+        }
+
+        const seen = 0;  // delete conv => reset
+        cur_msg_seen_total = { idbook, idmember, idreceiver, seen };
+        msg_seen_totals.push( cur_msg_seen_total );
+        setMsg_seen_totals(msg_seen_totals);
+
         alert("Deleted");
         window.location.href = `/message?idmember=${idmember}`;
       });
