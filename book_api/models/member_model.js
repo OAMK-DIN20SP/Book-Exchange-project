@@ -27,12 +27,18 @@ const member = {
             callback);
     },
 
+    // add: (member, callback) => {
+    //     bcrypt.hash(member.password, saltRounds, function(err, hash) {
+    //       return db.query('insert into `member`(firstname, lastname, emailaddress, password, address, phonenumber) values(?, ?, ?, ?, ?, ?)',
+    //           [member.firstname, member.lastname, member.emailaddress, hash, member.address, member.phonenumber],
+    //           callback);
+    //     });
+    // },
+
     add: (member, callback) => {
-        bcrypt.hash(member.password, saltRounds, function(err, hash) {
-          return db.query('insert into `member`(firstname, lastname, emailaddress, password, address, phonenumber) values(?, ?, ?, ?, ?, ?)',
-              [member.firstname, member.lastname, member.emailaddress, hash, member.address, member.phonenumber],
-              callback);
-        });
+      return db.query('insert into `member`(firstname, lastname, emailaddress, password, address, phonenumber) values(?, ?, ?, ?, ?, ?)',
+          [member.firstname, member.lastname, member.emailaddress, member.password, member.address, member.phonenumber],
+          callback);
     },
 
     update1: function(idmember, member, callback) {
