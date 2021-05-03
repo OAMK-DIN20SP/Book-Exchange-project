@@ -279,7 +279,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
       const userId = book_idmember;
       const userFullName = response.book_members[0].firstname + ' ' + response.book_members[0].lastname;
       addUserToList(userId, userFullName);
-      // handleClickOnUser(userId);
+      // handleClickOnUser(userId);  // no click simulation
     }); 
   } else { // no idbook <=> click "Messages" on the nav bar
     if ($('#btn-delete-conversation')) $('#btn-delete-conversation').remove();
@@ -297,7 +297,6 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
     $.get(`/message?idmember=${idmember}&accept=json`, (response) => {
       const messages = response.messages;
       const idbooks = [];
-      let perBookTotalSeenMessages = [];
 
       if (messages.length > 0){
         for (let message of messages){

@@ -4,12 +4,6 @@ const bcrypt = require('bcryptjs');
 const saltRounds=10;
 
 const member = {
-    getPassword: (emailaddress, callback) => {
-        db.query('select password from `member` where emailaddress=?', 
-            [emailaddress],
-            callback);
-    },
-
     getByEmailaddress: (emailaddress, callback) => {
         db.query('select * from `member` where emailaddress=?', 
             [emailaddress],
@@ -40,12 +34,6 @@ const member = {
               callback);
         });
     },
-
-    // add: (member, callback) => {
-    //   return db.query('insert into `member`(firstname, lastname, emailaddress, password, address, phonenumber) values(?, ?, ?, ?, ?, ?)',
-    //       [member.firstname, member.lastname, member.emailaddress, member.password, member.address, member.phonenumber],
-    //       callback);
-    // },
 
     update1: function(idmember, member, callback) {
         return db.query(

@@ -85,7 +85,6 @@ $(document).ready( () => {
   $('#btn-login').click( () => {
     const loginData = Object.fromEntries(new FormData(document.querySelector('form.login-form')).entries());
     loginData.accept = 'json';
-    console.log(loginData);
     $.post( '/member/login', loginData, (data, status) => {
       if (data.success == false) {
         alert("Invalid email and/or password");
@@ -174,7 +173,6 @@ $(document).ready( () => {
       const idmember = localStorage.getItem('idmember');
 
       const totalSeenMessages = msg_seen_totals.filter( e => e.idmember == idmember || e.idreceiver == idmember ).reduce( (a, b) => a + b.seen, 0);
-      console.log(data.messages.length, totalSeenMessages);
 
       if (data.messages.length > totalSeenMessages) {
         if($('.t-label-new-my-message')) $('.t-label-new-my-message').remove();

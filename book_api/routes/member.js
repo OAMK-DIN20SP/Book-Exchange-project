@@ -84,7 +84,6 @@ router.post('/add', (req, res) => {
 
 router.post('/login', (req, res) => {
     const { emailaddress, password, accept } = req.body;
-    console.log(req.headers);
 
     if (!emailaddress.trim() || !password.trim() ) {
         console.log("username or password missing");
@@ -121,36 +120,6 @@ router.post('/login', (req, res) => {
     });
     
 });
-
-// router.post('/login', (req, res) => { 
-//     const { emailaddress, password } = req.body;
-//     member.get(emailaddress, password, (err, dbResult) => {
-//         if (err) {
-//             res.json(err);
-//         } else {
-//             if (dbResult.length > 0) {
-//                 res.redirect('/member?idmember=' + dbResult[0].idmember);
-//             } else {
-//                 res.json( {success: false, message: 'Invalid email and/or password'});
-//             }
-//         }
-//     });
-// });
-
-// router.post('/login2', (req, res) => { // res w/ json, no redirect
-//     const { emailaddress, password } = req.body;
-//     member.get(emailaddress, password, (err, dbResult) => {
-//         if (err) {
-//             res.json(err);
-//         } else {
-//             if (dbResult.length > 0) {
-//                 res.json(dbResult);
-//             } else {
-//                 res.json( {success: false, message: 'Invalid email and/or password'});
-//             }
-//         }
-//     });
-// });
 
 // NEW
 router.put('/', upload.single('image'), (req, res) => {
