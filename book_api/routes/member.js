@@ -6,6 +6,7 @@ var async = require('async');
 var multer = require('multer');
 const helpers = require('../helpers');
 const path = require('path');
+const bcrypt = require('bcryptjs');
 
 // ADD IMAGE
 var multer = require('multer');
@@ -33,7 +34,7 @@ router.get('/', (req, res) => {
                 res.render( 'member', {
                     'success': true, 
                     totalBooks: responses.books[0].length, 
-                    books: responses.books[0], //responses.books: not only data
+                    books: responses.books[0],
                     totalMembers: responses.member[0].length, 
                     members: responses.member[0] }
                 );
@@ -41,7 +42,7 @@ router.get('/', (req, res) => {
                 res.json( {
                     'success': true, 
                     totalBooks: responses.books[0].length, 
-                    books: responses.books[0], //responses.books: not only data
+                    books: responses.books[0],
                     totalMembers: responses.member[0].length, 
                     members: responses.member[0] }
                 );
@@ -82,15 +83,34 @@ router.post('/add', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-    const { emailaddress, password } = req.body;
-    member.get(emailaddress, password, (err, dbResult) => {
+    const { emailaddress, password, accept } = req.body;
+
+    if (!emailaddress.trim() || !password.trim() ) {
+        console.log("username or password missing");
+        res.json( {success: false, message: 'Invalid email and/or password'});
+        return
+    }
+
+    member.getPassword(emailaddress, (err, dbResult) => {
         if (err) {
             res.json(err);
         } else {
             if (dbResult.length > 0) {
-                res.redirect('/member?idmember=' + dbResult[0].idmember);
-                // res.json(dbResult);
+                bcrypt.compare( password, dbResult[0].password, (err, compareResult) => {
+                    if (compareResult) {
+                        if (!accept) {
+                            res.redirect('/member?idmember=' + dbResult[0].idmember);
+                        } else if (accept == 'json'){
+                            
+                        }
+                    } else {
+                        console.log('Wrong password');
+                        res.json( {success: false, message: 'Invalid email and/or password'});
+                    }
+                });
+                
             } else {
+                console.log("user does not exists");
                 res.json( {success: false, message: 'Invalid email and/or password'});
             }
         }
@@ -106,7 +126,6 @@ router.post('/login2', (req, res) => { // res w/ json, no redirect
         } else {
             if (dbResult.length > 0) {
                 res.json(dbResult);
-                // res.json(dbResult);
             } else {
                 res.json( {success: false, message: 'Invalid email and/or password'});
             }

@@ -14,6 +14,39 @@
 
   <!-- STYLES FOR TESTING, FEEL FREE TO COMMENT THEM OUT -->
   <style>
+    #page_span, #btn_next, #btn_prev {color:#565656;font-size:20px;cursor: pointer;}
+    #btn_next, #btn_prev {
+      border: none;
+      background: none;
+      color: #BCA975;
+      padding: 4px 10px;
+      border: 1px solid white;
+    }
+    #btn_next[disabled], #btn_prev[disabled] {color:#cecece;cursor: auto;border:none;}
+    #btn_next[disabled]:hover, #btn_prev[disabled]:hover {border:none;}
+
+    .t-pagination {display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;}
+
+    span.page-number {
+        width: 30px;
+        padding: 4px 0px;
+        margin-right: 4px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid white;
+    }
+
+    span.page-number:hover, #btn_next:hover, #btn_prev:hover {border: 1px solid gray; border-radius: 4px;}
+
+    .current-page {
+        background: #BCA975;
+        border-radius: 4px;
+    }
+
     .t-my-books-heading { 
       display: flex; 
       align-items: center; 
@@ -230,7 +263,7 @@
         border-radius: 2px;
         margin: 15px;
         cursor: pointer;
-        padding: 5px;
+        padding: 6px 15px;
     }
 
     label[for="t-file-picker"]:hover {
@@ -305,12 +338,12 @@
         </div>
         <div class="centered-pagination">
           <div class="t-pagination">
-              <a id="btn_prev">Previous</a>
+              <button id="btn_prev">< Previous</button>
               <!-- <a id="page_span" class="active">1</a>
               <a id="page_span">2</a>
               <a id="page_span">3</a> -->
               <div id="page_span"></div>
-              <a id="btn_next">Next</a>
+              <button id="btn_next">Next ></button>
           </div>
         </div>
       </div>  
@@ -372,23 +405,23 @@
       tableDom.innerHTML = `
         <tr>
           <td><label>First name </label></td>
-          <td><input type="text" value="${members[0].firstname}" name="firstname"></td>
+          <td><input type="text" value="${members[0].firstname}" name="firstname" required></td>
         </tr>
         <tr>
           <td><label>Last name </label></td>
-          <td><input type="text" value="${members[0].lastname || ''}" name="lastname"></td>
+          <td><input type="text" value="${members[0].lastname || ''}" name="lastname" required></td>
         </tr>
         <tr>
           <td><label>Email </label></td>
-          <td><input type="text" value="${members[0].emailaddress}" name="emailaddress"></td>
+          <td><input type="email" value="${members[0].emailaddress}" name="emailaddress" required></td>
         </tr>
         <tr> 
           <td><label>Phone </label></td>
-          <td><input type="text" value="${members[0].phonenumber || ''}" name="phonenumber"></td>
+          <td><input type="text" value="${members[0].phonenumber || ''}" name="phonenumber" required></td>
         </tr>
         <tr>
           <td><label>Address </label></td>
-          <td><input type="text" value="${members[0].address || ''}" name="address"></td>
+          <td><input type="text" value="${members[0].address || ''}" name="address" required></td>
         </tr>
         <button class="edit-confirm-button" type="submit" id="btnDom">Confirm</button>
       `
@@ -441,8 +474,14 @@
         
     function changePage(page)
     {
-      // const btnNextElem = document.getElementById("t-btn-next");
-      // const btnPrevElem = document.getElementById("t-btn-prev");
+      if (books.length == 0) {
+        if ($('#btn_next')) $('#btn_next').hide();
+        if ($('#btn_prev')) $('#btn_prev').hide();
+        return
+      };
+
+      currentPage = page;
+
       const btnNextElem = document.getElementById("btn_next");
       const btnPrevElem = document.getElementById("btn_prev");
       const bookListingElem = document.getElementById("t-book-listing");
@@ -483,6 +522,8 @@
       } else {
         btnNextElem.disabled = false;
       }
+
+      if (page == 1) $('#t-book-listing').css('min-height', $('#t-book-listing').height());
     }
 
     

@@ -79,15 +79,11 @@ router.post('/add', upload.single('image'), (req, res) => {
     req.body.image = req.file.filename;
     
     if (req.body.idmember && parseInt(req.body.idmember) > 0) {
-        // if ( !Number.isNaN(req.body.year) ) req.body.year = null;
-        // if ( !Number.isNaN(req.body.edition) ) req.body.edition = null;
-
         book.add( req.body, (err, dbResult) => {
             if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
-                // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
                 res.redirect( '/book?idbook=' + dbResult.insertId );
             }    
         });
@@ -181,14 +177,11 @@ router.put('/edit', upload.single('image'), (req, res) => {
         });
     }
     else {
-        // const {idbook} = req.query;
         book.update2( req.query.idbook, req.body, (err, dbResult) => {
             if (err) {
                 console.log(err);
                 res.json( { success: false });
             } else {
-                // res.json( { success: true, message: 'Book sucessfully uploaded.' } );
-                // res.redirect( '/book?idbook=' + dbResult.insertId );
                 res.json(dbResult);
             }
         });

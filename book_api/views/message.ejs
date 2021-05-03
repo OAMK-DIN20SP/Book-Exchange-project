@@ -53,6 +53,10 @@
     if (data && data[0] && parseInt(data[0].book_idmember) > 0 && localStorage.getItem('idmember') != data[0].book_idmember){
       if ($('#btn-exchange-done')) $('#btn-exchange-done').remove();
     }
+
+    if (data && data.length == 0){
+      if ($('#btn-exchange-done')) $('#btn-exchange-done').remove();
+    }
   </script>
   <script type="text/javascript" src="/javascripts/t-message.js"></script>
 </body>

@@ -68,6 +68,9 @@ function validateSignupForm() {
 } 
 
 
+
+
+// main()
 $(document).ready( () => {
 
   $('button.signup-button').click( () => openSignupForm());
@@ -81,7 +84,6 @@ $(document).ready( () => {
 
   $('#btn-login').click( () => {
     $.post( '/member/login2', $('form.login-form').serialize(), (data, status) => {
-      console.log( 'Data responded from server:', data);
       if (data.success == false) {
         alert("Invalid email and/or password");
       } else {
@@ -97,7 +99,6 @@ $(document).ready( () => {
     if ( !validateSignupForm() ) return;
 
     $.post( '/member/add', $('form.signup-form').serialize(), (data, status) => {
-      console.log(data.success);
       alert(data.message);
       if (data.success) {
         openLoginForm();
@@ -152,4 +153,86 @@ $(document).ready( () => {
     });
 
   }
+
+  let headerIntervalId;
+
+  headerIntervalId = setInterval( function() {
+    const idmember = localStorage.getItem('idmember');
+    if (!idmember || parseInt(idmember) <= 0) return;
+
+    $.get(`/message?idmember=${idmember}&accept=json`, (data) => {
+      if (data.success == false) return;
+
+      let msg_seen_totals = getMsg_seen_totals() || [];
+      const idmember = localStorage.getItem('idmember');
+
+      // const totalSeenMessages = msg_seen_totals.filter( e => e.idmember == idmember ).reduce( (a, b) => a + b.total, 0);
+      // console.log(data.messages.length, totalSeenMessages);
+
+      // if (data.messages.length > totalSeenMessages) {
+      //   if($('.t-label-new-my-message')) $('.t-label-new-my-message').remove();
+      //   addLabelNewTo(document.querySelector('#my-messages'), "", "t-label-new-my-message");
+      // };
+
+      const pathname = window.location.pathname;
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const urlIdmember = urlSearchParams.get('idmember');
+      const urlIdbook = urlSearchParams.get('idbook');
+
+      if (pathname == '/message' && urlIdmember && parseInt(urlIdmember)) {
+        if (!idbook) {
+          // console.log('first view');
+          const ss = document.querySelectorAll('.t-book-list .t-book-cover');
+          
+          for (let m of ss) {
+            const msg_seen_totals = getMsg_seen_totals() || [];
+            const filtered_msg_seen_totals = msg_seen_totals.filter( e => e.idbook == +m.getAttribute('data-idbook') );
+
+            if (filtered_msg_seen_totals.length == 0) {
+              if (m.querySelector('.t-label-new-book-cover')) m.querySelector('.t-label-new-book-cover').remove();
+              addLabelNewToBookCover(m);
+            };
+
+            const totalSeenMessages = filtered_msg_seen_totals.reduce( (a, b) => a + b.total, 0 );
+            const totalDataMessages = data.messages.filter( e => e.idbook == +m.getAttribute('data-idbook') ).length;
+
+            if (totalDataMessages > totalSeenMessages) {
+              if (m.querySelector('.t-label-new-book-cover')) m.querySelector('.t-label-new-book-cover').remove();
+              addLabelNewToBookCover(m);
+            };
+
+          }
+        } else if (urlIdbook && parseInt(urlIdbook) > 0) {
+          if (!document.getElementById('btn-send')) {
+            // console.log('second view');
+            const ss = document.querySelectorAll('.t-user-item');
+          
+            for (let m of ss) {
+              const msg_seen_totals = getMsg_seen_totals() || [];
+              const id1 = localStorage.getItem('idmember');
+              const id2 = m.classList[1].split('-')[1];
+              const filtered_msg_seen_totals = msg_seen_totals.filter( e => e.idbook == urlIdbook && (e.idmember == id1 || e.idreceiver == id1) && (e.idmember == id2 || e.idreceiver == id2) );
+              
+              if (filtered_msg_seen_totals.length == 0) {
+                if (m.querySelector('.t-label-new-user-item')) m.querySelector('.t-label-new-user-item').remove();
+                addLabelNewTo(m, "", "t-label-new-user-item");
+              };
+
+              const totalSeenMessages = filtered_msg_seen_totals.reduce( (a, b) => a + b.total, 0 );
+              const totalDataMessages = data.messages.filter( e => e.idbook == urlIdbook && (e.idmember == id1 || e.idreceiver == id1) && (e.idmember == id2 || e.idreceiver == id2) ).length;
+
+              if (totalDataMessages > totalSeenMessages) {
+                if (m.querySelector('.t-label-new-user-item')) m.querySelector('.t-label-new-user-item').remove();
+                addLabelNewTo(m, "top:0px;padding-left:4px;", "t-label-new-user-item");
+              };
+            }
+          } else {
+            // console.log('"third" view');
+            // nothing, handleclickonuser handles
+          }
+        }
+      }
+      
+    });
+  }, 500);
 });

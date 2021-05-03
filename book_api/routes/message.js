@@ -40,13 +40,11 @@ router.get('/', (req, res) => {
 router.post('/b2p', (req, res) => {
   // book and 2 people and last message time
   const { id1, id2, idbook, time } = req.body;
-  console.log('time:', time);
   if ( id1 && parseInt(id1) > 0 && id2 && parseInt(id2) > 0 && idbook && parseInt(idbook) > 0 ) {
     return message.getByBookAndTwoPeople(id1, id2, idbook, time, (err, dbResult) => {
       if (err) {
         res.json(err);
       } else {
-        console.error('b2p dbResult sample', dbResult[0]);
         res.json( { success: true, totalMessages: dbResult.length, messages: dbResult } );
       }
     });
@@ -67,17 +65,7 @@ router.delete('/b2p', (req, res) => {
   }
 });
 
-router.get('/withsocket', (req, res) => {
-  return member.getAll( (err, dbResult) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.render('message_withsocket', { data: dbResult });
-    }
-  });
-});
-
-router.get('/latest', (req, res) => {  // when did I write this T_T ???
+router.get('/latest', (req, res) => {
   const {idmember} = req.query;
   const time = new Date(req.query.time).toISOString();
   return message.getByIdmemberAndTime(idmember, time, (err, dbResult) => {

@@ -23,6 +23,8 @@
         cursor: pointer;
         padding: 5px;
     }
+
+
   </style>
 <% if (locals.book) { %>
   <script type="text/javascript">
@@ -51,23 +53,23 @@
       <div class="edit-form">
         <div>
           <label>Book title: </label>
-          <input type="text" value="<%=book.title%>" name="title">
+          <input type="text" value="<%=book.title%>" name="title" required>
         </div>
         <div>
           <label>Author(s): </label>
-          <input type="text" value="<%=book.author%>" name="author">
+          <input type="text" value="<%=book.author%>" name="author" required>
         </div>
         <div>
           <label>Published Year: </label>
-          <input type="text" value="<%=book.year%>" name="year">
+          <input type="text" inputmode="numeric" maxlength="4" pattern="[0-9]*" value="<%=book.year%>" name="year" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
         </div>
         <div>
           <label>Edition: </label>
-          <input type="text" value="<%=book.edition%>" name="edition">
+          <input type="text" inputmode="numeric" maxlength="4" pattern="[0-9]*" value="<%=book.edition%>" name="edition" oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')" required>
         </div>
         <div>
           <label>Book condition: </label>
-          <input type="text" value="<%=book.condition%>" name="condition">
+          <input type="text" value="<%=book.condition%>" name="condition" required>
         </div>
         <button class="edit-submit" type="submit">Submit</button> 
       </div>

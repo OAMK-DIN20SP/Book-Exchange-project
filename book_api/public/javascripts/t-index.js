@@ -6,11 +6,24 @@ $(document).ready( () => {
       const books = data.books;
       let searchResultElem = document.createElement('div');
       searchResultElem.id = 'search-result';
+
+      if (books.length == 0 ) {
+        searchResultElem.innerHTML = `
+          <div class="search-result-title">
+            <h2>Search Results</h2>
+            <button id="btn-close-search-result">X</button>
+          </div>
+          <div style="width: 500px;"><h3>No books found.</h3></div>
+        `;
+        $('main').append(searchResultElem);
+        $('#btn-close-search-result').click( () => $('#search-result').remove() );
+        return
+      }
       
       let innerHTMLString = `
         <div class="search-result-title">
           <h2>Search Results</h2>
-          <button id="btn-close-search-result">Close</button>
+          <button id="btn-close-search-result">X</button>
         </div>
         <table>
           <thead>

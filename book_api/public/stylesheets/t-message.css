@@ -10,18 +10,18 @@
     margin-bottom: 20px;
     display: block;
     text-align: center;
-    /* margin-left: 250px; */
 }
 
 .t-book-list {
     display: flex;
     justify-content: center;
-    /* margin-left: 234px; */
+    flex-wrap: wrap;
 }
 
 .t-book-cover {
     display: inline-block;
     margin-left: 15px;
+    overflow: hidden !important;
 }
 
 img.t-book-cover {
@@ -168,6 +168,11 @@ span.time-date {
     margin: 15px;
     font-size: 20px;
 }
+
+#btn-delete-conversation[disabled] {
+    filter: brightness(.8);
+}
+
 #btn-exchange-done:hover {
     filter: drop-shadow(2px 3px 4px gray) brightness(1.1);
     cursor: pointer;
@@ -178,6 +183,27 @@ span.time-date {
     cursor: pointer;
 }
 
+#btn-delete-conversation:hover[disabled] {
+    filter: brightness(.8);
+    cursor: auto;
+}
+
 .t-flex {
     display: flex;
+}
+
+.t-label-new-book-cover {
+    font: bold 15px sans-serif;
+    color: #333;
+    text-align: center;
+    position: auto !important;
+    padding: 7px 0;
+    top: 0px !important;
+    right: 180px !important;
+    width: 180px !important;
+    margin-right: -180px;
+    background-color: #ebb134 !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+    z-index: 1;
 }

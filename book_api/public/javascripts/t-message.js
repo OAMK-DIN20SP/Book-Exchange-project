@@ -74,14 +74,50 @@ function sendMessage() {
 }
 
 
+function updateMsg_seen_totals(messages, idmember, idreceiver, idbook){
+  if (!messages || messages.length == 0) return;
+
+  let msg_seen_totals = getMsg_seen_totals() || [];
+  let cur_msg_seen_total = {};
+  const seen = messages.length;
+  const total = messages.length;
+
+  for (i = 0; i < msg_seen_totals.length; i++){
+    m = msg_seen_totals[i];
+    if ( m.idbook == idbook && m.idmember == idmember && m.idreceiver == idreceiver ) {
+      cur_msg_seen_total = m;
+      msg_seen_totals.splice(i, 1);
+      break
+    }
+  }
+
+  cur_msg_seen_total = { idbook, idmember, idreceiver, seen, total };
+  msg_seen_totals.push( cur_msg_seen_total );
+  setMsg_seen_totals(msg_seen_totals);
+}
+
+
 function getAndShowNewConversationData(){  
+  $.get(`/book?idbook=${idbook}&accept=json` , (data) => {
+    if(data && data.success == false) {
+      if (intervalId) clearInterval(intervalId);
+      alert("The owner has just deleted this book.")
+      window.location.href = '/message?idmember=' + localStorage.getItem('idmember');
+      return
+    }
+  })
   // loggedinId, idreceiver, idbook, lastMessageTime: global vars
   const id1 = loggedinId;
   const id2 = idreceiver;
   const time = lastMessageTime;
+  const idmember = loggedinId;
+
   $.post('/message/b2p', { id1, id2, idbook, time }, (data) => {
-    const newConversationData = data.messages;
-    showOneToOneConversation(newConversationData);
+    if (data.success == true) {
+      const newConversationData = data.messages;
+      updateMsg_seen_totals(newConversationData, idmember, idreceiver, idbook);
+      showOneToOneConversation(newConversationData);
+    }
   });
 }
 
@@ -109,6 +145,7 @@ function addUserToList(userId, userFullName){
   userElement.onclick = () => {
     handleClickOnUser(userId);
     $('.t-conversation').removeAttr('style');
+    if (userElement.querySelector('.t-label-new-user-item')) userElement.querySelector('.t-label-new-user-item').remove();
   }
   document.querySelector('.t-user-list').append(userElement)
   
@@ -126,6 +163,7 @@ function addBookCoverToList(imageSrc, idbook){
 
   const bookCoverElem = document.createElement('div');
   bookCoverElem.classList = 't-book-cover';
+  bookCoverElem.setAttribute('data-idbook', idbook);
   const idmember = localStorage.getItem('idmember');
 
   bookCoverElem.innerHTML = `
@@ -134,6 +172,7 @@ function addBookCoverToList(imageSrc, idbook){
     </a>`;
 
   bookCoverListElem.append(bookCoverElem);
+  $('.t-book-list').find('.t-book-cover').sort( (a,b) => +a.dataset.idbook - +b.dataset.idbook ).appendTo($('.t-book-list'));
 }
 
 
@@ -150,7 +189,7 @@ $('#btn-delete-conversation').click( () => {
         method: "DELETE",
       })
       .then( (res) => res.json() )
-      .then( (data) => {console.log(data);
+      .then( (data) => {
         alert("Deleted");
         window.location.href = `/message?idmember=${idmember}`;
       });
@@ -224,7 +263,7 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
       const userId = book_idmember;
       const userFullName = response.book_members[0].firstname + ' ' + response.book_members[0].lastname;
       addUserToList(userId, userFullName);
-      handleClickOnUser(userId);
+      // handleClickOnUser(userId);
     }); 
   } else { // no idbook <=> click "Messages" on the nav bar
     if ($('#btn-delete-conversation')) $('#btn-delete-conversation').remove();
@@ -241,23 +280,26 @@ if ( Object.keys(data).length > 0 && idbook && parseInt(idbook) > 0 ){ // old co
     const idmember = localStorage.getItem('idmember');
     $.get(`/message?idmember=${idmember}&accept=json`, (response) => {
       const messages = response.messages;
+      const idbooks = [];
+      let perBookTotalSeenMessages = [];
 
       if (messages.length > 0){
-        const idbooks = [];
-
         for (let message of messages){
-          if (!idbooks.includes(message.idbook)) idbooks.push(message.idbook);
-        }
+          const idbook = message.idbook;
 
-        idbooks.sort( (a, b) => a - b );
-
-        for (let idbook of idbooks){
-          $.get(`/book?idbook=${idbook}&accept=json`, (response2) => {
-            const book = response2.books[0];
-            book_image = book.image || 'placeholder.png';
-            book_idmember = book.idmember;
-            addBookCoverToList(book.image, idbook);
-          });
+          if (!idbooks.includes(idbook)) {
+            idbooks.push(idbook);
+            $.get(`/book?idbook=${idbook}&accept=json`, (response2) => {
+              if( response2 && response2.books && response2.books.length > 0) {
+                const book = response2.books[0];
+                book_image = book.image || 'placeholder.png';
+                book_idmember = book.idmember;
+                addBookCoverToList(book.image, idbook);
+              }
+            });
+          };
+          
+          //
         }
       } else { // no conv. at all
         if (document.querySelector('main h4')) document.querySelector('main h4').remove();

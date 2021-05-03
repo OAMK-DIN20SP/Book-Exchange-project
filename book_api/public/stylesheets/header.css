@@ -132,6 +132,9 @@ img.t-header-avatar{
     height: 50px;
 }
 
+#btn-logout:hover, #btn-login-header-nav:hover, #btn-signup-header-nav:hover, #btn-title-search:hover, #btn-author-search:hover, #btn-latest-books:hover, .btn-create-account:hover {
+    filter:drop-shadow(2px 3px 4px gray) brightness(1.1);border:none;}
+
 @media only screen and (max-width: 850px) {
   img.t-logo { width: 70%; text-align: left;}
   a.t-logo { text-align: left;}

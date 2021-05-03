@@ -57,3 +57,32 @@ function forceLogin() {
     window.location.href = '/';
   }
 }
+
+
+function addLabelNewTo(element, additionalCSS="", className=""){
+  const labelNew = document.createElement('span');
+  labelNew.className = className || 't-label-new';
+  labelNew.style = "color:red;position:relative;top:-10px;text-decoration:none;display:inline-block;" + additionalCSS;
+  labelNew.innerText = "(new)";
+  element.append(labelNew);
+}
+
+
+function addLabelNewToBookCover(bookCoverElement){
+  addLabelNewTo(bookCoverElement, "float:right;width:0px;", "t-label-new-book-cover", CSS);
+}
+
+
+function getMsg_seen_totals(){
+  const rv = JSON.parse(localStorage.getItem('msg_seen_totals'));
+  if (rv) {
+    return rv;
+  } else {
+    return [];
+  };
+}
+
+
+function setMsg_seen_totals(theObj){
+  localStorage.setItem('msg_seen_totals', JSON.stringify(theObj));
+}

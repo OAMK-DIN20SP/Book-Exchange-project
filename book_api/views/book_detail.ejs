@@ -32,7 +32,7 @@
           </div>
           <div class="container--info">
             <div class="info-book"><%=book.title%></div>
-            <div class="info-book"><%=book.author%></div>
+            <div class="info-book">by <%=book.author%></div>
 
             <div class="info-version">Edition: <span><%=book.edition%></span></div>
             <div class="info-version">Published year: <span><%=book.year%></span></div>
@@ -75,12 +75,6 @@
       // const idmember = localStorage.getItem('idmember');
       var btnMess = document.querySelector('.buynow');
 
-      // if (idmember == <%=book.idmember%>) {
-      //   btnMess.style.display = 'none'; // cannot message yourself
-      // } else {
-      //   if (document.querySelector('#edit-book')) document.querySelector('#edit-book').style.display = 'none';
-      //   if (document.querySelector('#del')) document.querySelector('#edit-book').style.display = 'none';
-      // }
       // fix rule
       if (idmember == <%=book.idmember%>) {
         btnMess.style.display = 'none'; // cannot message yourself
@@ -90,7 +84,6 @@
       }
       
       btnMess.onclick = () => {
-        // var idbook = new URLSearchParams(window.location.search).get('idbook');
         var idmember = localStorage.getItem('idmember');
         window.location.href = `/message?idbook=${idbook}&idmember=${idmember}`;
       }
@@ -105,7 +98,7 @@
             })
             .then( () => {
               alert("Deleted");
-              window.location.href = `http://localhost:3000/member?idmember=${idmember}`;
+              window.location.href = `/member?idmember=${idmember}`;
             })
         }
       }
@@ -113,6 +106,8 @@
       document.querySelector('button.buynow').onclick = () => {
         window.location.href = `/message?idmember=${idmember}&idbook=${idbook}`;
       };
+
+      $('#edit-book').click(()=>window.location.href=`book/edit?idbook=<%=book.idbook%>`);
     </script>
     <% } %>
   </main>

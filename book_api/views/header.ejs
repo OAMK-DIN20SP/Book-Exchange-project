@@ -1,17 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/header.css">
 <script type="text/javascript" src="/javascripts/t-header.js"></script>
 
-<!-- TESTING STYLES 
-<style type="text/css">
-  .header_navbar ul { display: flex; flex-direction: row; }
-  .header_navbar ul a { color: white; }
-  .header_navbar ul li { list-style: none; margin-right: 20px; }
-  #user-avatar:hover { 
-    border: 1px solid gray;
-    cursor: pointer;
-  }
-</style>-->
-
 <!-- header -->
 <div class="header">
   <!-- header_navbar -->
@@ -19,8 +8,8 @@
     <a href="/" class="t-logo"><img class="t-logo" src="/images/logo2.png"></a>
     <div class="header-navbar-inner">
     <a href="/about">About</a>
-    <button onclick="openSignupForm()" style="color:#AB9353; background-color:#fdfbf3">Sign Up</button>
-    <button onclick="openLoginForm()" >Log In</button>
+    <button id="btn-signup-header-nav" onclick="openSignupForm()" style="color:#AB9353; background-color:#fdfbf3">Sign Up</button>
+    <button id="btn-login-header-nav" onclick="openLoginForm()" >Log In</button>
     </div>
   </div>
 
@@ -84,9 +73,21 @@
           <b>Do not have account yet?</b>
         </div>
         <button type="button" class="btn cancel" onclick="closeLoginForm();openSignupForm();">Create account</button>
+        <b>Forgot your password?<br>Please send an email to <a href="mailto:team3@students.oamk.fi?subject=BookExchange | Account Recover Request | Password Forgotten" target="_blank">the administrator</a></b>
       </form>
   </div>
 
     
 </div>
 <!-- </div> -->
+<script type="text/javascript">
+  window.onstorage = (e) => {
+    if (e.key == 'idmember') {
+      if (e.newValue) {
+        window.location.href = '/member?idmember=' + e.newValue
+      } else {
+        window.location.reload();
+      }
+    }
+  }
+</script>
