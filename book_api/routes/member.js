@@ -3,7 +3,7 @@ var router = express.Router();
 var book = require('../models/book_model.js');
 var member = require('../models/member_model.js');
 var async = require('async');
-var multer = require('multer');
+// !!!
 const helpers = require('../helpers');
 const path = require('path');
 
@@ -81,38 +81,80 @@ router.post('/add', (req, res) => {
     } )
 });
 
-router.post('/login', (req, res) => {
-    const { emailaddress, password } = req.body;
-    member.get(emailaddress, password, (err, dbResult) => {
-        if (err) {
-            res.json(err);
-        } else {
-            if (dbResult.length > 0) {
-                res.redirect('/member?idmember=' + dbResult[0].idmember);
-                // res.json(dbResult);
-            } else {
-                res.json( {success: false, message: 'Invalid email and/or password'});
+router.post('/login2', 
+  function(req, res) {
+    if(req.body.emailaddress && req.body.password){
+        var emailaddress = req.body.emailaddress;
+        var password = req.body.password;
+        member.getLogin(req.body.emailaddress, req.body.password, (err, dbResult) => {
+            if(err){
+                res.json(err);
+            }
+            else {
+                if (dbResult.length > 0) {
+                const bcrypt = require('bcryptjs');
+                const saltRounds=10;
+                bcrypt.compare(password,dbResult[0].password, 
+                    function(err,compareResult) {
+                    if(compareResult) {
+                        console.log("succes");
+                        // res.send(true);
+                        res.json(dbResult);
+                    }
+                    else {
+                        console.log("wrong password");
+                        res.send(false);
+                    }			
+                    }
+                );
+                }
+                else{
+                console.log("user does not exists");
+                res.send(false);
+                }
             }
         }
-    });
-    
-});
+        );
+    }
+    else{
+        console.log("Give the emailaddress and password");
+        response.send(false);
+    }
+  }
+);
 
-router.post('/login2', (req, res) => { // res w/ json, no redirect
-    const { emailaddress, password } = req.body;
-    member.get(emailaddress, password, (err, dbResult) => {
-        if (err) {
-            res.json(err);
-        } else {
-            if (dbResult.length > 0) {
-                res.json(dbResult);
-                // res.json(dbResult);
-            } else {
-                res.json( {success: false, message: 'Invalid email and/or password'});
-            }
-        }
-    });
-});
+// router.post('/login', (req, res) => {
+//     const { emailaddress, password } = req.body;
+//     member.get(emailaddress, password, (err, dbResult) => {
+//         if (err) {
+//             res.json(err);
+//         } else {
+//             if (dbResult.length > 0) {
+//                 res.redirect('/member?idmember=' + dbResult[0].idmember);
+//                 // res.json(dbResult);
+//             } else {
+//                 res.json( {success: false, message: 'Invalid email and/or password'});
+//             }
+//         }
+//     });
+    
+// });
+
+// router.post('/login2', (req, res) => { // res w/ json, no redirect
+//     const { emailaddress, password } = req.body;
+//     member.get(emailaddress, password, (err, dbResult) => {
+//         if (err) {
+//             res.json(err);
+//         } else {
+//             if (dbResult.length > 0) {
+//                 res.json(dbResult);
+//                 // res.json(dbResult);
+//             } else {
+//                 res.json( {success: false, message: 'Invalid email and/or password'});
+//             }
+//         }
+//     });
+// });
 
 // NEW
 router.put('/', upload.single('image'), (req, res) => {
